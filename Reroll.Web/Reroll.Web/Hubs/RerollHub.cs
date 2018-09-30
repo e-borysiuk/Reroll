@@ -1,4 +1,7 @@
-﻿namespace Reroll.Hubs
+﻿using System.Linq;
+using Reroll.Web.Models.Enums;
+
+namespace Reroll.Hubs
 {
     using System;
     using System.Collections.Generic;
@@ -7,6 +10,9 @@
 
     public class RerollHub : Hub
     {
+        /// <summary>
+        /// Dictionary of (groupname +  (dictionary of player + connectionString))
+        /// </summary>
         private static Dictionary<string, Dictionary<string, string>> groupPlayers = new Dictionary<string, Dictionary<string, string>>();
 
         public async Task SendToAll(string name, string message)
@@ -24,6 +30,13 @@
         {
             List<string> groups = new List<string>() { "SignalR Users" };
             return Clients.Groups(groups).SendAsync("sendToAll", name, message);
+        }
+
+        public Task GroupExists(string groupName, string password)
+        {
+            var exists =  groupPlayers.Keys.Any(x => x == groupName);
+            ResponseStatusEnum response = exists ? ResponseStatusEnum.GroupExists : ResponseStatusEnum.GroupDoesNotExist;
+            return Clients.Caller.SendAsync("groupExistsResponse", response);
         }
 
         public async Task JoinGroup(string groupName, string playerName)

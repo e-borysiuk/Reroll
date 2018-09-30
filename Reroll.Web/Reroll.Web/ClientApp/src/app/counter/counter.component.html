@@ -9,16 +9,6 @@
 <div class="container">
   <h2>Hello {{nick}}!</h2>
 
-  <form (ngSubmit)="createRoom()" #roomForm="ngForm">
-    <div>
-      <label for="roomName">Room name</label>
-      <input type="text" id="roomName" name="roomName" [(ngModel)]="roomName" required>
-      <label for="playerName">Player name</label>
-      <input type="text" id="playerName" name="playerName" [(ngModel)]="playerName" required>
-      <button type="submit" id="createRoom">Create room</button>
-    </div>
-  </form>
-
   <form (ngSubmit)="sendMessage()" #chatForm="ngForm">
     <div>
       <label for="message">Message</label>
@@ -41,16 +31,16 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"><strong>Join/Create room </strong></h3></div>
       <div class="panel-body">
-        <form role="form">
+        <form role="form" (ngSubmit)="createRoom()">
           <div class="form-group">
-            <label for="exampleInputEmail1">Room name</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Room123">
+            <label for="roomName">Room name</label>
+            <input type="email" class="form-control" id="roomName" [(ngModel)]="roomName" placeholder="Room123">
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" placeholder="Password">
           </div>
-          <button type="submit" class="btn btn-sm btn-default" (click)="confirm()">Join room</button>
+          <button type="submit" class="btn btn-sm btn-default">Join room</button>
         </form>
       </div>
     </div>

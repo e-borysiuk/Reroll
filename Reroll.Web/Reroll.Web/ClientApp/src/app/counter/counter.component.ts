@@ -1,19 +1,23 @@
 import { Component } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { ResponseStatusEnum } from '../../models/ResponseStatusEnum';
 
 @Component({
   selector: 'counter',
   templateUrl: './counter.component.html'
 })
+
 export class CounterComponent {
   public hubConnection: signalR.HubConnection;
 
   adressed = 'HughJass';
   playerName = 'HughJass';
   roomName = 'room1';
+  password = '';
   nick = 'John';
   message = '';
   messages: string[] = [];
+  groupExists = false;
 
   constructor() {
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -37,23 +41,50 @@ export class CounterComponent {
       this.messages.push(text);
     });
 
+    this.hubConnection.on('groupExistsResponse', (receivedMessage: ResponseStatusEnum) => {
+      switch (receivedMessage) {
+      case ResponseStatusEnum.groupExists:
+        this.joinGroup(this.roomName);
+        break;
+      case ResponseStatusEnum.groupDoesNotExist:
+        var confirmation = window.confirm('There is no room with such name, create new?');
+        if (confirmation) {
+          this.joinGroup(this.roomName);
+        }
+        break;
+      case ResponseStatusEnum.invalidPassword:
+          window.alert("Invalid password");
+        break;
+        default:
+          window.alert('Unknown error');
+      }
+    });
+
+
     this.hubConnection
       .start()
       .then(() => console.log('Connection started!'))
       .catch(err => console.error(err.toString()));
   }
+  public createRoom(): void {
+    this.checkGroupExists(this.roomName);
+  }
 
-  dataMessage = {
-    healthPoints: 100,
-    ammunition: 20,
-    spellsPerDay: 10,
-    spellsUsed: 5
-  };
-
-  public sendData(): void {
+  private checkGroupExists(groupName: string) {
     this.hubConnection
-      .invoke('sendToPlayer', this.adressed, this.message)
+      .invoke('groupExists', groupName, this.password)
       .catch(err => console.error(err));
+  }
+
+  private joinGroup(groupName: string) {
+    var playerName = prompt("Input your player name");
+    if (playerName == null || playerName == "") {
+      window.alert("You didn't put your player name!");
+    } else {
+      this.hubConnection
+        .invoke('joinGroup', this.roomName, playerName)
+        .catch(err => console.error(err));
+    }
   }
 
   public sendMessage(): void {
@@ -62,16 +93,11 @@ export class CounterComponent {
       .catch(err => console.error(err));
   }
 
-  public createRoom(): void {
-    this.hubConnection
-      .invoke('joinGroup', this.roomName, this.playerName)
-      .catch(err => console.error(err));
-  }
 
-  public confirm(): void {
-    window.confirm('There is no room with such name, create new?');
-  }
 
+
+
+  
   public currentCount = 0;
 
   public incrementCounter() {
