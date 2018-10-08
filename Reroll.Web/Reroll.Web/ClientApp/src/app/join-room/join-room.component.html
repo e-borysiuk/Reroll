@@ -1,0 +1,20 @@
+<div class="container" style="margin-top:30px">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3 class="panel-title"><strong>Join/Create room </strong></h3></div>
+      <div class="panel-body">
+        <form role="form" (ngSubmit)="createRoom()">
+          <div class="form-group">
+            <label for="roomName">Room name</label>
+            <input type="email" class="form-control" id="roomName" [(ngModel)]="roomName" placeholder="Room123">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-sm btn-default">Join room</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

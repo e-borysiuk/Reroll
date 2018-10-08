@@ -20,51 +20,51 @@ export class CounterComponent {
   groupExists = false;
 
   constructor() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://192.168.1.8:50793/rerollHub")
-      .configureLogging(signalR.LogLevel.Trace)
-      .build();
+    //this.hubConnection = new signalR.HubConnectionBuilder()
+    //  .withUrl("https://192.168.1.8:50793/rerollHub")
+    //  .configureLogging(signalR.LogLevel.Trace)
+    //  .build();
   }
 
   ngOnInit() {
-    this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("/rerollHub")
-      .build();
+    //this.hubConnection = new signalR.HubConnectionBuilder()
+    //  .withUrl("/rerollHub")
+    //  .build();
 
-    this.hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
-    });
+    //this.hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
+    //  const text = `${nick}: ${receivedMessage}`;
+    //  this.messages.push(text);
+    //});
 
-    this.hubConnection.on('sendToPlayer', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
-    });
+    //this.hubConnection.on('sendToPlayer', (nick: string, receivedMessage: string) => {
+    //  const text = `${nick}: ${receivedMessage}`;
+    //  this.messages.push(text);
+    //});
 
-    this.hubConnection.on('groupExistsResponse', (receivedMessage: ResponseStatusEnum) => {
-      switch (receivedMessage) {
-      case ResponseStatusEnum.groupExists:
-        this.joinGroup(this.roomName);
-        break;
-      case ResponseStatusEnum.groupDoesNotExist:
-        var confirmation = window.confirm('There is no room with such name, create new?');
-        if (confirmation) {
-          this.joinGroup(this.roomName);
-        }
-        break;
-      case ResponseStatusEnum.invalidPassword:
-          window.alert("Invalid password");
-        break;
-        default:
-          window.alert('Unknown error');
-      }
-    });
+    //this.hubConnection.on('groupExistsResponse', (receivedMessage: ResponseStatusEnum) => {
+    //  switch (receivedMessage) {
+    //  case ResponseStatusEnum.groupExists:
+    //    this.joinGroup(this.roomName);
+    //    break;
+    //  case ResponseStatusEnum.groupDoesNotExist:
+    //    var confirmation = window.confirm('There is no room with such name, create new?');
+    //    if (confirmation) {
+    //      this.joinGroup(this.roomName);
+    //    }
+    //    break;
+    //  case ResponseStatusEnum.invalidPassword:
+    //      window.alert("Invalid password");
+    //    break;
+    //    default:
+    //      window.alert('Unknown error');
+    //  }
+    //});
 
 
-    this.hubConnection
-      .start()
-      .then(() => console.log('Connection started!'))
-      .catch(err => console.error(err.toString()));
+    //this.hubConnection
+    //  .start()
+    //  .then(() => console.log('Connection started!'))
+    //  .catch(err => console.error(err.toString()));
   }
   public createRoom(): void {
     this.checkGroupExists(this.roomName);
@@ -87,20 +87,12 @@ export class CounterComponent {
     }
   }
 
+
+
+
   public sendMessage(): void {
     this.hubConnection
       .invoke('sendToAll', this.nick, this.message)
       .catch(err => console.error(err));
-  }
-
-
-
-
-
-  
-  public currentCount = 0;
-
-  public incrementCounter() {
-    this.currentCount++;
   }
 }
