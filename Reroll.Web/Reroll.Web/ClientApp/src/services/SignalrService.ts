@@ -10,7 +10,7 @@ export class SignalrService {
   }
 
   getConnection() : signalR.HubConnection {
-    if (this.hubConnection === null) {
+    if (this.hubConnection === undefined || this.hubConnection === null) {
       this.hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("/rerollHub")
         .build();

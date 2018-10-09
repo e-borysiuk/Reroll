@@ -13,7 +13,7 @@ export class GameRoomComponent {
   adressed = 'HughJass';
   playerName = 'HughJass';
   password = '';
-  nick = 'John';
+  nick = 'WebApp';
   message = '';
   messages: string[] = [];
 
