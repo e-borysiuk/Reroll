@@ -4,12 +4,10 @@ ${
     using System.Text.RegularExpressions;
     using System.Diagnostics;
 
-    // Uncomment the constructor to change template settings.
-    //Template(Settings settings)
-    //{
-    //    settings.IncludeProject("Project.Name");
-    //    settings.OutputExtension = ".tsx";
-    //}
+    Template(Settings settings)
+    {
+        settings.IncludeProject("Reroll.Models");
+    }
 
     // Custom extension methods can be used in the template by adding a $ prefix e.g. $LoudName
     string LoudName(Property property)

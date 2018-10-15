@@ -1,5 +1,5 @@
 using MvvmCross.Plugin.Messenger;
-using Reroll.Web.Models.Enums;
+using Reroll.Models;
 
 namespace Reroll.Mobile.Core.Models.MvxMessages
 {
@@ -11,7 +11,7 @@ namespace Reroll.Mobile.Core.Models.MvxMessages
 
         public JoinResponseMessage(object sender, ResponseStatusEnum response) : base(sender)
         {
-            this.Response = response;
+            Response = response;
         }
 
         public ResponseStatusEnum Response

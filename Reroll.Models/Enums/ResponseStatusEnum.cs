@@ -1,4 +1,4 @@
-﻿namespace Reroll.Web.Models.Enums
+﻿namespace Reroll.Models
 {
     public enum ResponseStatusEnum
     {
@@ -7,8 +7,7 @@
         GroupExists,
         GroupDoesNotExist,
         InvalidPassword,
-        
+
         #endregion
-        
     }
 }

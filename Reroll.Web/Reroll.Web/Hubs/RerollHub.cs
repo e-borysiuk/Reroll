@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Reroll.Web.Models.Enums;
 
 namespace Reroll.Hubs
 {
@@ -7,6 +6,7 @@ namespace Reroll.Hubs
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR;
+    using Reroll.Models;
 
     public class RerollHub : Hub
     {

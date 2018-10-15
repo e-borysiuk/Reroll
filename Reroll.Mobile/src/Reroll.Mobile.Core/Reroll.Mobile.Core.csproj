@@ -10,4 +10,8 @@
     <PackageReference Include="MvvmCross.CodeAnalysis" Version="6.1.2" />
     <PackageReference Include="MvvmCross.Plugin.Messenger" Version="6.1.2" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Reroll.Models\Reroll.Models.csproj" />
+  </ItemGroup>
 </Project>

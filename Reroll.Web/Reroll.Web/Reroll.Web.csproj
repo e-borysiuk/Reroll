@@ -25,11 +25,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Reroll.Models\Reroll.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ClientApp\src\models\DiceTypeEnum.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\DiceTypeEnum.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\KeyAbilityEnum.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Enums\KeyAbilityEnum.cs</CustomToolNamespace>
+    </None>
     <None Update="ClientApp\src\models\PlayerModel.ts">
-      <CustomToolNamespace>Models\PlayerModel.cs</CustomToolNamespace>
+      <CustomToolNamespace>..\..\Reroll.Models\PlayerModel.cs</CustomToolNamespace>
     </None>
     <None Update="ClientApp\src\models\ResponseStatusEnum.ts">
-      <CustomToolNamespace>Models\Enums\ResponseStatusEnum.cs</CustomToolNamespace>
+      <CustomToolNamespace>..\..\Reroll.Models\Enums\ResponseStatusEnum.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\SkillModel.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\SkillModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\WeaponModel.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\WeaponModel.cs</CustomToolNamespace>
     </None>
   </ItemGroup>
 
