@@ -10,19 +10,23 @@ namespace Reroll.Hubs
 
     public class RerollHub : Hub
     {
+        //TODO: On reconnect get player model
         /// <summary>
         /// Dictionary of (groupname +  (dictionary of player + connectionString))
         /// </summary>
         private static Dictionary<string, Dictionary<string, string>> groupPlayers = new Dictionary<string, Dictionary<string, string>>();
+
+        private static List<GameSessionModel> GameSessions = new List<GameSessionModel>();
 
         public async Task SendToAll(string name, string message)
         {
             await Clients.All.SendAsync("sendToAll", name, message);
         }
 
-        public async Task SendToPlayer(string player, string message)
+        public async Task SendToPlayer(string groupName, string playerName, string message)
         {
-            var connectionId = groupPlayers[(string)Context.Items["Group"]][player]; 
+            var gameSession = GameSessions.First(x => x.GroupName == groupName);
+            var connectionId = gameSession.PlayerModels.First(x => x.Name == playerName).ConnectionId;
             await Clients.Client(connectionId).SendAsync("sendToPlayer", "GM", message);
         }
 
@@ -34,20 +38,95 @@ namespace Reroll.Hubs
 
         public Task GroupExists(string groupName, string password)
         {
-            var exists =  groupPlayers.Keys.Any(x => x == groupName);
+            var exists = GameSessions.Any(x => x.GroupName == groupName);
             ResponseStatusEnum response = exists ? ResponseStatusEnum.GroupExists : ResponseStatusEnum.GroupDoesNotExist;
             return Clients.Caller.SendAsync("groupExistsResponse", response);
         }
 
-        public async Task JoinGroup(string groupName, string playerName)
+        public async Task JoinGroup(string groupName, string playerName, bool isGameMaster)
         {
-            if(!groupPlayers.ContainsKey(groupName))
-                groupPlayers.Add(groupName, new Dictionary<string, string>());
-
-            groupPlayers[groupName].Add(playerName, Context.ConnectionId);
-            Context.Items.Add("Group", groupName);
-            Context.Items.Add("Name", playerName);
+            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            if (gameSession == null)
+            {
+                gameSession = new GameSessionModel
+                {
+                    GroupName = groupName,
+                    PlayerModels = new List<PlayerModel>()
+                };
+                if (isGameMaster)
+                {
+                    gameSession.GameMaster = new GameMasterModel()
+                    {
+                        Name = playerName,
+                        ConnectionId = Context.ConnectionId
+                    };
+                }
+                else
+                {
+                    gameSession.PlayerModels.Add(new PlayerModel()
+                    {
+                        Name = playerName,
+                        ConnectionId = Context.ConnectionId
+                    });
+                }
+                GameSessions.Add(gameSession);
+            }
+            else
+            {
+                if (isGameMaster)
+                {
+                    gameSession.GameMaster = new GameMasterModel()
+                    {
+                        Name = playerName,
+                        ConnectionId = Context.ConnectionId
+                    };
+                }
+                else
+                {
+                    var index = gameSession.PlayerModels.FindIndex(p => p.Name == playerName);
+                    if (index == -1)
+                    {
+                        gameSession.PlayerModels.Add(new PlayerModel()
+                        {
+                            Name = playerName,
+                            ConnectionId = Context.ConnectionId
+                        });
+                    }
+                    else
+                    {
+                        gameSession.PlayerModels[index].ConnectionId = Context.ConnectionId;
+                    }
+                }
+            }
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+
+
+            //if (!groupPlayers.ContainsKey(groupName))
+            //    groupPlayers.Add(groupName, new Dictionary<string, string>());
+
+            ////If player reconnects
+            //if (groupPlayers[groupName].ContainsKey(playerName))
+            //    groupPlayers[groupName][playerName] = Context.ConnectionId;
+            //else
+            //    groupPlayers[groupName].Add(playerName, Context.ConnectionId);
+            //Context.Items.Add("Group", groupName);
+            //Context.Items.Add("Name", playerName);
+            //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+        }
+
+        private void CreateGameSession(string groupName)
+        {
+            GameSessionModel gameSession = new GameSessionModel
+            {
+                GroupName = groupName,
+                PlayerModels = new List<PlayerModel>()
+            };
+        }
+
+        private PlayerModel CreatePlayerObject()
+        {
+
+            return null;
         }
     }
 }

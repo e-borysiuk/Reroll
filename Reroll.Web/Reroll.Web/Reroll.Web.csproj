@@ -32,6 +32,12 @@
     <None Update="ClientApp\src\models\DiceTypeEnum.ts">
       <CustomToolNamespace>..\..\Reroll.Models\DiceTypeEnum.cs</CustomToolNamespace>
     </None>
+    <None Update="ClientApp\src\models\GameMasterModel.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\GameMasterModel.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\GameSessionModel.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\GameSessionModel.cs</CustomToolNamespace>
+    </None>
     <None Update="ClientApp\src\models\KeyAbilityEnum.ts">
       <CustomToolNamespace>..\..\Reroll.Models\Enums\KeyAbilityEnum.cs</CustomToolNamespace>
     </None>

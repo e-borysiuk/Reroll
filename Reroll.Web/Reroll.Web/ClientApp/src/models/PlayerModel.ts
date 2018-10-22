@@ -2,6 +2,7 @@
      import { Tuple<string, string> } from './tuple<string, string>';
 
 export class Player   {
+	public connectionId: string;
 	public name: string;
 	public healthPoints: number;
 	public experiencePoints: number;

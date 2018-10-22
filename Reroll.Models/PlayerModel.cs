@@ -5,6 +5,7 @@ namespace Reroll.Models
 {
     public class PlayerModel
     {
+        public string ConnectionId { get; set; }
         public string Name { get; set; }
         public int HealthPoints { get; set; }
         public int ExperiencePoints { get; set; }
