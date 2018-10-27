@@ -49,5 +49,15 @@ namespace Reroll.Mobile.Core.Services
         {
             _connection.InvokeAsync("sendToAll", "mobileApp", message);
         }
+
+        public void JoinGroup(string roomName, string roomPassword)
+        {
+            _connection.InvokeAsync("joinGroup", roomName, "mobileApp", false);
+        }
+
+        public void SendUpdate(PlayerModel data)
+        {
+            _connection.InvokeAsync("UpdateModel", data);
+        }
     }
 }

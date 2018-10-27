@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Reroll.Models;
 
 namespace Reroll.Mobile.Core.Services.Interfaces
 {
@@ -7,5 +8,7 @@ namespace Reroll.Mobile.Core.Services.Interfaces
         Task StartConnection();
         void CheckGroupExists(string roomName, string roomPassword);
         void SendMessage(string message);
+        void SendUpdate(PlayerModel data);
+        void JoinGroup(string roomName, string roomPassword);
     }
 }

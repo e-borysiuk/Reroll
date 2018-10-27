@@ -154,9 +154,10 @@ namespace Reroll.Hubs
             string group = (string)groupItem;
             Context.Items.TryGetValue("Name", out var nameItem);
             string name = (string)nameItem;
+            value.Name = name;
 
             var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
-            playerModels.Remove(playerModels.First(x => x.Name == ""));
+            playerModels.Remove(playerModels.First(x => x.Name == name));
             playerModels.Add(value);
 
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);

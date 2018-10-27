@@ -75,7 +75,7 @@ export class JoinRoomComponent {
       window.alert("You didn't put your player name!");
     } else {
       this.hubConnection
-        .invoke('joinGroup', this.roomName, playerName)
+        .invoke('joinGroup', this.roomName, playerName, true)
         .catch(err => console.error(err));
     }
   }

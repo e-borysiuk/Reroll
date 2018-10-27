@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { SignalrService } from '../../services/SignalrService';
+import { Player } from "../../models/PlayerModel";
 
 @Component({
   selector: 'game-room',
@@ -16,6 +17,7 @@ export class GameRoomComponent {
   nick = 'WebApp';
   message = '';
   messages: string[] = [];
+  constValue: number = 6;
 
   constructor(private signalrService: SignalrService) {
     this.hubConnection = signalrService.getConnection();
@@ -30,6 +32,10 @@ export class GameRoomComponent {
     this.hubConnection.on('sendToPlayer', (nick: string, receivedMessage: string) => {
       const text = `${nick}: ${receivedMessage}`;
       this.messages.push(text);
+    });
+
+    this.hubConnection.on('sendUpdateToGM', (name: string, value: Player) => {
+      this.constValue = value.charisma;
     });
   }
 
