@@ -58,6 +58,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorDisplayer.cs" />
     <Compile Include="Linker\LinkerPleaseInclude.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="Setup.cs" />

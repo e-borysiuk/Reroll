@@ -1,7 +1,10 @@
 
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using Reroll.Mobile.Core.Models.Enums;
 using Reroll.Mobile.Core.Models.MvxMessages;
+using Reroll.Mobile.Core.Services;
+using Reroll.Models;
 
 namespace Reroll.Mobile.Core.ViewModels
 {
@@ -18,7 +21,17 @@ namespace Reroll.Mobile.Core.ViewModels
 
         void JoinRoomResponse(JoinResponseMessage obj)
         {
-            this._navigationService.Navigate<MainViewModel>();
+            switch (obj.Response)
+            {
+                case ResponseStatusEnum.GroupDoesNotExist:
+                    break;
+                case ResponseStatusEnum.GroupExists:
+                    break;
+                case ResponseStatusEnum.InvalidPassword:
+                    ErrorReportingService.ReportError("Invalid password!");
+                    break;
+            }
+            //this._navigationService.Navigate<MainViewModel>();
         }
 
         public MvxCommand JoinRoomCommand =>

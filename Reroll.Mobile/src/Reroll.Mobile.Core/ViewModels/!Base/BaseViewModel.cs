@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using MvvmCross;
 using MvvmCross.Navigation;
 using MvvmCross.Plugin.Messenger;
+using Reroll.Mobile.Core.Services;
 using Reroll.Mobile.Core.Services.Interfaces;
 
 namespace Reroll.Mobile.Core.ViewModels
@@ -23,7 +24,6 @@ namespace Reroll.Mobile.Core.ViewModels
             _navigationService = Mvx.Resolve<IMvxNavigationService>();
             _signalrService = Mvx.Resolve<ISignalrService>();
             _messenger = Mvx.Resolve<IMvxMessenger>();
-
         }
     }
 }

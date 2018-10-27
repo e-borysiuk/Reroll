@@ -54,6 +54,7 @@
 			android:text="pass123"
             local:MvxBind="Text Password"/>
 		<Button
+            android:id="@+id/btJoin"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_gravity="end"

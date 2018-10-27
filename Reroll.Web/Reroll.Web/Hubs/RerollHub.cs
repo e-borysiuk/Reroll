@@ -98,6 +98,8 @@ namespace Reroll.Hubs
                     }
                 }
             }
+            Context.Items.Add("Name", playerName);
+            Context.Items.Add("Group", groupName);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
 
@@ -128,5 +130,38 @@ namespace Reroll.Hubs
 
             return null;
         }
+
+        #region Functional methods
+
+        public Task ChangeName(string value)
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string group = (string) groupItem;
+            Context.Items.TryGetValue("Name", out var nameItem);
+            string name = (string) nameItem;
+            var player = GameSessions.First(x => x.GroupName == group).PlayerModels.First(x => x.Name == name);
+
+            player.Name = value;
+            Context.Items.Remove("Name");
+            Context.Items.Add("Name", value);
+
+            return Clients.Groups(group).SendAsync("sendUpdateToGM", name, player);
+        }
+
+        public Task UpdateModel(PlayerModel value)
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string group = (string)groupItem;
+            Context.Items.TryGetValue("Name", out var nameItem);
+            string name = (string)nameItem;
+
+            var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
+            playerModels.Remove(playerModels.First(x => x.Name == ""));
+            playerModels.Add(value);
+
+            return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
+        }
+
+        #endregion
     }
 }

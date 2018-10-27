@@ -1,5 +1,3 @@
-﻿
-     import { Tuple<string, string> } from './tuple<string, string>';
 
 export class Player   {
 	public connectionId: string;
@@ -22,5 +20,5 @@ export class Player   {
 	public reflex: number;
 	public will: number;
 	public baseAttackBonus: number;
-	public state: Tuple<string, string>[];
+	public state: [string, string];
 }

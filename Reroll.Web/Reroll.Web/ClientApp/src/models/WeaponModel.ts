@@ -1,5 +1,5 @@
-﻿
-     import { DiceTypeEnum } from './dice-type-enum';
+
+import { DiceTypeEnum } from './DiceTypeEnum';
 
 export class Weapon   {
 	public name: string;

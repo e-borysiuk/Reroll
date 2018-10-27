@@ -1,6 +1,8 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.Design.Widget;
+using Android.Widget;
 using MvvmCross.Droid.Support.V7.AppCompat;
 using Reroll.Mobile.Core.ViewModels;
 namespace Reroll.Mobile.Droid.Views

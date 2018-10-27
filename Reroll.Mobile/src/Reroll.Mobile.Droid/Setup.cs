@@ -13,5 +13,11 @@ namespace Reroll.Mobile.Droid
             typeof(Android.Support.V4.View.ViewPager).Assembly,
             typeof(Android.Support.Design.Widget.TabLayout).Assembly
         };
+
+        protected override void InitializeLastChance()
+        {
+            var errorHandler = new ErrorDisplayer(this.ApplicationContext);
+            base.InitializeLastChance();
+        }
     }
 }
