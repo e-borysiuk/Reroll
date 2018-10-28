@@ -3,17 +3,24 @@
     <div class="panel panel-default">
       <div class="panel-heading"><h3 class="panel-title"><strong>Join/Create room </strong></h3></div>
       <div class="panel-body">
-        <form role="form" (ngSubmit)="createRoom()">
+        <form name="form" (ngSubmit)="f.form.valid && createRoom()" #f="ngForm" novalidate>
           <div class="form-group">
             <label for="roomName">Room name</label>
-            <input name="roomName" class="form-control" id="roomName" [(ngModel)]="roomName" placeholder="Room123">
+            <input type="text" class="form-control" name="roomName" [(ngModel)]="model.roomName" #roomName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && roomName.invalid }" required />
+            <div *ngIf="f.submitted && roomName.invalid" class="invalid-feedback">
+              <div *ngIf="roomName.errors.required">roomName is required</div>
+            </div>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input name="password" type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="password" placeholder="Password">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required minlength="6" />
+            <div *ngIf="f.submitted && password.invalid" class="invalid-feedback">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
           </div>
           <button type="submit" class="btn btn-sm btn-default">Join room</button>
-        </form>
+        </form> 
       </div>
     </div>
   </div>

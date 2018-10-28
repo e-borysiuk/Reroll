@@ -112,7 +112,7 @@ namespace Reroll.Mobile.Droid
             }
             if (buttonText != null && action != null)
             {
-                snackbar.SetActionTextColor(this._applicationContext.GetColor(Resource.Color.secondary_text));
+                snackbar.SetActionTextColor(this._applicationContext.GetColor(Resource.Color.secondary_light));
                 snackbar.SetAction(buttonText, action);
             }
             this._currentSnackbar = snackbar;

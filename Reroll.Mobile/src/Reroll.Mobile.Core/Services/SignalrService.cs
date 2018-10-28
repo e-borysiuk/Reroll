@@ -52,7 +52,7 @@ namespace Reroll.Mobile.Core.Services
 
         public void JoinGroup(string roomName, string roomPassword)
         {
-            _connection.InvokeAsync("joinGroup", roomName, "mobileApp", false);
+            _connection.InvokeAsync("joinGroup", roomName, "mobileApp", roomPassword, false);
         }
 
         public void SendUpdate(PlayerModel data)

@@ -38,12 +38,23 @@ namespace Reroll.Hubs
 
         public Task GroupExists(string groupName, string password)
         {
-            var exists = GameSessions.Any(x => x.GroupName == groupName);
-            ResponseStatusEnum response = exists ? ResponseStatusEnum.GroupExists : ResponseStatusEnum.GroupDoesNotExist;
+            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            ResponseStatusEnum response;
+            if (gameSession != null)
+            {
+                if (gameSession.Password == password)
+                    response = ResponseStatusEnum.GroupExists;
+                else
+                    response = ResponseStatusEnum.InvalidPassword;
+            }
+            else
+            {
+                response = ResponseStatusEnum.GroupDoesNotExist;
+            }
             return Clients.Caller.SendAsync("groupExistsResponse", response);
         }
 
-        public async Task JoinGroup(string groupName, string playerName, bool isGameMaster)
+        public async Task JoinGroup(string groupName, string playerName, string password, bool isGameMaster)
         {
             var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
             if (gameSession == null)
@@ -51,7 +62,8 @@ namespace Reroll.Hubs
                 gameSession = new GameSessionModel
                 {
                     GroupName = groupName,
-                    PlayerModels = new List<PlayerModel>()
+                    PlayerModels = new List<PlayerModel>(),
+                    Password = password
                 };
                 if (isGameMaster)
                 {
@@ -114,21 +126,6 @@ namespace Reroll.Hubs
             //Context.Items.Add("Group", groupName);
             //Context.Items.Add("Name", playerName);
             //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-        }
-
-        private void CreateGameSession(string groupName)
-        {
-            GameSessionModel gameSession = new GameSessionModel
-            {
-                GroupName = groupName,
-                PlayerModels = new List<PlayerModel>()
-            };
-        }
-
-        private PlayerModel CreatePlayerObject()
-        {
-
-            return null;
         }
 
         #region Functional methods

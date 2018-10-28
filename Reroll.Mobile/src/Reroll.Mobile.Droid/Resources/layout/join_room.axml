@@ -32,8 +32,11 @@
 			android:layout_gravity="center_horizontal"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+            android:maxLines="1"
+            android:inputType="text"
 			android:textSize="19sp"
-			android:text="Room123"
+			android:text="123"
+            android:imeOptions="actionNext"
             local:MvxBind="Text RoomName"/>
 		<TextView
 			android:layout_width="match_parent"
@@ -52,6 +55,7 @@
 			android:inputType="textPassword"
 			android:textSize="19sp"
 			android:text="pass123"
+            android:imeOptions="actionDone"
             local:MvxBind="Text Password"/>
 		<Button
             android:id="@+id/btJoin"
