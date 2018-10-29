@@ -18,6 +18,7 @@ export class GameRoomComponent {
   message = '';
   messages: string[] = [];
   constValue: number = 6;
+  playerModel: Player;
 
   constructor(private signalrService: SignalrService) {
     this.hubConnection = signalrService.getConnection();
@@ -35,13 +36,15 @@ export class GameRoomComponent {
     });
 
     this.hubConnection.on('sendUpdateToGM', (name: string, value: Player) => {
+      this.playerModel = value;
       this.constValue = value.charisma;
     });
   }
 
   public sendMessage(): void {
+    this.playerModel.charisma--;
     this.hubConnection
-      .invoke('sendToAll', this.nick, this.message)
+      .invoke('updatePlayerModel', this.playerModel.name, this.playerModel)
       .catch(err => console.error(err));
   }
 } 

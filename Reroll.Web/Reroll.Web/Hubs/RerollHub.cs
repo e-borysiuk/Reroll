@@ -18,23 +18,7 @@ namespace Reroll.Hubs
 
         private static List<GameSessionModel> GameSessions = new List<GameSessionModel>();
 
-        public async Task SendToAll(string name, string message)
-        {
-            await Clients.All.SendAsync("sendToAll", name, message);
-        }
-
-        public async Task SendToPlayer(string groupName, string playerName, string message)
-        {
-            var gameSession = GameSessions.First(x => x.GroupName == groupName);
-            var connectionId = gameSession.PlayerModels.First(x => x.Name == playerName).ConnectionId;
-            await Clients.Client(connectionId).SendAsync("sendToPlayer", "GM", message);
-        }
-
-        public Task SendMessageToGroups(string name, string message)
-        {
-            List<string> groups = new List<string>() { "SignalR Users" };
-            return Clients.Groups(groups).SendAsync("sendToAll", name, message);
-        }
+        #region Connection methods
 
         public Task GroupExists(string groupName, string password)
         {
@@ -92,6 +76,7 @@ namespace Reroll.Hubs
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
                     };
+                    await this.SendInitialGmData(groupName);
                 }
                 else
                 {
@@ -107,26 +92,16 @@ namespace Reroll.Hubs
                     else
                     {
                         gameSession.PlayerModels[index].ConnectionId = Context.ConnectionId;
+                        await this.SendInitialPlayerData(groupName, playerName);
                     }
                 }
             }
             Context.Items.Add("Name", playerName);
             Context.Items.Add("Group", groupName);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-
-
-            //if (!groupPlayers.ContainsKey(groupName))
-            //    groupPlayers.Add(groupName, new Dictionary<string, string>());
-
-            ////If player reconnects
-            //if (groupPlayers[groupName].ContainsKey(playerName))
-            //    groupPlayers[groupName][playerName] = Context.ConnectionId;
-            //else
-            //    groupPlayers[groupName].Add(playerName, Context.ConnectionId);
-            //Context.Items.Add("Group", groupName);
-            //Context.Items.Add("Name", playerName);
-            //await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
+
+        #endregion
 
         #region Functional methods
 
@@ -152,12 +127,43 @@ namespace Reroll.Hubs
             Context.Items.TryGetValue("Name", out var nameItem);
             string name = (string)nameItem;
             value.Name = name;
+            value.ConnectionId = Context.ConnectionId;
 
             var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
             playerModels.Remove(playerModels.First(x => x.Name == name));
             playerModels.Add(value);
 
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
+        }
+
+        public Task UpdatePlayerModel(string playerName, PlayerModel value)
+        {
+            if (playerName != value.Name)
+                return null;
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string group = (string)groupItem;
+
+            var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
+            playerModels.Remove(playerModels.First(x => x.Name == playerName));
+            playerModels.Add(value);
+
+            return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value);
+        }
+
+        private async Task SendInitialGmData(string groupName)
+        {
+            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var data = gameSession?.PlayerModels;
+            if (gameSession != null && data != null)
+                await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialGmData", data);
+        }
+
+        private async Task SendInitialPlayerData(string groupName, string playerName)
+        {
+            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var data = gameSession?.PlayerModels.FirstOrDefault(x => x.Name == playerName);
+            if (gameSession != null && data != null)
+                await Clients.Client(data.ConnectionId).SendAsync("receiveInitialPlayerData", data);
         }
 
         #endregion

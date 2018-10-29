@@ -27,10 +27,15 @@ namespace Reroll.Mobile.Core.Services
             {
                 _messenger.Publish(new NewMessage(this, user, message));
             });
-
+            _connection.On<PlayerModel>("sendUpdateToPlayer", ReceiveUpdateMessage);
         }
 
-        void GroupExistsResponse(ResponseStatusEnum response)
+        private void ReceiveUpdateMessage(PlayerModel obj)
+        {
+            _messenger.Publish(new UpdateMessage(this, obj));
+        }
+
+        private void GroupExistsResponse(ResponseStatusEnum response)
         {
             _messenger.Publish(new JoinResponseMessage(this, response));
         }

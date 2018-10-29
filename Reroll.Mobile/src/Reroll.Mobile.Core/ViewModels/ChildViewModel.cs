@@ -14,20 +14,12 @@ namespace Reroll.Mobile.Core.ViewModels
 {
     public class ChildViewModel : BaseViewModel
     {
-        public ChildViewModel(string name = "default")
-        {
-            this.messageToken = this._messenger.Subscribe<NewMessage>(NewMessageArrived);
-            this._signalrService.SendMessage("joined");
-            Name = "";
-        }
-
-        void NewMessageArrived(NewMessage obj)
-        {
-            this.Name += obj.User + ": " + obj.Message + "\n";
-        }
-
-        public string Message { get; set; }
-
+        private IMvxCommand _goToChildCommand;
+        private IMvxCommand _incrementValueCommand;
+        private IMvxCommand _decrementValueCommand;
+        private readonly MvxSubscriptionToken _messageToken;
+        public PlayerModel PlayerModel { get; set; }
+        public string StatValue => PlayerModel.Charisma.ToString();
         private string _name;
         public string Name
         {
@@ -38,9 +30,18 @@ namespace Reroll.Mobile.Core.ViewModels
                 RaisePropertyChanged(() => Name);
             }
         }
-        private IMvxCommand _goToChildCommand;
-        MvxSubscriptionToken messageToken;
-        bool flag;
+
+        public ChildViewModel(string name = "default")
+        {
+            this._messageToken = this._messenger.Subscribe<UpdateMessage>(ReceivedUpdate);
+            this._signalrService.SendMessage("joined");
+        }
+
+        void ReceivedUpdate(UpdateMessage obj)
+        {
+            this.PlayerModel = obj.PlayerModel;
+        }
+
 
         public IMvxCommand GoToChildCommand
         {
@@ -48,20 +49,36 @@ namespace Reroll.Mobile.Core.ViewModels
             {
                 _goToChildCommand = _goToChildCommand ?? new MvxCommand(() =>
                 {
-                    if(!flag)
-                        this._signalrService.SendUpdate(CreateSampleModel());
-                    else
-                    {
-                        var s = CreateSampleModel();
-                        var rand = new Random();
-                        s.Charisma = rand.Next(1, 66);
-                        this._signalrService.SendUpdate(s);
-                    }
-
-                    flag = true;
-                    //this._signalrService.SendMessage(this.Message);
+                    this.PlayerModel = CreateSampleModel();
+                    this._signalrService.SendUpdate(PlayerModel);
                 });
                 return _goToChildCommand;
+            }
+        }
+
+        public IMvxCommand IncrementValueCommand
+        {
+            get
+            {
+                _incrementValueCommand = _incrementValueCommand ?? new MvxCommand(() =>
+                {
+                    PlayerModel.Charisma++;
+                    this._signalrService.SendUpdate(PlayerModel);
+                });
+                return _incrementValueCommand;
+            }
+        }
+
+        public IMvxCommand DecrementValueCommand
+        {
+            get
+            {
+                _decrementValueCommand = _decrementValueCommand ?? new MvxCommand(() =>
+                {
+                    PlayerModel.Charisma--;
+                    this._signalrService.SendUpdate(PlayerModel);
+                });
+                return _decrementValueCommand;
             }
         }
 

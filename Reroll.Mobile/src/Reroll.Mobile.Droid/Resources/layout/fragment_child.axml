@@ -9,13 +9,32 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       local:MvxBind="Text Name" />
-  <EditText
-      android:layout_width="match_parent"
-      android:layout_height="60dp"
-      local:MvxBind="Text Message"/>
   <Button 
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="Send"
       local:MvxBind="Click GoToChildCommand" />
+   <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+        android:gravity="center_horizontal">
+       <Button 
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="-"
+          local:MvxBind="Click DecrementValueCommand" />
+       <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="20dp"
+          android:textSize="17sp"
+          android:text="123"
+          local:MvxBind="Text StatValue" />
+       <Button 
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="+"
+          local:MvxBind="Click IncrementValueCommand" />
+   </LinearLayout>
 </LinearLayout>
