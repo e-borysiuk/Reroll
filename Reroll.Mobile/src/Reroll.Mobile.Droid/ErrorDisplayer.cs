@@ -1,7 +1,9 @@
+
 namespace Reroll.Mobile.Droid
 {
     #region Usings
 
+    using Reroll.Mobile.Core.Interfaces;
     using System;
     using Android.Content;
     using Android.Graphics;
@@ -9,7 +11,6 @@ namespace Reroll.Mobile.Droid
     using Android.Support.Design.Widget;
     using Android.Views;
     using Android.Widget;
-    using Core.Services.Interfaces;
     using Android.App;
     using Android.OS;
     using Core.Models.Enums;

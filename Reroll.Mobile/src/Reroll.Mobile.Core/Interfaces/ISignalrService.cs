@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Reroll.Models;
 
-namespace Reroll.Mobile.Core.Services.Interfaces
+namespace Reroll.Mobile.Core.Interfaces
 {
     public interface ISignalrService
     {

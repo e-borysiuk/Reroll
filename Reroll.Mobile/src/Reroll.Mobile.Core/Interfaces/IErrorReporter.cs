@@ -1,8 +1,8 @@
-namespace Reroll.Mobile.Core.Services.Interfaces
+namespace Reroll.Mobile.Core.Interfaces
 {
-    using Android.Views;
-    using Models.Enums;
     using System;
+    using Android.Views;
+    using Reroll.Mobile.Core.Models.Enums;
     /// <summary>
     /// Error reporting service
     /// </summary>

@@ -1,12 +1,11 @@
-using MvvmCross;
-using MvvmCross.Base;
-using Reroll.Mobile.Core.Models.Enums;
-
 namespace Reroll.Mobile.Core.Models
 {
-    using Android.Views;
-    using Services.Interfaces;
     #region Usings
+    using MvvmCross;
+    using MvvmCross.Base;
+    using Reroll.Mobile.Core.Interfaces;
+    using Reroll.Mobile.Core.Models.Enums;
+    using Android.Views;
     using System;
     #endregion
 

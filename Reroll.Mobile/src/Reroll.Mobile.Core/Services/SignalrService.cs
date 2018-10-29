@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using MvvmCross.Plugin.Messenger;
 using Reroll.Mobile.Core.Models.MvxMessages;
-using Reroll.Mobile.Core.Services.Interfaces;
+using Reroll.Mobile.Core.Interfaces;
 using Reroll.Models;
 
 namespace Reroll.Mobile.Core.Services

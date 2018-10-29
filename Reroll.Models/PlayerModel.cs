@@ -60,7 +60,7 @@ namespace Reroll.Models
 
         #endregion
 
-        #region Feats & Abilities
+        #region -Feats & Abilities
         //Name + note
         public List<Tuple<string, string>> Feats;
 

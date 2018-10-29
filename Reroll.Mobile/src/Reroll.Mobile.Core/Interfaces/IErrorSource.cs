@@ -1,4 +1,4 @@
-namespace Reroll.Mobile.Core.Services.Interfaces
+namespace Reroll.Mobile.Core.Interfaces
 {
     using System;
     using Models;

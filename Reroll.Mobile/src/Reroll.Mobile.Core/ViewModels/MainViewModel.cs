@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
 using MvvmCross.ViewModels;
+using Reroll.Mobile.Core.ViewModels.Tabs;
 
 namespace Reroll.Mobile.Core.ViewModels
 { 
@@ -10,31 +11,20 @@ namespace Reroll.Mobile.Core.ViewModels
 
         public MainViewModel()
         {
-            List<string> messagesList;
-
             MyViewModels = new List<ChildViewModel>()
             {
-                new ChildViewModel("First"),
-                new ChildViewModel("Second"),
-                new ChildViewModel("Third")
+                new BaseStatsViewModel("Base Stats"),
+                new BelongingsViewModel("Items"),
+                new SpellsViewModel("Spells"),
+                new DiceRollViewModel("Dice"),
+                new ImagesViewModel("Images")
             };
-
-
-
-            //messagesList = new List<string>();
-
-            //this._connection.On<string, string>("sendToAll", (user, message) =>
-            //{
-            //    var newMessage = $"{user}: {message}";
-            //    messagesList.Add(newMessage);
-            //});
-
         }
 
         private List<ChildViewModel> _myViewModels;
         public List<ChildViewModel> MyViewModels
         {
-            get { return _myViewModels; }
+            get => _myViewModels;
             set
             {
                 _myViewModels = value;

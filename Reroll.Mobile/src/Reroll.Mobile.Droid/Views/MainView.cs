@@ -26,10 +26,10 @@ namespace Reroll.Mobile.Droid.Views
             SupportActionBar.Title = "Reroll.Mobile";
 
             var viewPager = FindViewById<ViewPager>(Resource.Id.main_view_pager);
-            var fragments = new List<MvxViewPagerFragmentInfo>();
+            var fragments = InitializeFragments();
 
-            foreach (var myViewModel in ViewModel.MyViewModels)
-                fragments.Add(new MvxViewPagerFragmentInfo(myViewModel.Name, typeof(ChildFragment), myViewModel));
+            //foreach (var myViewModel in ViewModel.MyViewModels)
+            //    fragments.Add(new MvxViewPagerFragmentInfo(myViewModel.Name, typeof(ChildFragment), myViewModel));
 
             viewPager.Adapter = new MvxCachingFragmentStatePagerAdapter(this, SupportFragmentManager, fragments);
 
@@ -38,6 +38,23 @@ namespace Reroll.Mobile.Droid.Views
 
             var tabLayout = FindViewById<TabLayout>(Resource.Id.main_tablayout);
             tabLayout.SetupWithViewPager(viewPager);
+        }
+
+        private List<MvxViewPagerFragmentInfo> InitializeFragments()
+        {
+            return new List<MvxViewPagerFragmentInfo>
+            {
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[0].Name, typeof(BaseStatsFragment),
+                    ViewModel.MyViewModels[0]),
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[1].Name, typeof(BelongingsFragment),
+                    ViewModel.MyViewModels[1]),
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[2].Name, typeof(SpellsFragment),
+                    ViewModel.MyViewModels[2]),
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[3].Name, typeof(DiceRollFragment),
+                    ViewModel.MyViewModels[3]),
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[4].Name, typeof(ImagesFragment),
+                    ViewModel.MyViewModels[4]),
+            };
         }
     }
 }

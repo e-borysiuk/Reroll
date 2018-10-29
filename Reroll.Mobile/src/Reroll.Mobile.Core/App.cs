@@ -1,8 +1,8 @@
 using MvvmCross;
 using MvvmCross.IoC;
 using MvvmCross.ViewModels;
+using Reroll.Mobile.Core.Interfaces;
 using Reroll.Mobile.Core.Models;
-using Reroll.Mobile.Core.Services.Interfaces;
 using Reroll.Mobile.Core.ViewModels;
 
 namespace Reroll.Mobile.Core
@@ -13,6 +13,11 @@ namespace Reroll.Mobile.Core
         {
             CreatableTypes()
                 .EndingWith("Service")
+                .AsInterfaces()
+                .RegisterAsLazySingleton();
+
+            CreatableTypes()
+                .EndingWith("Repository")
                 .AsInterfaces()
                 .RegisterAsLazySingleton();
 

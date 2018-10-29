@@ -65,6 +65,11 @@
     <Compile Include="Views\!Base\BaseActivity.cs" />
     <Compile Include="Views\!Base\BaseFragment.cs" />
     <Compile Include="Views\ChildOfChildView.cs" />
+    <Compile Include="Views\Fragments\BelongingsFragment.cs" />
+    <Compile Include="Views\Fragments\ImagesFragment.cs" />
+    <Compile Include="Views\Fragments\BaseStatsFragment.cs" />
+    <Compile Include="Views\Fragments\DiceRollFragment.cs" />
+    <Compile Include="Views\Fragments\SpellsFragment.cs" />
     <Compile Include="Views\Fragments\ChildFragment.cs" />
     <Compile Include="Views\JoinRoomView.cs" />
     <Compile Include="Views\MainView.cs" />

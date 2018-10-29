@@ -1,8 +1,8 @@
 using System;
 using Android.Views;
 using MvvmCross;
+using Reroll.Mobile.Core.Interfaces;
 using Reroll.Mobile.Core.Models.Enums;
-using Reroll.Mobile.Core.Services.Interfaces;
 
 namespace Reroll.Mobile.Core.Services
 {
