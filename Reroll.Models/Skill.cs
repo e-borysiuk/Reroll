@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Reroll.Models.Enums;
+﻿using Reroll.Models.Enums;
 
 namespace Reroll.Models
 {
-    public class SkillModel
+    public class Skill
     {
         public string Name { get; set; }
         public KeyAbilityEnum KeyAbility { get; set; }

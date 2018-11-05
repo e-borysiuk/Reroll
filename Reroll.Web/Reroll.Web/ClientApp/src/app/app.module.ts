@@ -23,7 +23,7 @@ import { GameRoomComponent } from './game-room/game-room.component';
     RouterModule.forRoot([
       { path: '', component: JoinRoomComponent, pathMatch: 'full' },
       { path: 'join-room', component: JoinRoomComponent },
-      { path: 'game-room', component: GameRoomComponent }
+      { path: 'game-room/:id', component: GameRoomComponent }
     ])
   ],
   providers: [SignalrService],

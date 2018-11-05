@@ -33,29 +33,53 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="ClientApp\src\models\Ability.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Ability.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\Ammunition.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Ammunition.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\AvailableSpellsRow.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\AvailableSpellsRow.cs</CustomToolNamespace>
+    </None>
     <None Update="ClientApp\src\models\DiceTypeEnum.ts">
       <CustomToolNamespace>..\..\Reroll.Models\DiceTypeEnum.cs</CustomToolNamespace>
     </None>
-    <None Update="ClientApp\src\models\GameMasterModel.ts">
-      <CustomToolNamespace>..\..\Reroll.Models\GameMasterModel.cs</CustomToolNamespace>
+    <None Update="ClientApp\src\models\Feat.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Feat.cs</CustomToolNamespace>
     </None>
-    <None Update="ClientApp\src\models\GameSessionModel.ts">
-      <CustomToolNamespace>..\..\Reroll.Models\GameSessionModel.cs</CustomToolNamespace>
+    <None Update="ClientApp\src\models\GameMaster.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\GameMaster.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\GameSession.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\GameSession.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\InventoryItem.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\InventoryItem.cs</CustomToolNamespace>
     </None>
     <None Update="ClientApp\src\models\KeyAbilityEnum.ts">
       <CustomToolNamespace>..\..\Reroll.Models\Enums\KeyAbilityEnum.cs</CustomToolNamespace>
     </None>
-    <None Update="ClientApp\src\models\PlayerModel.ts">
-      <CustomToolNamespace>..\..\Reroll.Models\PlayerModel.cs</CustomToolNamespace>
+    <None Update="ClientApp\src\models\Player.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Player.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\PreparedSpell.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\PreparedSpell.cs</CustomToolNamespace>
     </None>
     <None Update="ClientApp\src\models\ResponseStatusEnum.ts">
       <CustomToolNamespace>..\..\Reroll.Models\Enums\ResponseStatusEnum.cs</CustomToolNamespace>
     </None>
-    <None Update="ClientApp\src\models\SkillModel.ts">
-      <CustomToolNamespace>..\..\Reroll.Models\SkillModel.cs</CustomToolNamespace>
+    <None Update="ClientApp\src\models\Skill.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Skill.cs</CustomToolNamespace>
     </None>
-    <None Update="ClientApp\src\models\WeaponModel.ts">
-      <CustomToolNamespace>..\..\Reroll.Models\WeaponModel.cs</CustomToolNamespace>
+    <None Update="ClientApp\src\models\Spell.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Spell.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\State.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\State.cs</CustomToolNamespace>
+    </None>
+    <None Update="ClientApp\src\models\Weapon.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\Weapon.cs</CustomToolNamespace>
     </None>
   </ItemGroup>
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Reroll.Models
 {
-    public class PlayerModel
-    {
+    public class Player
+    {  
         public string ConnectionId { get; set; }
         public string Name { get; set; }
         public int HealthPoints { get; set; }
@@ -43,52 +43,52 @@ namespace Reroll.Models
 
         #region Skills
 
-        public List<SkillModel> Skills;
-        public List<string> Languages;
+        public List<Skill> Skills { get; set; }
+        public List<string> Languages { get; set; }
 
         #endregion
 
         #region Ammunition
         //Type + quantity
-        public List<Tuple<string, int>> AmmunitionList;
+        public List<Ammunition> AmmunitionList { get; set; }
 
         #endregion
 
         #region Weapons
 
-        public List<WeaponModel> Weapons;
+        public List<Weapon> Weapons { get; set; }
 
         #endregion
 
         #region -Feats & Abilities
         //Name + note
-        public List<Tuple<string, string>> Feats;
+        public List<Feat> Feats { get; set; }
 
-        public List<Tuple<string, string>> SpecialAbilities;
+        public List<Ability> SpecialAbilities { get; set; }
 
         #endregion
 
         #region Spells
 
-        public List<AvailableSpellsRow> AvailableSpells;
+        public List<AvailableSpellsRow> AvailableSpells { get; set; }
 
         public List<Spell> KnownSpells;
 
         //Spell+quantity
-        public List<Tuple<Spell, int>> PreparedSpells;
+        public List<PreparedSpell> PreparedSpells { get; set; }
 
         #endregion
 
         #region Inventory
 
-        public List<InventoryItem> InventoryItems;
+        public List<InventoryItem> InventoryItems { get; set; }
 
         #endregion
 
         #region ActiveStates
 
         //Name + effect
-        public List<Tuple<string, string>> State { get; set; }
+        public List<State> State { get; set; }
 
         #endregion
     }

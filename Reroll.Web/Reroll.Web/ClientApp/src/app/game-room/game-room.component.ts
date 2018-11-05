@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { SignalrService } from '../../services/SignalrService';
-import { Player } from "../../models/PlayerModel";
+import { Player } from "../../models/Player";
 
 @Component({
   selector: 'game-room',
@@ -42,7 +42,7 @@ export class GameRoomComponent {
   }
 
   public sendMessage(): void {
-    this.playerModel.charisma--;
+    this.constValue--;
     this.hubConnection
       .invoke('updatePlayerModel', this.playerModel.name, this.playerModel)
       .catch(err => console.error(err));

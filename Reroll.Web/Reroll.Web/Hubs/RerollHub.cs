@@ -16,7 +16,7 @@ namespace Reroll.Hubs
         /// </summary>
         private static Dictionary<string, Dictionary<string, string>> groupPlayers = new Dictionary<string, Dictionary<string, string>>();
 
-        private static List<GameSessionModel> GameSessions = new List<GameSessionModel>();
+        private static List<GameSession> GameSessions = new List<GameSession>();
 
         #region Connection methods
 
@@ -43,15 +43,15 @@ namespace Reroll.Hubs
             var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
             if (gameSession == null)
             {
-                gameSession = new GameSessionModel
+                gameSession = new GameSession
                 {
                     GroupName = groupName,
-                    PlayerModels = new List<PlayerModel>(),
+                    PlayerModels = new List<Player>(),
                     Password = password
                 };
                 if (isGameMaster)
                 {
-                    gameSession.GameMaster = new GameMasterModel()
+                    gameSession.GameMaster = new GameMaster()
                     {
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
@@ -59,7 +59,7 @@ namespace Reroll.Hubs
                 }
                 else
                 {
-                    gameSession.PlayerModels.Add(new PlayerModel()
+                    gameSession.PlayerModels.Add(new Player()
                     {
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
@@ -71,7 +71,7 @@ namespace Reroll.Hubs
             {
                 if (isGameMaster)
                 {
-                    gameSession.GameMaster = new GameMasterModel()
+                    gameSession.GameMaster = new GameMaster()
                     {
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
@@ -83,7 +83,7 @@ namespace Reroll.Hubs
                     var index = gameSession.PlayerModels.FindIndex(p => p.Name == playerName);
                     if (index == -1)
                     {
-                        gameSession.PlayerModels.Add(new PlayerModel()
+                        gameSession.PlayerModels.Add(new Player()
                         {
                             Name = playerName,
                             ConnectionId = Context.ConnectionId
@@ -120,7 +120,7 @@ namespace Reroll.Hubs
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, player);
         }
 
-        public Task UpdateModel(PlayerModel value)
+        public Task UpdateModel(Player value)
         {
             Context.Items.TryGetValue("Group", out var groupItem);
             string group = (string)groupItem;
@@ -136,7 +136,7 @@ namespace Reroll.Hubs
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
         }
 
-        public Task UpdatePlayerModel(string playerName, PlayerModel value)
+        public Task UpdatePlayerModel(string playerName, Player value)
         {
             if (playerName != value.Name)
                 return null;

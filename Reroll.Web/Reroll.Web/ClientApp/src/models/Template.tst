@@ -29,7 +29,7 @@ ${
 
     string Imports(Class c) => c.Properties
                                 .Where(p=>!p.Type.IsPrimitive || p.Type.IsEnum)
-                                .Select(p=> $"import {{ {CleanupName(p.Type.Name)} }} from './{ToKebabCase(CleanupName(p.Type.Name))}';")
+                                .Select(p=> $"import {{ {CleanupName(p.Type.Name)} }} from './{(CleanupName(p.Type.Name))}';")
                                 .Aggregate("", (all,import) => $"{all}{import}\r\n")
                                 .TrimStart();
 
@@ -41,7 +41,7 @@ ${
     string ClassName(Class c) => c.Name.Replace("Model","");
 
 }
-     $Classes(*Model)[$Imports
+     $Classes(Reroll.Models.*)[$Imports
 export class $ClassName   {
 $CustomProperties
 }]$Enums(*)[export enum $Name { $Values[

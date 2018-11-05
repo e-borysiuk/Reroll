@@ -1,5 +1,5 @@
-
-import { KeyAbilityEnum } from './KeyAbilityEnum';
+﻿
+     import { KeyAbilityEnum } from './KeyAbilityEnum';
 
 export class Skill   {
 	public name: string;

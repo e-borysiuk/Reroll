@@ -41,13 +41,13 @@ export class JoinRoomComponent {
       switch (receivedMessage) {
         case ResponseStatusEnum.groupExists:
             this.joinGroup(this.model.roomName);
-            this.router.navigate(['/game-room']);
+          this.router.navigate(['/game-room', this.model.roomName]);
           break;
         case ResponseStatusEnum.groupDoesNotExist:
           var confirmation = window.confirm('There is no room with such name, create new?');
           if (confirmation) {
             this.joinGroup(this.model.roomName);
-            this.router.navigate(['/game-room']);
+            this.router.navigate(['/game-room', this.model.roomName]);
           }
           break;
         case ResponseStatusEnum.invalidPassword:

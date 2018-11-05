@@ -1,6 +1,6 @@
-
-import { Player } from './PlayerModel';
-import { GameMaster } from './GameMasterModel';
+﻿
+     import { Player } from './Player';
+import { GameMaster } from './GameMaster';
 
 export class GameSession   {
 	public groupName: string;

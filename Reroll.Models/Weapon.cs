@@ -2,7 +2,7 @@
 
 namespace Reroll.Models
 {
-    public class WeaponModel
+    public class Weapon
     {
         public string Name { get; set; }
         public int AttackBonus { get; set; }
