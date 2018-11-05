@@ -20,13 +20,10 @@ namespace Reroll.Mobile.Core.ViewModels
             this._refreshToken = this._messenger.Subscribe<RefreshMessage>(RefreshUi);
         }
 
-        protected void RefreshUi(RefreshMessage obj)
-        {
-            RaiseAllPropertiesChanged();
-        }
-
         private string _name;
         private MvxSubscriptionToken _refreshToken;
+
+        protected PlayerModel PlayerModel => this._dataRepository.PlayerModel;
 
         public string Name
         {
@@ -36,6 +33,11 @@ namespace Reroll.Mobile.Core.ViewModels
                 _name = value;
                 RaisePropertyChanged(() => Name);
             }
+        }
+
+        protected void RefreshUi(RefreshMessage obj)
+        {
+            RaiseAllPropertiesChanged();
         }
     }
 }
