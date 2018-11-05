@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="ClientApp\src\assets\images\background.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Reroll.Models\Reroll.Models.csproj" />
   </ItemGroup>
 

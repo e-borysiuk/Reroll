@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+body, html {
+  height: 100%;
+}
+
+.fullheight {
+  height: 100%;
+}
+
+.bg {
+  /* Center and scale the image nicely */
+  background-image: url("assets/images/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+}
+
+.centerbox {
+  display:flex;
+  justify-content:center;
+}
