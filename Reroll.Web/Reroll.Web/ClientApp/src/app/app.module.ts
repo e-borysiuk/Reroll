@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { SignalrService } from "../services/SignalrService";
+import { MessageService } from "../services/MessageService";
 
 import { AppComponent } from './app.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
@@ -26,7 +27,7 @@ import { GameRoomComponent } from './game-room/game-room.component';
       { path: 'game-room/:id', component: GameRoomComponent }
     ])
   ],
-  providers: [SignalrService],
+  providers: [SignalrService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,7 +7,7 @@ namespace Reroll.Models
     public class GameSession
     {
         public string GroupName { get; set; }
-        public List<Player> PlayerModels { get; set; }
+        public List<Player> Players { get; set; }
         public GameMaster GameMaster { get; set; }
         public string Password { get; set; }
     }

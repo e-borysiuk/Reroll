@@ -38,7 +38,7 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             {
                 _incrementValueCommand = _incrementValueCommand ?? new MvxCommand(() =>
                 {
-                    PlayerModel newValue = PlayerModel;
+                    Player newValue = Player;
                     newValue.Charisma++;
                     this._dataRepository.SendUpdate(newValue);
                 });
@@ -52,7 +52,7 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             {
                 _decrementValueCommand = _decrementValueCommand ?? new MvxCommand(() =>
                 {
-                    PlayerModel newValue = PlayerModel;
+                    Player newValue = Player;
                     newValue.Charisma--;
                     this._dataRepository.SendUpdate(newValue);
                 });

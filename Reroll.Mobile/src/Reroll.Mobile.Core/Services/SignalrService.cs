@@ -27,10 +27,10 @@ namespace Reroll.Mobile.Core.Services
             {
                 _messenger.Publish(new NewMessage(this, user, message));
             });
-            _connection.On<PlayerModel>("sendUpdateToPlayer", ReceiveUpdateMessage);
+            _connection.On<Player>("sendUpdateToPlayer", ReceiveUpdateMessage);
         }
 
-        private void ReceiveUpdateMessage(PlayerModel obj)
+        private void ReceiveUpdateMessage(Player obj)
         {
             _messenger.Publish(new UpdateMessage(this, obj));
         }
@@ -60,7 +60,7 @@ namespace Reroll.Mobile.Core.Services
             _connection.InvokeAsync("joinGroup", roomName, "mobileApp", roomPassword, false);
         }
 
-        public void SendUpdate(PlayerModel data)
+        public void SendUpdate(Player data)
         {
             _connection.InvokeAsync("UpdateModel", data);
         }

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { SignalrService } from '../../services/SignalrService';
 import { Player } from "../../models/Player";
+import { MessageService } from '../../services/MessageService';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'game-room',
@@ -11,17 +13,19 @@ import { Player } from "../../models/Player";
 export class GameRoomComponent {
   public hubConnection: signalR.HubConnection;
 
-  adressed = 'HughJass';
-  playerName = 'HughJass';
-  password = '';
-  nick = 'WebApp';
-  message = '';
+  subscription: Subscription;
+  initialData: Player[];
   messages: string[] = [];
   constValue: number = 6;
   playerModel: Player;
 
-  constructor(private signalrService: SignalrService) {
+  constructor(private signalrService: SignalrService, private messageService: MessageService) {
     this.hubConnection = signalrService.getConnection();
+    this.hubConnection.invoke('getInitialGmData')
+      .catch(err => console.error(err));
+    this.subscription = this.messageService.getMessage().subscribe(message => {
+       this.initialData = message.text as Player[];
+    });
   }
 
   ngOnInit() {
@@ -42,7 +46,6 @@ export class GameRoomComponent {
   }
 
   public sendMessage(): void {
-    this.constValue--;
     this.hubConnection
       .invoke('updatePlayerModel', this.playerModel.name, this.playerModel)
       .catch(err => console.error(err));

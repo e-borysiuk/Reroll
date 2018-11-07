@@ -46,7 +46,7 @@ namespace Reroll.Hubs
                 gameSession = new GameSession
                 {
                     GroupName = groupName,
-                    PlayerModels = new List<Player>(),
+                    Players = new List<Player>(),
                     Password = password
                 };
                 if (isGameMaster)
@@ -59,7 +59,7 @@ namespace Reroll.Hubs
                 }
                 else
                 {
-                    gameSession.PlayerModels.Add(new Player()
+                    gameSession.Players.Add(new Player()
                     {
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
@@ -76,14 +76,13 @@ namespace Reroll.Hubs
                         Name = playerName,
                         ConnectionId = Context.ConnectionId
                     };
-                    await this.SendInitialGmData(groupName);
                 }
                 else
                 {
-                    var index = gameSession.PlayerModels.FindIndex(p => p.Name == playerName);
+                    var index = gameSession.Players.FindIndex(p => p.Name == playerName);
                     if (index == -1)
                     {
-                        gameSession.PlayerModels.Add(new Player()
+                        gameSession.Players.Add(new Player()
                         {
                             Name = playerName,
                             ConnectionId = Context.ConnectionId
@@ -91,7 +90,7 @@ namespace Reroll.Hubs
                     }
                     else
                     {
-                        gameSession.PlayerModels[index].ConnectionId = Context.ConnectionId;
+                        gameSession.Players[index].ConnectionId = Context.ConnectionId;
                         await this.SendInitialPlayerData(groupName, playerName);
                     }
                 }
@@ -111,7 +110,7 @@ namespace Reroll.Hubs
             string group = (string) groupItem;
             Context.Items.TryGetValue("Name", out var nameItem);
             string name = (string) nameItem;
-            var player = GameSessions.First(x => x.GroupName == group).PlayerModels.First(x => x.Name == name);
+            var player = GameSessions.First(x => x.GroupName == group).Players.First(x => x.Name == name);
 
             player.Name = value;
             Context.Items.Remove("Name");
@@ -129,9 +128,9 @@ namespace Reroll.Hubs
             value.Name = name;
             value.ConnectionId = Context.ConnectionId;
 
-            var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
-            playerModels.Remove(playerModels.First(x => x.Name == name));
-            playerModels.Add(value);
+            var Players = GameSessions.First(x => x.GroupName == group).Players;
+            Players.Remove(Players.First(x => x.Name == name));
+            Players.Add(value);
 
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
         }
@@ -143,17 +142,23 @@ namespace Reroll.Hubs
             Context.Items.TryGetValue("Group", out var groupItem);
             string group = (string)groupItem;
 
-            var playerModels = GameSessions.First(x => x.GroupName == group).PlayerModels;
-            playerModels.Remove(playerModels.First(x => x.Name == playerName));
-            playerModels.Add(value);
+            var Players = GameSessions.First(x => x.GroupName == group).Players;
+            Players.Remove(Players.First(x => x.Name == playerName));
+            Players.Add(value);
 
             return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value);
+        }
+        public async Task GetInitialGmData()
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            await this.SendInitialGmData(groupItem?.ToString());
         }
 
         private async Task SendInitialGmData(string groupName)
         {
             var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
-            var data = gameSession?.PlayerModels;
+            var data = gameSession?.Players;
+            data?.Add(CreateSampleModel());
             if (gameSession != null && data != null)
                 await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialGmData", data);
         }
@@ -161,11 +166,140 @@ namespace Reroll.Hubs
         private async Task SendInitialPlayerData(string groupName, string playerName)
         {
             var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
-            var data = gameSession?.PlayerModels.FirstOrDefault(x => x.Name == playerName);
+            var data = gameSession?.Players.FirstOrDefault(x => x.Name == playerName);
             if (gameSession != null && data != null)
                 await Clients.Client(data.ConnectionId).SendAsync("receiveInitialPlayerData", data);
         }
 
+
+        public Player CreateSampleModel()
+        {
+            return new Player
+            {
+                AmmunitionList = new List<Ammunition>
+                {
+                    new Ammunition
+                    {
+                        Name = "Arrows",
+                        Quantity = 12
+                    }
+                },
+                ArmorClass = 11,
+                AvailableSpells = new List<AvailableSpellsRow>
+                {
+                    new AvailableSpellsRow()
+                    {
+                        Level = 0,
+                        BonusSpells = 2,
+                        SpellSaveDC = 2,
+                        SpellsKnows = 4,
+                        SpellsPerDay = 4
+                    }
+                },
+                BaseAttackBonus = 2,
+                Charisma = 12,
+                Constitution = 13,
+                ConnectionId = "",
+                Copper = 3,
+                Dexterity = 15,
+                ExperiencePoints = 120,
+                Feats = new List<Feat>
+                {
+                    new Feat
+                    {
+                        Name = "Very Strong",
+                        Description = "Many muscle"
+                    }
+                },
+                Fortitude = 10,
+                Gold = 1,
+                HealthPoints = 40,
+                Initiative = 2,
+                Intelligence = 11,
+                InventoryItems = new List<InventoryItem>
+                {
+                    new InventoryItem
+                    {
+                        Name = "Some item",
+                        Note = "Doing something",
+                        Quantity = 1
+                    }
+                },
+                Name = "PlayerOne",
+                KnownSpells = new List<Spell>
+                {
+                    new Spell
+                    {
+                        Name = "Missles",
+                        Level = 1
+                    },
+                    new Spell
+                    {
+                        Name = "Invisiblility",
+                        Level = 3
+                    }
+                },
+                Languages = new List<string>
+                {
+                    "Common", "Orcish"
+                },
+                Platinum = 0,
+                PreparedSpells = new List<PreparedSpell>
+                {
+                    new PreparedSpell
+                    {
+                        Spell = new Spell {Name = "Missles", Level = 1},
+                        CastQuantity = 2
+                    }
+                },
+                Reflex = 11,
+                Silver = 2,
+                Skills = new List<Skill>
+                {
+                    new Skill
+                    {
+                        Name = "Riding",
+                        KeyAbility = Models.Enums.KeyAbilityEnum.Dex,
+                        SkillModifier = 5
+                    }
+                },
+                SpecialAbilities = new List<Ability>
+                {
+                    new Ability
+                    {
+                        Name = "Strong attack",
+                        Description = "Hits strong"
+                    }
+                },
+                State = new List<State>
+                {
+                    new State
+                    {
+                        Name = "Sleepy",
+                        Description = "zzz"
+                    }
+                },
+                Strength = 15,
+                Weapons = new List<Weapon>
+                {
+                    new Weapon
+                    {
+                        Name = "Axe",
+                        AttackBonus = 1,
+                        Critical = "20",
+                        DiceCount = 2,
+                        DiceType = DiceTypeEnum.D8,
+                        IsRanged = false,
+                        NotesList = new List<string>
+                        {
+                            "Really beautiful"
+                        }
+                    }
+                },
+                Will = 8,
+                Wisdom = 9
+            };
+        }
         #endregion
     }
 }

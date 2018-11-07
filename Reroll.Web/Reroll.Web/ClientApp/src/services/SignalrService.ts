@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
+import { MessageService } from './MessageService';
 
 @Injectable()
 
 export class SignalrService {
   public hubConnection: signalR.HubConnection;
 
-  constructor() {
+  constructor(private messageService: MessageService) {
+
   }
 
   getConnection() : signalR.HubConnection {
@@ -19,6 +21,10 @@ export class SignalrService {
         .start()
         .then(() => console.log('Connection started!'))
         .catch(err => console.error(err.toString()));
+
+      this.hubConnection.on("receiveInitialGmData", (data: any) => {
+        this.messageService.sendMessage(data);
+      });
 
       return this.hubConnection;
     }

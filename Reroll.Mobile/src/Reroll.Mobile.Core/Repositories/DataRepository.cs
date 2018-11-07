@@ -16,35 +16,35 @@ namespace Reroll.Mobile.Core.Repositories
             this._messenger = Mvx.Resolve<IMvxMessenger>();
             this._signalrService = Mvx.Resolve<ISignalrService>();
             this._messageToken = this._messenger.Subscribe<UpdateMessage>(ReceivedUpdate);
-            this.PlayerModel = new PlayerModel();
+            this.Player = new Player();
         }
 
         private readonly IMvxMessenger _messenger;
         private readonly ISignalrService _signalrService;
         private readonly MvxSubscriptionToken _messageToken;
 
-        private PlayerModel _playerModel;
+        private Player _Player;
 
-        public PlayerModel PlayerModel
+        public Player Player
         {
-            get => _playerModel;
+            get => _Player;
             set
             {
-                _playerModel = value;
+                _Player = value;
                 RefreshUi();
             }
         }
 
-        public void SendUpdate(PlayerModel data)
+        public void SendUpdate(Player data)
         {
-            this.PlayerModel = data;
+            this.Player = data;
             _messenger.Publish(new UpdateMessage(this, data));
             //this._signalrService.SendUpdate(data);
         }
 
         private void ReceivedUpdate(UpdateMessage obj)
         {
-            this.PlayerModel = obj.PlayerModel;
+            this.Player = obj.Player;
         }
         
         private void RefreshUi()
@@ -52,13 +52,17 @@ namespace Reroll.Mobile.Core.Repositories
             this._messenger.Publish(new RefreshMessage(this));
         }
 
-        public PlayerModel CreateSampleModel()
+        public Player CreateSampleModel()
         {
-            return new PlayerModel
+            return new Player
             {
-                AmmunitionList = new List<Tuple<string, int>>
+                AmmunitionList = new List<Ammunition>
                 {
-                    new Tuple<string, int>("Arrows", 12)
+                    new Ammunition
+                    {
+                        Name = "Arrows",
+                        Quantity = 12
+                    }
                 },
                 ArmorClass = 11,
                 AvailableSpells = new List<AvailableSpellsRow>
@@ -79,9 +83,13 @@ namespace Reroll.Mobile.Core.Repositories
                 Copper = 3,
                 Dexterity = 15,
                 ExperiencePoints = 120,
-                Feats = new List<Tuple<string, string>>
+                Feats = new List<Feat>
                 {
-                    new Tuple<string, string>("Feat1", "description")
+                    new Feat
+                    {
+                        Name = "Very Strong",
+                        Description = "Many muscle"
+                    }
                 },
                 Fortitude = 10,
                 Gold = 1,
@@ -116,33 +124,45 @@ namespace Reroll.Mobile.Core.Repositories
                     "Common", "Orcish"
                 },
                 Platinum = 0,
-                PreparedSpells = new List<Tuple<Spell, int>>
+                PreparedSpells = new List<PreparedSpell>
                 {
-                    new Tuple<Spell, int>(new Spell {Name = "Missles", Level = 1}, 2)
+                    new PreparedSpell
+                    {
+                        Spell = new Spell {Name = "Missles", Level = 1},
+                        CastQuantity = 2
+                    }
                 },
                 Reflex = 11,
                 Silver = 2,
-                Skills = new List<SkillModel>
+                Skills = new List<Skill>
                 {
-                    new SkillModel
+                    new Skill
                     {
                         Name = "Riding",
                         KeyAbility = KeyAbilityEnum.Dex,
                         SkillModifier = 5
                     }
                 },
-                SpecialAbilities = new List<Tuple<string, string>>
+                SpecialAbilities = new List<Ability>
                 {
-                    new Tuple<string, string>("Strong attack", "Hits strong")
+                    new Ability
+                    {
+                        Name = "Strong attack",
+                        Description = "Hits strong"
+                    }
                 },
-                State = new List<Tuple<string, string>>
+                State = new List<State>
                 {
-                    new Tuple<string, string>("Sleepy", "zzz")
+                    new State
+                    {
+                        Name = "Sleepy",
+                        Description = "zzz"
+                    }
                 },
                 Strength = 15,
-                Weapons = new List<WeaponModel>
+                Weapons = new List<Weapon>
                 {
-                    new WeaponModel
+                    new Weapon
                     {
                         Name = "Axe",
                         AttackBonus = 1,

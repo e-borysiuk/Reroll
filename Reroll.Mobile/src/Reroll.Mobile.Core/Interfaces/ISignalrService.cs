@@ -8,7 +8,7 @@ namespace Reroll.Mobile.Core.Interfaces
         Task StartConnection();
         void CheckGroupExists(string roomName, string roomPassword);
         void SendMessage(string message);
-        void SendUpdate(PlayerModel data);
+        void SendUpdate(Player data);
         void JoinGroup(string roomName, string roomPassword);
     }
 }
