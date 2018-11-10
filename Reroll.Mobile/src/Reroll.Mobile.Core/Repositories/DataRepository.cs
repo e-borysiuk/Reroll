@@ -16,7 +16,7 @@ namespace Reroll.Mobile.Core.Repositories
             this._messenger = Mvx.Resolve<IMvxMessenger>();
             this._signalrService = Mvx.Resolve<ISignalrService>();
             this._messageToken = this._messenger.Subscribe<UpdateMessage>(ReceivedUpdate);
-            this.Player = new Player();
+            this.Player = CreateSampleModel();
         }
 
         private readonly IMvxMessenger _messenger;
@@ -39,7 +39,7 @@ namespace Reroll.Mobile.Core.Repositories
         {
             this.Player = data;
             _messenger.Publish(new UpdateMessage(this, data));
-            //this._signalrService.SendUpdate(data);
+            this._signalrService.SendUpdate(data);
         }
 
         private void ReceivedUpdate(UpdateMessage obj)

@@ -47,16 +47,16 @@ namespace Reroll.Mobile.Core.ViewModels
         public MvxCommand JoinRoomCommand =>
             new MvxCommand(() =>
             {
-                //if (string.IsNullOrEmpty(this.RoomName))
-                //    ErrorReportingService.ReportError("Room name is empty");
-                //if (string.IsNullOrEmpty(this.Password))
-                //    ErrorReportingService.ReportError("Password is empty");
-                //if (this.Password.Length < 6)
-                //    ErrorReportingService.ReportError("Password is too short");
+                if (string.IsNullOrEmpty(this.RoomName))
+                    ErrorReportingService.ReportError("Room name is empty");
+                if (string.IsNullOrEmpty(this.Password))
+                    ErrorReportingService.ReportError("Password is empty");
+                if (this.Password.Length < 6)
+                    ErrorReportingService.ReportError("Password is too short");
 
-                //this._signalrService.CheckGroupExists(this.RoomName, this.Password);
+                this._signalrService.CheckGroupExists(this.RoomName, this.Password);
 
-                this._navigationService.Navigate<MainViewModel>();
+                //this._navigationService.Navigate<MainViewModel>();
             });
     }
 }

@@ -7,4 +7,5 @@ export class GameSession   {
 	public players: Player[];
 	public gameMaster: GameMaster;
 	public password: string;
+	public connectedClients: number;
 }

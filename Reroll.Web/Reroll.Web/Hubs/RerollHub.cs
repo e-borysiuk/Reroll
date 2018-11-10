@@ -13,9 +13,9 @@ namespace Reroll.Hubs
 
     public class RerollHub : Hub
     {
-        public RerollHub(IGameSessionContext context)
+        public RerollHub(IGameSessionRepository sessionsRepository)
         {
-            this.dbContext = context;
+            this.sessionsRepository = sessionsRepository;
         }
 
         //TODO: On reconnect get player model
@@ -24,15 +24,15 @@ namespace Reroll.Hubs
         /// </summary>
         private static Dictionary<string, Dictionary<string, string>> groupPlayers = new Dictionary<string, Dictionary<string, string>>();
 
-        private static List<GameSession> GameSessions = new List<GameSession>();
+        private static List<GameSession> ActiveGameSessions = new List<GameSession>();
 
-        private readonly IGameSessionContext dbContext;
+        private readonly IGameSessionRepository sessionsRepository;
 
         #region Connection methods
 
         public Task GroupExists(string groupName, string password)
         {
-            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
             ResponseStatusEnum response;
             if (gameSession != null)
             {
@@ -50,67 +50,120 @@ namespace Reroll.Hubs
 
         public async Task JoinGroup(string groupName, string playerName, string password, bool isGameMaster)
         {
-            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            GameSession newGameSession;
+            //No active session
             if (gameSession == null)
             {
-                gameSession = new GameSession
+                gameSession = await sessionsRepository.GetGameSession(groupName);
+                //No session in database
+                if (gameSession == null)
                 {
-                    Id = ObjectId.GenerateNewId(),
-                    GroupName = groupName,
-                    Players = new List<Player>(),
-                    Password = password
-                };
-                if (isGameMaster)
-                {
-                    gameSession.GameMaster = new GameMaster()
-                    {
-                        Name = playerName,
-                        ConnectionId = Context.ConnectionId
-                    };
+                    newGameSession = CreateNewSession(groupName, playerName, password, isGameMaster);
                 }
+                //There is a session in database
                 else
                 {
-                    gameSession.Players.Add(new Player()
-                    {
-                        Name = playerName,
-                        ConnectionId = Context.ConnectionId
-                    });
+                    newGameSession = await AssignClientToSession(gameSession, groupName, playerName, isGameMaster);
                 }
-                GameSessions.Add(gameSession);
-                var collection = dbContext.GameSessions;
-                collection.InsertOne(gameSession);
+                newGameSession.ConnectedClients++;
+                ActiveGameSessions.Add(newGameSession);
             }
+            //There is an active session
             else
             {
-                if (isGameMaster)
-                {
-                    gameSession.GameMaster = new GameMaster()
-                    {
-                        Name = playerName,
-                        ConnectionId = Context.ConnectionId
-                    };
-                }
-                else
-                {
-                    var index = gameSession.Players.FindIndex(p => p.Name == playerName);
-                    if (index == -1)
-                    {
-                        gameSession.Players.Add(new Player()
-                        {
-                            Name = playerName,
-                            ConnectionId = Context.ConnectionId
-                        });
-                    }
-                    else
-                    {
-                        gameSession.Players[index].ConnectionId = Context.ConnectionId;
-                        await this.SendInitialPlayerData(groupName, playerName);
-                    }
-                }
+                newGameSession = await AssignClientToSession(gameSession, groupName, playerName, isGameMaster);
+                newGameSession.ConnectedClients++;
+                var index = ActiveGameSessions.FindIndex(g => g.GroupName == groupName);
+                if (index == -1)
+                    return;
+                ActiveGameSessions[index] = newGameSession;
             }
+
             Context.Items.Add("Name", playerName);
             Context.Items.Add("Group", groupName);
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+        }
+
+        private GameSession CreateNewSession(string groupName, string playerName, string password, bool isGameMaster)
+        {
+            GameSession gameSession = new GameSession
+            {
+                Id = ObjectId.GenerateNewId(),
+                GroupName = groupName,
+                Players = new List<Player>(),
+                Password = password
+            };
+            if (isGameMaster)
+            {
+                gameSession.GameMaster = new GameMaster()
+                {
+                    Name = playerName,
+                    ConnectionId = Context.ConnectionId
+                };
+            }
+            else
+            {
+                gameSession.Players.Add(new Player()
+                {
+                    Name = playerName,
+                    ConnectionId = Context.ConnectionId
+                });
+            }
+
+            return gameSession;
+        }
+
+        private GameSession AddOrUpdateGameMaster(GameSession gameSession, string playerName)
+        {
+            if (gameSession.GameMaster == null)
+            {
+                gameSession.GameMaster = new GameMaster()
+                {
+                    Name = playerName,
+                    ConnectionId = Context.ConnectionId,
+                    NotesList = new List<string>()
+                };
+            }
+            else
+            {
+                gameSession.GameMaster.ConnectionId = Context.ConnectionId;
+            }
+            return gameSession;
+        }
+
+        private async Task<GameSession> AddOrUpdatePlayer(GameSession gameSession, string groupName, string playerName)
+        {
+            var index = gameSession.Players.FindIndex(p => p.Name == playerName);
+            if (index == -1)
+            {
+                gameSession.Players.Add(new Player()
+                {
+                    Name = playerName,
+                    ConnectionId = Context.ConnectionId
+                });
+            }
+            else
+            {
+                gameSession.Players[index].ConnectionId = Context.ConnectionId;
+                await this.SendInitialPlayerData(groupName, playerName);
+            }
+
+            return gameSession;
+        }
+
+        private async Task<GameSession> AssignClientToSession(GameSession gameSession, string groupName, string playerName, bool isGameMaster)
+        {
+            if (isGameMaster)
+            {
+                AddOrUpdateGameMaster(gameSession, playerName);
+            }
+            else
+            {
+                await AddOrUpdatePlayer(gameSession, groupName, playerName);
+            }
+
+            return gameSession;
         }
 
         #endregion
@@ -123,7 +176,7 @@ namespace Reroll.Hubs
             string group = (string) groupItem;
             Context.Items.TryGetValue("Name", out var nameItem);
             string name = (string) nameItem;
-            var player = GameSessions.First(x => x.GroupName == group).Players.First(x => x.Name == name);
+            var player = ActiveGameSessions.First(x => x.GroupName == group).Players.First(x => x.Name == name);
 
             player.Name = value;
             Context.Items.Remove("Name");
@@ -141,7 +194,7 @@ namespace Reroll.Hubs
             value.Name = name;
             value.ConnectionId = Context.ConnectionId;
 
-            var Players = GameSessions.First(x => x.GroupName == group).Players;
+            var Players = ActiveGameSessions.First(x => x.GroupName == group).Players;
             Players.Remove(Players.First(x => x.Name == name));
             Players.Add(value);
 
@@ -155,9 +208,9 @@ namespace Reroll.Hubs
             Context.Items.TryGetValue("Group", out var groupItem);
             string group = (string)groupItem;
 
-            var Players = GameSessions.First(x => x.GroupName == group).Players;
-            Players.Remove(Players.First(x => x.Name == playerName));
-            Players.Add(value);
+            var players = ActiveGameSessions.First(x => x.GroupName == group).Players;
+            players.Remove(players.First(x => x.Name == playerName));
+            players.Add(value);
 
             return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value);
         }
@@ -169,19 +222,39 @@ namespace Reroll.Hubs
 
         private async Task SendInitialGmData(string groupName)
         {
-            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
             var data = gameSession?.Players;
-            data?.Add(CreateSampleModel());
+            //data?.Add(CreateSampleModel());
             if (gameSession != null && data != null)
                 await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialGmData", data);
         }
 
         private async Task SendInitialPlayerData(string groupName, string playerName)
         {
-            var gameSession = GameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
             var data = gameSession?.Players.FirstOrDefault(x => x.Name == playerName);
             if (gameSession != null && data != null)
                 await Clients.Client(data.ConnectionId).SendAsync("receiveInitialPlayerData", data);
+        }
+
+        public override async Task OnDisconnectedAsync(Exception exception)
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string groupName = (string)groupItem;
+
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            if (gameSession?.ConnectedClients == 1)
+            {
+                gameSession.ConnectedClients--;
+                await sessionsRepository.Update(gameSession);
+            }
+            else
+            {
+                gameSession.ConnectedClients--;
+            }
+
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+            await base.OnDisconnectedAsync(exception);
         }
 
 
