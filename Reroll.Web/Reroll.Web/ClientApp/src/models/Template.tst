@@ -28,12 +28,14 @@ ${
     }
 
     string Imports(Class c) => c.Properties
+                                .Where(p=>p.Type.Name != "ObjectId")
                                 .Where(p=>!p.Type.IsPrimitive || p.Type.IsEnum)
                                 .Select(p=> $"import {{ {CleanupName(p.Type.Name)} }} from './{(CleanupName(p.Type.Name))}';")
                                 .Aggregate("", (all,import) => $"{all}{import}\r\n")
                                 .TrimStart();
 
     string CustomProperties(Class c) => c.Properties
+                                        .Where(p=>p.Name != "Id")
                                         .Select(p=> $"\tpublic {p.name}: {CleanupName(p.Type.Name, false)};")
                                         .Aggregate("", (all,prop) => $"{all}{prop}\r\n")
                                         .TrimEnd();

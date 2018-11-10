@@ -1,4 +1,7 @@
 ﻿using System.Linq;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Reroll.Web.DAL;
 
 namespace Reroll.Hubs
 {
@@ -10,6 +13,11 @@ namespace Reroll.Hubs
 
     public class RerollHub : Hub
     {
+        public RerollHub(IGameSessionContext context)
+        {
+            this.dbContext = context;
+        }
+
         //TODO: On reconnect get player model
         /// <summary>
         /// Dictionary of (groupname +  (dictionary of player + connectionString))
@@ -17,6 +25,8 @@ namespace Reroll.Hubs
         private static Dictionary<string, Dictionary<string, string>> groupPlayers = new Dictionary<string, Dictionary<string, string>>();
 
         private static List<GameSession> GameSessions = new List<GameSession>();
+
+        private readonly IGameSessionContext dbContext;
 
         #region Connection methods
 
@@ -45,6 +55,7 @@ namespace Reroll.Hubs
             {
                 gameSession = new GameSession
                 {
+                    Id = ObjectId.GenerateNewId(),
                     GroupName = groupName,
                     Players = new List<Player>(),
                     Password = password
@@ -66,6 +77,8 @@ namespace Reroll.Hubs
                     });
                 }
                 GameSessions.Add(gameSession);
+                var collection = dbContext.GameSessions;
+                collection.InsertOne(gameSession);
             }
             else
             {

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Reroll.Hubs;
+using Reroll.Web.DAL;
 
 namespace Reroll.Web
 {
@@ -29,6 +30,15 @@ namespace Reroll.Web
             });
 
             services.AddSignalR();
+
+            services.Configure<Settings>(
+                options =>
+                {
+                    options.ConnectionString = Configuration.GetSection("MongoDb:ConnectionString").Value;
+                    options.Database = Configuration.GetSection("MongoDb:Database").Value;
+                });
+
+            services.AddTransient<IGameSessionContext, GameSessionContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

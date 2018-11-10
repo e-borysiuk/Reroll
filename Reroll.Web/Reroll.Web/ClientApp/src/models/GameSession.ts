@@ -4,7 +4,7 @@ import { GameMaster } from './GameMaster';
 
 export class GameSession   {
 	public groupName: string;
-	public playerModels: Player[];
+	public players: Player[];
 	public gameMaster: GameMaster;
 	public password: string;
 }
