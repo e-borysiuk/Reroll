@@ -8,6 +8,7 @@ namespace Reroll.Models
         public string ConnectionId { get; set; }
         public string Name { get; set; }
         public int HealthPoints { get; set; }
+        public int CurrentHealthPoints { get; set; }
         public int ExperiencePoints { get; set; }
 
         #region Money   

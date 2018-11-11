@@ -38,7 +38,6 @@ namespace Reroll.Mobile.Core.Repositories
         public void SendUpdate(Player data)
         {
             this.Player = data;
-            _messenger.Publish(new UpdateMessage(this, data));
             this._signalrService.SendUpdate(data);
         }
 

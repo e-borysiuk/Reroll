@@ -14,40 +14,36 @@ export class GameRoomComponent {
   public hubConnection: signalR.HubConnection;
 
   subscription: Subscription;
-  initialData: Player[];
-  messages: string[] = [];
-  constValue: number = 6;
-  playerModel: Player;
+  playersData: Player[];
 
   constructor(private signalrService: SignalrService, private messageService: MessageService) {
     this.hubConnection = signalrService.getConnection();
     this.hubConnection.invoke('getInitialGmData')
       .catch(err => console.error(err));
     this.subscription = this.messageService.getMessage().subscribe(message => {
-       this.initialData = message.text as Player[];
+      this.playersData = message.text as Player[];
     });
   }
 
   ngOnInit() {
     this.hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
+
     });
 
     this.hubConnection.on('sendToPlayer', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
+
     });
 
     this.hubConnection.on('sendUpdateToGM', (name: string, value: Player) => {
-      this.playerModel = value;
-      this.constValue = value.charisma;
+      let updatePlayer = this.playersData.find(p => p.name === value.name);
+      let index = this.playersData.indexOf(updatePlayer);
+      this.playersData[index] = value;
     });
   }
 
-  public sendMessage(): void {
+  public sendMessage(playerData): void {
     this.hubConnection
-      .invoke('updatePlayerModel', this.playerModel.name, this.playerModel)
+      .invoke('updatePlayerModel', playerData.name, playerData)
       .catch(err => console.error(err));
   }
 } 

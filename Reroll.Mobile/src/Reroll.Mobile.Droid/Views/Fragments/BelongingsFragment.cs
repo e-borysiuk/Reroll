@@ -19,7 +19,7 @@ namespace Reroll.Mobile.Droid.Views.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignored = base.OnCreateView(inflater, container, savedInstanceState);
-            return this.BindingInflate(Resource.Layout.fragment_child, null);
+            return this.BindingInflate(Resource.Layout.belongings_fragment, null);
         }
     }
 }

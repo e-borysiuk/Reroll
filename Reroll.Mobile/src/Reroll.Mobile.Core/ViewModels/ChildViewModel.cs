@@ -23,7 +23,7 @@ namespace Reroll.Mobile.Core.ViewModels
         private string _name;
         private MvxSubscriptionToken _refreshToken;
 
-        protected Player Player => this._dataRepository.Player;
+        public Player Player => this._dataRepository.Player;
 
         public string Name
         {

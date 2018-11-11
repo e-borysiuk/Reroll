@@ -9,14 +9,7 @@
     <button type="submit" id="senddata">Send</button>
   </form>
 </div>
-<span>
-  value: {{constValue}}
-  Kontroler:
-  {{initialData[0].name}}
-  {{initialData[0].wisdom}}
-</span>
-<div class="container" *ngIf="messages.length > 0">
-  <div *ngFor="let message of messages">
-    <span>{{message}}</span>
-  </div>
+<div *ngFor="let currentPlayer of playersData">
+  <player-card [playerData]="currentPlayer"></player-card>
 </div>
+<!--<player-card [playerData]="playersData[0]"></player-card>-->

@@ -13,6 +13,7 @@ export class Player   {
 	public connectionId: string;
 	public name: string;
 	public healthPoints: number;
+	public currentHealthPoints: number;
 	public experiencePoints: number;
 	public copper: number;
 	public silver: number;

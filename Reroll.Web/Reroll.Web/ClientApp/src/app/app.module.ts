@@ -10,12 +10,14 @@ import { MessageService } from "../services/MessageService";
 import { AppComponent } from './app.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
 import { GameRoomComponent } from './game-room/game-room.component';
+import { PlayerCardComponent } from './player-card/player-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     JoinRoomComponent,
-    GameRoomComponent
+    GameRoomComponent,
+    PlayerCardComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

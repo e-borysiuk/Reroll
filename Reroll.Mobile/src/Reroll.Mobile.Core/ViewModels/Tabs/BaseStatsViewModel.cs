@@ -18,7 +18,6 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         private IMvxCommand _goToChildCommand;
         private IMvxCommand _incrementValueCommand;
         private IMvxCommand _decrementValueCommand;
-        private readonly MvxSubscriptionToken _messageToken;
 
         public IMvxCommand GoToChildCommand
         {

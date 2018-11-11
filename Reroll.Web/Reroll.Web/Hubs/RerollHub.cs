@@ -30,9 +30,12 @@ namespace Reroll.Hubs
 
         #region Connection methods
 
-        public Task GroupExists(string groupName, string password)
+        public async Task GroupExists(string groupName, string password)
         {
             var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            if (gameSession == null)
+                gameSession = await sessionsRepository.GetGameSession(groupName);
+
             ResponseStatusEnum response;
             if (gameSession != null)
             {
@@ -45,7 +48,7 @@ namespace Reroll.Hubs
             {
                 response = ResponseStatusEnum.GroupDoesNotExist;
             }
-            return Clients.Caller.SendAsync("groupExistsResponse", response);
+            await Clients.Caller.SendAsync("groupExistsResponse", response);
         }
 
         public async Task JoinGroup(string groupName, string playerName, string password, bool isGameMaster)
@@ -239,21 +242,25 @@ namespace Reroll.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            Context.Items.TryGetValue("Group", out var groupItem);
-            string groupName = (string)groupItem;
-
-            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
-            if (gameSession?.ConnectedClients == 1)
+            if (Context.Items.TryGetValue("Group", out var groupItem))
             {
-                gameSession.ConnectedClients--;
-                await sessionsRepository.Update(gameSession);
-            }
-            else
-            {
-                gameSession.ConnectedClients--;
-            }
+                string groupName = (string)groupItem;
 
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+                var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+                if (gameSession?.ConnectedClients == 1)
+                {
+                    gameSession.ConnectedClients--;
+                    await sessionsRepository.Update(gameSession);
+                }
+                else
+                {
+                    if(gameSession != null)
+                        gameSession.ConnectedClients--;
+                }
+
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+
+            }
             await base.OnDisconnectedAsync(exception);
         }
 
