@@ -1,15 +1,15 @@
 <div class="card w-25">
   <div class="card-body">
     <div class="card-header">
-      Base Stats
+      {{player.name}}
+      <div class="float-right">XP:{{player.experience}}</div><br>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">{{player?.strength}}</li>
-      <li class="list-group-item">{{player?.dexterity}}</li>
-      <li class="list-group-item">{{player?.charisma}}</li>
-      <li class="list-group-item">{{player?.wisdom}}</li>
-      <li class="list-group-item">{{player?.intelligence}}</li>
-      <li class="list-group-item">{{player?.constitution}}</li>
-    </ul>
+    <div class="row">
+      <span class="glyphicon glyphicon-plus"></span>
+      {{player.currentHealthPoints}}/{{player.healthPoints}}
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    </div>
   </div>
 </div>
