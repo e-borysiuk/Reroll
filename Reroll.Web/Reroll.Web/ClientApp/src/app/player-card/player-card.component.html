@@ -1,7 +1,7 @@
-<div class="card w-25">
+<div id="mainCard" class="card w-25">
   <div class="card-body">
     <div class="card-header">
-      {{player.name}}
+      <strong>{{player.name}}</strong>
       <div class="float-right">XP:{{player.experiencePoints}}</div><br>
     </div>
     <div class="container" style="margin-top: 0.5em;">
@@ -9,6 +9,93 @@
       <ngb-progressbar type="danger" [value]="player.currentHealthPoints" [max]="player.healthPoints">{{player.currentHealthPoints}}/{{player.healthPoints}}</ngb-progressbar>
     </div>
     <hr />
+    <ngb-tabset>
+      <ngb-tab title="Stats" id="statsCard">
+        <ng-template ngbTabContent>
+          <div id="statsRow" class="row" style="margin: 0; margin-top: 10px">
+            <div class="card col" style="width: 10rem;">
+              <div class="card-header compact-card">
+                Base stats
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-fist-raised"></i> Strength
+                  <p class="float-right stat-value">{{player.strength}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-hand-paper"></i> Dexterity
+                  <p class="float-right stat-value">{{player.dexterity}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-heart"></i> Constitution
+                  <p class="float-right stat-value">{{player.constitution}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-brain"></i> Intelligence
+                  <p class="float-right stat-value">{{player.intelligence}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-book"></i> Wisdom
+                  <p class="float-right stat-value">{{player.wisdom}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-grin"></i> Charisma
+                  <p class="float-right stat-value">{{player.charisma}}</p>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card col" style="width: 10rem;">
+              <div class="card-header compact-card">
+                Secondary stats
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-user-shield"></i>Fortitude
+                  <p class="float-right stat-value">{{player.fortitude}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-running"></i> Reflex
+                  <p class="float-right stat-value">{{player.reflex}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <img src="assets/images/will.png" height="20" width="20"> Will
+                  <p class="float-right stat-value">{{player.will}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <i class="fas fa-bolt"></i> Initiative
+                  <p class="float-right stat-value">{{player.initiative}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <div></div>
+                  <i class="fas fa-shield-alt"></i> Armor Class
+                  <p class="float-right stat-value">{{player.armorClass}}</p>
+                </li>
+                <li class="list-group-item compact-card">
+                  <img src="assets/images/attack.png" height="16" width="16"> Attack Bonus
+                  <p class="float-right stat-value">{{player.baseAttackBonus}}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Belongings">
+        <ng-template ngbTabContent>
+          <p>
+            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+            master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+            dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+            iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+          </p>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Spells">
+        <ng-template ngbTabContent>
+          <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
   </div>
 </div>
 

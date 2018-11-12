@@ -2,6 +2,23 @@
   float: left;
   margin-right: 0.2em;
 }
+.stat-value {
+  margin-bottom: 0;
+}
+#mainCard .card-body {
+  padding: 0.5rem;
+}
+#statsRow .compact-card {
+  padding: .40rem 0.75rem !important;
+}
+#statsRow .col {
+  padding-left: 0;
+  padding-right: 0;
+}
+#statsRow .row {
+  margin: 0;
+}
 hr {
   margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
