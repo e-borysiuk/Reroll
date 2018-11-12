@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { SignalrService } from "../services/SignalrService";
 import { MessageService } from "../services/MessageService";
@@ -23,6 +24,7 @@ import { PlayerCardComponent } from './player-card/player-card.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: JoinRoomComponent, pathMatch: 'full' },
       { path: 'join-room', component: JoinRoomComponent },

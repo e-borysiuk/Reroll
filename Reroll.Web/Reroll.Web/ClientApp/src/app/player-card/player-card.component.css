@@ -1,3 +1,7 @@
-body {
-  color: red;
+.progress-label {
+  float: left;
+  margin-right: 0.2em;
+}
+hr {
+  margin-top: 0.5rem;
 }

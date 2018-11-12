@@ -10,18 +10,18 @@ import { Player } from '../../models/Player';
 export class PlayerCardComponent implements OnChanges {
   @Input() playerData: Player;
   player: Player;
-  value: number;
+  healthValue: number;
+  healthMax: number;
 
   constructor() {
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.player = changes['playerData'].currentValue;
-    this.value++;
   }
 
   ngOnInit() {
-    this.value = 10;
-
+    this.player.currentHealthPoints = 50;
+    this.player.healthPoints = 60;
   }
 }
