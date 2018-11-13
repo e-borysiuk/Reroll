@@ -7,6 +7,5 @@ export class Weapon   {
 	public diceCount: number;
 	public diceType: DiceTypeEnum;
 	public critical: string;
-	public notesList: string[];
-	public isRanged: boolean;
+	public notes: string;
 }

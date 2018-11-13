@@ -9,7 +9,6 @@ namespace Reroll.Models
         public int DiceCount { get; set; }
         public DiceTypeEnum DiceType { get; set; }
         public string Critical { get; set; }
-        public List<string> NotesList { get; set; }
-        public bool IsRanged { get; set; }
+        public string Notes { get; set; }
     }
 }

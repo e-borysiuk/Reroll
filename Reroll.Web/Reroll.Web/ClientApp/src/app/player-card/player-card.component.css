@@ -18,6 +18,20 @@
 #statsRow .row {
   margin: 0;
 }
+#statesRow .compact-card {
+  padding: .40rem 0.75rem !important;
+}
+.card .compact-card {
+  padding: .40rem 0.75rem !important;
+}
+.statIcon {
+  width: 20px;
+}
+.coinIcon {
+  font-size: 22px;
+  margin-left: 15px;
+  margin: 10px;
+}
 hr {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;

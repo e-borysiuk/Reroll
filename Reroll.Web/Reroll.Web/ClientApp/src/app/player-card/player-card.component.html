@@ -19,27 +19,27 @@
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-fist-raised"></i> Strength
+                  <i class="fas fa-fist-raised statIcon"></i> Strength
                   <p class="float-right stat-value">{{player.strength}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-hand-paper"></i> Dexterity
+                  <i class="fas fa-hand-paper statIcon"></i> Dexterity
                   <p class="float-right stat-value">{{player.dexterity}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-heart"></i> Constitution
+                  <i class="fas fa-heart statIcon"></i> Constitution
                   <p class="float-right stat-value">{{player.constitution}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-brain"></i> Intelligence
+                  <i class="fas fa-brain statIcon"></i> Intelligence
                   <p class="float-right stat-value">{{player.intelligence}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-book"></i> Wisdom
+                  <i class="fas fa-book statIcon"></i> Wisdom
                   <p class="float-right stat-value">{{player.wisdom}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-grin"></i> Charisma
+                  <i class="fas fa-grin statIcon"></i> Charisma
                   <p class="float-right stat-value">{{player.charisma}}</p>
                 </li>
               </ul>
@@ -51,11 +51,11 @@
               </div>
               <ul class="list-group list-group-flush">
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-user-shield"></i>Fortitude
+                  <i class="fas fa-user-shield statIcon" style="margin-right: 5px"></i>Fortitude
                   <p class="float-right stat-value">{{player.fortitude}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-running"></i> Reflex
+                  <i class="fas fa-running statIcon"></i> Reflex
                   <p class="float-right stat-value">{{player.reflex}}</p>
                 </li>
                 <li class="list-group-item compact-card">
@@ -63,12 +63,12 @@
                   <p class="float-right stat-value">{{player.will}}</p>
                 </li>
                 <li class="list-group-item compact-card">
-                  <i class="fas fa-bolt"></i> Initiative
+                  <i class="fas fa-bolt statIcon"></i> Initiative
                   <p class="float-right stat-value">{{player.initiative}}</p>
                 </li>
                 <li class="list-group-item compact-card">
                   <div></div>
-                  <i class="fas fa-shield-alt"></i> Armor Class
+                  <i class="fas fa-shield-alt statIcon"></i> Armor Class
                   <p class="float-right stat-value">{{player.armorClass}}</p>
                 </li>
                 <li class="list-group-item compact-card">
@@ -78,21 +78,105 @@
               </ul>
             </div>
           </div>
+          <div id="statesRow" class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              Active states
+            </div>
+            <ul class="list-group list-group-flush" style="min-height: 120px">
+
+              <li *ngFor="let state of player.state" class="list-group-item compact-card">
+                <span [ngbTooltip]="state.description">{{state.name}}</span>
+                <button type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </ul>
+            <button class="float-right btn btn-secondary">Add new</button>
+          </div>
         </ng-template>
       </ngb-tab>
       <ngb-tab title="Belongings">
         <ng-template ngbTabContent>
-          <p>
-            Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
-            master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
-            dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-            iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-          </p>
+          <div class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              <button type="button" class="btn btn-light" (click)="isWeaponsCollapsed = !isWeaponsCollapsed"
+                      [attr.aria-expanded]="!isWeaponsCollapsed" aria-controls="collapseWeapons">
+                Weapons
+              </button>
+            </div>
+            <div id="collapseWeapons" [ngbCollapse]="isWeaponsCollapsed">
+              <ul class="list-group list-group-flush" style="min-height: 90px">
+                <li *ngFor="let weapon of player.weapons" class="list-group-item compact-card">
+                  {{weapon.name}}
+                  <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <button type="button" class="close" aria-label="Info" (click)="open()">
+                    <span aria-hidden="true">&#9432;</span>
+                  </button>
+              </ul>
+              <button class="float-right btn btn-secondary">Add new</button>
+            </div>
+          </div>
+          <div class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              <button type="button" class="btn btn-light" (click)="isAmmunitionCollapsed = !isAmmunitionCollapsed"
+                      [attr.aria-expanded]="!isAmmunitionCollapsed" aria-controls="collapseAmmunition">
+                Ammunition
+              </button>
+            </div>
+            <div id="collapseAmmunition" [ngbCollapse]="isAmmunitionCollapsed">
+              <ul class="list-group list-group-flush" style="min-height: 90px">
+                <li class="list-group-item compact-card">
+                  Arrows x21
+                  <button type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </ul>
+              <button class="float-right btn btn-secondary">Add new</button>
+            </div>
+          </div>
+          <div class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              <button type="button" class="btn btn-light" (click)="isItemsCollapsed = !isItemsCollapsed"
+                      [attr.aria-expanded]="!isItemsCollapsed" aria-controls="collapseItems">
+                Items
+              </button>
+            </div>
+            <div id="collapseItems" [ngbCollapse]="isItemsCollapsed">
+              <ul class="list-group list-group-flush" style="min-height: 90px">
+                <li class="list-group-item compact-card">
+                Expensive Necklace
+                <button type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </ul>
+              <button class="float-right btn btn-secondary">Add new</button>
+            </div>
+          </div>
+          <div class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              Money
+            </div>
+            <div class="row">
+              <div class="col"><i class="fas fa-coins coinIcon" style="color: #c2e2ff"></i>4</div>
+              <div class="col"><i class="fas fa-coins coinIcon" style="color: gold"></i>4</div>
+              <div class="col"><i class="fas fa-coins coinIcon" style="color: silver"></i>4</div>
+              <div class="col"><i class="fas fa-coins coinIcon" style="color: #b87333"></i>4</div>
+            </div>
+          </div>
         </ng-template>
       </ngb-tab>
       <ngb-tab title="Spells">
         <ng-template ngbTabContent>
-          <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
+          <div class="card" style="width: 100%; margin-top: 10px">
+            <div class="card-header compact-card">
+              Prepared spells
+            </div>
+            <ul class="list-group list-group-flush" style="min-height: 150px">
+              <li class="list-group-item compact-card">
+              Fireball x4
+            </ul>
+          </div>
         </ng-template>
       </ngb-tab>
     </ngb-tabset>

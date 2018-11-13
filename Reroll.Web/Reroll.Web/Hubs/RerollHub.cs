@@ -382,11 +382,7 @@ namespace Reroll.Hubs
                         Critical = "20",
                         DiceCount = 2,
                         DiceType = DiceTypeEnum.D8,
-                        IsRanged = false,
-                        NotesList = new List<string>
-                        {
-                            "Really beautiful"
-                        }
+                        Notes = "Really beautiful"
                     }
                 },
                 Will = 8,
