@@ -86,11 +86,11 @@
 
               <li *ngFor="let state of player.state" class="list-group-item compact-card">
                 <span [ngbTooltip]="state.description">{{state.name}}</span>
-                <button type="button" class="close" aria-label="Close">
+                <button [attr.id]="state.name" type="button" class="close" aria-label="Close" (click)="deleteState($event)">
                   <span aria-hidden="true">&times;</span>
                 </button>
             </ul>
-            <button class="float-right btn btn-secondary">Add new</button>
+            <button class="float-right btn btn-secondary" (click)="addState()">Add new</button>
           </div>
         </ng-template>
       </ngb-tab>

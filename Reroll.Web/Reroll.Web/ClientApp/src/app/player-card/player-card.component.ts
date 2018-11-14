@@ -3,6 +3,8 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Player } from '../../models/Player';
 import { WeaponModalComponent } from '../modals/weapon-modal/weapon-modal.component';
 import { Weapon } from '../../models/Weapon';
+import { StateModalComponent } from '../modals/state-modal/state-modal.component';
+import { State } from '../../models/State';
 
 @Component({
   selector: 'player-card',
@@ -32,6 +34,25 @@ export class PlayerCardComponent implements OnChanges {
     this.player.healthPoints = 60;
   }
 
+  deleteState(event) {
+    var target = event.currentTarget;
+    var idAttr = target.attributes.id;
+    var value = idAttr.nodeValue;
+    let state = this.player.state.find(s => s.name === value);
+    let index = this.player.state.indexOf(state);
+    this.player.state.splice(index, 1);
+  }
+
+  addState() {
+    const modalRef = this.modalService.open(StateModalComponent);
+    modalRef.result.then((result) => {
+      let state = result as State;
+      this.player.state.push(state);
+    }).catch((error) => {
+      console.log(error);
+    }); 
+  }
+
   open() {
     const modalRef = this.modalService.open(WeaponModalComponent);
     modalRef.componentInstance.weapon = this.player.weapons[0];
@@ -40,6 +61,6 @@ export class PlayerCardComponent implements OnChanges {
       this.player.weapons[0] = weapon;
     }).catch((error) => {
       console.log(error);
-    });
+    }); 
   }
 }
