@@ -15,6 +15,9 @@ import { PlayerCardComponent } from './player-card/player-card.component';
 
 import { WeaponModalComponent } from './modals/weapon-modal/weapon-modal.component';
 import { StateModalComponent } from './modals/state-modal/state-modal.component';
+import { ItemModalComponent } from './modals/item-modal/item-modal.component';
+import { AmmunitionModalComponent } from './modals/ammunition-modal/ammunition-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { StateModalComponent } from './modals/state-modal/state-modal.component'
     GameRoomComponent,
     PlayerCardComponent,
     WeaponModalComponent,
-    StateModalComponent
+    StateModalComponent,
+    ItemModalComponent,
+    AmmunitionModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,6 +44,6 @@ import { StateModalComponent } from './modals/state-modal/state-modal.component'
   ],
   providers: [SignalrService, MessageService],
   bootstrap: [AppComponent],
-  entryComponents: [WeaponModalComponent, StateModalComponent]
+  entryComponents: [WeaponModalComponent, StateModalComponent, ItemModalComponent, AmmunitionModalComponent]
 })
 export class AppModule { }

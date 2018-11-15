@@ -18,14 +18,25 @@ export class WeaponModalComponent {
       name: '',
       attackBonus: '',
       diceCount: '',
-      diceType: '',
+      diceType: 0,
       critical: '',
       notes: '',
     });
   }
 
   ngOnInit() {
-    this.createForm();
+    if (this.weapon != null) {
+      this.createForm();
+    }
+  }
+
+  getDiceEnumValues(): Array<string> {
+    return Object.keys(DiceTypeEnum).filter(
+      (type) => isNaN(<any>type) && type !== 'values'
+    );
+  }
+  getSingleDiceEnumValue(dice: number) :string {
+    return DiceTypeEnum[dice];
   }
 
   private createForm() {
@@ -40,6 +51,7 @@ export class WeaponModalComponent {
   }
 
   private submitForm() {
+    this.myForm.value.diceType = DiceTypeEnum[this.myForm.value.diceType];
     this.activeModal.close(this.myForm.value);
   }
 }

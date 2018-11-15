@@ -107,14 +107,14 @@
               <ul class="list-group list-group-flush" style="min-height: 90px">
                 <li *ngFor="let weapon of player.weapons" class="list-group-item compact-card">
                   {{weapon.name}}
-                  <button type="button" class="close" aria-label="Close">
+                  <button (click)="deleteWeapon($event)" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
-                  <button type="button" class="close" aria-label="Info" (click)="open()">
+                  <button [attr.id]="weapon.name" type="button" class="close" aria-label="Info" (click)="openWeaponModal($event)">
                     <span aria-hidden="true">&#9432;</span>
                   </button>
               </ul>
-              <button class="float-right btn btn-secondary">Add new</button>
+              <button class="float-right btn btn-secondary" (click)="openWeaponModal($event)">Add new</button>
             </div>
           </div>
           <div class="card" style="width: 100%; margin-top: 10px">
@@ -126,13 +126,16 @@
             </div>
             <div id="collapseAmmunition" [ngbCollapse]="isAmmunitionCollapsed">
               <ul class="list-group list-group-flush" style="min-height: 90px">
-                <li class="list-group-item compact-card">
-                  Arrows x21
-                  <button type="button" class="close" aria-label="Close">
+                <li *ngFor="let ammunition of player.ammunitionList" class="list-group-item compact-card">
+                  {{ammunition.name}} x{{ammunition.quantity}}
+                  <button (click)="deleteAmmunition($event)" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
+                  <button [attr.id]="ammunition.name" type="button" class="close" aria-label="Info" (click)="openAmmunitionModal($event)">
+                    <span aria-hidden="true">&#9432;</span>
+                  </button>
               </ul>
-              <button class="float-right btn btn-secondary">Add new</button>
+              <button class="float-right btn btn-secondary" (click)="openAmmunitionModal($event)">Add new</button>
             </div>
           </div>
           <div class="card" style="width: 100%; margin-top: 10px">
@@ -144,13 +147,16 @@
             </div>
             <div id="collapseItems" [ngbCollapse]="isItemsCollapsed">
               <ul class="list-group list-group-flush" style="min-height: 90px">
-                <li class="list-group-item compact-card">
-                Expensive Necklace
-                <button type="button" class="close" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <li *ngFor="let item of player.inventoryItems" class="list-group-item compact-card">
+                  {{item.name}} x{{item.quantity}}
+                  <button (click)="deleteItem($event)" type="button" class="close" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <button [attr.id]="item.name" type="button" class="close" aria-label="Info" (click)="openItemModal($event)">
+                    <span aria-hidden="true">&#9432;</span>
+                  </button>
               </ul>
-              <button class="float-right btn btn-secondary">Add new</button>
+              <button class="float-right btn btn-secondary" (click)="openItemModal($event)">Add new</button>
             </div>
           </div>
           <div class="card" style="width: 100%; margin-top: 10px">
@@ -173,8 +179,8 @@
               Prepared spells
             </div>
             <ul class="list-group list-group-flush" style="min-height: 150px">
-              <li class="list-group-item compact-card">
-              Fireball x4
+              <li *ngFor="let spell of player.preparedSpells" class="list-group-item compact-card">
+                {{spell.spell.name}} x {{spell.quantity}}
             </ul>
           </div>
         </ng-template>

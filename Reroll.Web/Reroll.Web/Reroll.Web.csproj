@@ -26,6 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\modals\ammunition-modal\ammunition-modal.component.ts" />
+    <None Remove="ClientApp\src\app\modals\item-modal\item-modal.component.ts" />
     <None Remove="ClientApp\src\app\modals\state-modal\state-modal.component.ts" />
     <None Remove="ClientApp\src\app\modals\weapon-modal\weapon-modal.component.ts" />
   </ItemGroup>
@@ -39,7 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\modals\ammunition-modal\ammunition-modal.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\modals\state-modal\state-modal.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\modals\item-modal\item-modal.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\modals\weapon-modal\weapon-modal.component.ts" />
   </ItemGroup>
 

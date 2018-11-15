@@ -19,17 +19,19 @@
                class="form-control"
                formControlName="attackBonus" />
       </div>
-      <div class="form-group">
-        <label for="diceCount">Dice Count</label>
-        <input type="text"
-               class="form-control"
-               formControlName="diceCount" />
-      </div>
-      <div class="form-group">
-        <label for="diceType">Dice Type</label>
-        <input type="text"
-               class="form-control"
-               formControlName="diceType" />
+      <div class="row">
+        <div class="form-group col">
+          <label for="diceCount">Dice Count</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="diceCount" />
+        </div>
+        <div class="form-group col">
+          <label for="diceType">Dice Type</label>
+          <select class="form-control dropdown" formControlName="diceType">
+            <option *ngFor="let dice of getDiceEnumValues()" [selected]="dice == getSingleDiceEnumValue(weapon?.diceType)">{{dice}}</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
         <label for="critical">Critical</label>
