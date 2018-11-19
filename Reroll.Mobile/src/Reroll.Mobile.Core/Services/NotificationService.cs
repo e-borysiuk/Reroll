@@ -6,7 +6,7 @@ using Reroll.Mobile.Core.Models.Enums;
 
 namespace Reroll.Mobile.Core.Services
 {
-    public class ErrorReportingService : IErrorReportingService
+    public class NotificationService : INotificationService
     {
         /// <summary>
         /// Reports the error.

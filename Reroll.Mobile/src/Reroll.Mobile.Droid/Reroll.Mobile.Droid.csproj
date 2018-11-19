@@ -58,6 +58,7 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\DiceTypeNameConverter.cs" />
     <Compile Include="ErrorDisplayer.cs" />
     <Compile Include="Linker\LinkerPleaseInclude.cs" />
     <Compile Include="MainApplication.cs" />
@@ -66,9 +67,13 @@
     <Compile Include="Views\!Base\BaseFragment.cs" />
     <Compile Include="Views\ChildOfChildView.cs" />
     <Compile Include="Views\Fragments\BelongingsFragment.cs" />
-    <Compile Include="Views\Fragments\ImagesFragment.cs" />
     <Compile Include="Views\Fragments\BaseStatsFragment.cs" />
-    <Compile Include="Views\Fragments\DiceRollFragment.cs" />
+    <Compile Include="Views\Fragments\Dialogs\ItemView.cs" />
+    <Compile Include="Views\Fragments\Dialogs\AmmunitionView.cs" />
+    <Compile Include="Views\Fragments\Dialogs\WeaponsView.cs" />
+    <Compile Include="Views\Fragments\Dialogs\LearnedSpellView.cs" />
+    <Compile Include="Views\Fragments\Dialogs\PreparedSpellView.cs" />
+    <Compile Include="Views\Fragments\UtilityFragment.cs" />
     <Compile Include="Views\Fragments\SpellsFragment.cs" />
     <Compile Include="Views\Fragments\ChildFragment.cs" />
     <Compile Include="Views\JoinRoomView.cs" />
@@ -140,6 +145,10 @@
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Reroll.Models\Reroll.Models.csproj">
+      <Project>{f45ace54-bcdd-4e98-87d2-99ea340b9f9d}</Project>
+      <Name>Reroll.Models</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Reroll.Mobile.Core\Reroll.Mobile.Core.csproj">
       <Project>{A8072F25-DB03-4044-A331-7F5B7D92244C}</Project>
       <Name>Reroll.Mobile.Core</Name>
@@ -179,7 +188,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\dice_roll_fragment.axml">
+    <AndroidResource Include="Resources\layout\utility_fragment.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -191,7 +200,76 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\images_fragment.axml">
+    <AndroidResource Include="Resources\layout\prepared_spell_dialog.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\prepared_spell_row.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\item_template.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\learned_spell_row.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\learned_spell_dialog.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\weapon_row.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\item_row.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ammunition_row.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\weapon_dialog.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\item_dialog.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ammunition_dialog.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\arrowDown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\arrowUp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\state_row.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Reroll.Models.Enums;
 
 namespace Reroll.Models
 {
@@ -7,8 +8,7 @@ namespace Reroll.Models
         public string Name { get; set; }
         public int AttackBonus { get; set; }
         public int DiceCount { get; set; }
-        public DiceTypeEnum DiceType { get; set; }
+        public string DiceType { get; set; }
         public string Critical { get; set; }
-        public string Notes { get; set; }
     }
 }

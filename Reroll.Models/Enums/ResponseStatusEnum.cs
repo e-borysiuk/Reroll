@@ -1,4 +1,4 @@
-﻿namespace Reroll.Models
+﻿namespace Reroll.Models.Enums
 {
     public enum ResponseStatusEnum
     {

@@ -1,5 +1,6 @@
 using MvvmCross.Plugin.Messenger;
 using Reroll.Models;
+using Reroll.Models.Enums;
 
 namespace Reroll.Mobile.Core.Models.MvxMessages
 {

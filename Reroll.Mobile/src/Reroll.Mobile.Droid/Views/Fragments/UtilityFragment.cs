@@ -8,10 +8,10 @@ using Reroll.Mobile.Core.ViewModels.Tabs;
 
 namespace Reroll.Mobile.Droid.Views.Fragments
 {
-    [Register("reroll.mobile.droid.views.fragments.ImagesFragment")]
-    public class ImagesFragment : MvxFragment<ImagesViewModel>
+    [Register("reroll.mobile.droid.views.fragments.UtilityFragment")]
+    public class UtilityFragment : MvxFragment<UtilityViewModel>
     {
-        public ImagesFragment()
+        public UtilityFragment()
         {
             this.RetainInstance = true;
         }
@@ -19,7 +19,7 @@ namespace Reroll.Mobile.Droid.Views.Fragments
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             var ignored = base.OnCreateView(inflater, container, savedInstanceState);
-            return this.BindingInflate(Resource.Layout.images_fragment, null);
+            return this.BindingInflate(Resource.Layout.utility_fragment, null);
         }
     }
 }

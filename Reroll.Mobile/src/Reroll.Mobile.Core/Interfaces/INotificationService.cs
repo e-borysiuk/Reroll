@@ -1,6 +1,6 @@
 namespace Reroll.Mobile.Core.Interfaces
 {
-    public interface IErrorReportingService
+    public interface INotificationService
     {
         
     }

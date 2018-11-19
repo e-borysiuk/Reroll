@@ -73,7 +73,7 @@ namespace Reroll.Models
 
         public List<AvailableSpellsRow> AvailableSpells { get; set; }
 
-        public List<Spell> KnownSpells;
+        public List<Spell> LearnedSpells;
 
         //Spell+quantity
         public List<PreparedSpell> PreparedSpells { get; set; }

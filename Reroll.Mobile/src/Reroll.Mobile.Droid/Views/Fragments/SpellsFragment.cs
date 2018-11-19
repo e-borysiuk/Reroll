@@ -11,14 +11,10 @@ namespace Reroll.Mobile.Droid.Views.Fragments
     [Register("reroll.mobile.droid.views.fragments.SpellsFragment")]
     public class SpellsFragment : MvxFragment<SpellsViewModel>
     {
-        public SpellsFragment()
-        {
-            this.RetainInstance = true;
-        }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var ignored = base.OnCreateView(inflater, container, savedInstanceState);
+            base.OnCreateView(inflater, container, savedInstanceState);
             return this.BindingInflate(Resource.Layout.spells_fragment, null);
         }
     }

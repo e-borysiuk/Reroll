@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MvvmCross.Base;
 using MvvmCross.Commands;
 using MvvmCross.Plugin.Messenger;
@@ -14,6 +15,9 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         public BaseStatsViewModel(string name = "1") : base(name)
         {
         }
+
+        public ObservableCollection<State> States =>
+            new ObservableCollection<State>(this.Player.State);
 
         private IMvxCommand _goToChildCommand;
         private IMvxCommand _incrementValueCommand;

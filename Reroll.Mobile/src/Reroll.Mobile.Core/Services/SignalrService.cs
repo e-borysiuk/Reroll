@@ -7,6 +7,7 @@ using MvvmCross.Plugin.Messenger;
 using Reroll.Mobile.Core.Models.MvxMessages;
 using Reroll.Mobile.Core.Interfaces;
 using Reroll.Models;
+using Reroll.Models.Enums;
 
 namespace Reroll.Mobile.Core.Services
 {

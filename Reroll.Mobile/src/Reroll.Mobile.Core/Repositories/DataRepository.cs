@@ -105,7 +105,7 @@ namespace Reroll.Mobile.Core.Repositories
                     }
                 },
                 Name = "PlayerOne",
-                KnownSpells = new List<Spell>
+                LearnedSpells = new List<Spell>
                 {
                     new Spell
                     {
@@ -167,12 +167,7 @@ namespace Reroll.Mobile.Core.Repositories
                         AttackBonus = 1,
                         Critical = "20",
                         DiceCount = 2,
-                        DiceType = DiceTypeEnum.D8,
-                        IsRanged = false,
-                        NotesList = new List<string>
-                        {
-                            "Really beautiful"
-                        }
+                        DiceType = "d8"
                     }
                 },
                 Will = 8,
