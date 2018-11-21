@@ -13,9 +13,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <RelativeLayout
+            style="@style/HeaderBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                style="@style/HeaderText"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,17 +34,20 @@
                 local:MvxBind="Click AddPreparedSpellCommand"/>
         </RelativeLayout>
         <LinearLayout
+            style="@style/RowBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="6"
             android:orientation="horizontal">
             <TextView
+                style="@style/RowText"
                 android:paddingStart="20dp"
                 android:layout_weight="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Spell name"/>
             <TextView
+                style="@style/RowText"
                 android:paddingEnd="20dp"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"
@@ -62,9 +67,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <RelativeLayout
+            style="@style/HeaderBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                style="@style/HeaderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Learned spells"
@@ -80,17 +87,20 @@
                 local:MvxBind="Click AddLearnedSpellCommand"/>
         </RelativeLayout>
         <LinearLayout
+            style="@style/RowBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:weightSum="6"
             android:orientation="horizontal">
             <TextView
+                style="@style/RowText"
                 android:paddingStart="20dp"
                 android:layout_weight="5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Spell name"/>
             <TextView
+                style="@style/RowText"
                 android:paddingEnd="20dp"
                 android:gravity="center_horizontal"
                 android:layout_weight="1"

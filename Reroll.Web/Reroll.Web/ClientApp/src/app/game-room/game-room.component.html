@@ -1,14 +1,3 @@
-<div class="container">
-  <h2>Hello {{nick}}!</h2>
-
-  <form (ngSubmit)="sendMessage()" #chatForm="ngForm">
-    <div>
-      <label for="message">Message</label>
-      <input type="text" id="message" name="message" [(ngModel)]="message" required>
-    </div>
-    <button type="submit" id="senddata">Send</button>
-  </form>
-</div>
 <div *ngFor="let currentPlayer of playersData">
   <player-card [playerData]="currentPlayer"></player-card>
 </div>

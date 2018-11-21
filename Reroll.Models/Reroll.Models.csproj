@@ -3,11 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
+<ItemGroup>
     <Reference Include="MongoDB.Bson">
       <HintPath>..\..\Users\Emil\.nuget\packages\mongodb.bson\2.7.2\lib\netstandard1.5\MongoDB.Bson.dll</HintPath>
     </Reference>
   </ItemGroup>
-
 </Project>

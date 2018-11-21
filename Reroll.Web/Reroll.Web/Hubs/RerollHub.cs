@@ -1,11 +1,13 @@
-﻿using System.Linq;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using Reroll.Web.DAL;
+﻿
+using System;
 
 namespace Reroll.Hubs
 {
-    using System;
+    using System.Linq;
+    using MongoDB.Bson;
+    using MongoDB.Driver;
+    using Reroll.Models.Enums;
+    using Reroll.Web.DAL;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.SignalR;
@@ -94,7 +96,10 @@ namespace Reroll.Hubs
             {
                 Id = ObjectId.GenerateNewId(),
                 GroupName = groupName,
-                Players = new List<Player>(),
+                Players = new List<Player>
+                {
+                    CreateSampleModel()
+                },
                 Password = password
             };
             if (isGameMaster)
@@ -319,7 +324,7 @@ namespace Reroll.Hubs
                     }
                 },
                 Name = "PlayerOne",
-                KnownSpells = new List<Spell>
+                LearnedSpells = new List<Spell>
                 {
                     new Spell
                     {
@@ -381,8 +386,7 @@ namespace Reroll.Hubs
                         AttackBonus = 1,
                         Critical = "20",
                         DiceCount = 2,
-                        DiceType = DiceTypeEnum.D8,
-                        Notes = "Really beautiful"
+                        DiceType = "d8"
                     }
                 },
                 Will = 8,
