@@ -19,12 +19,7 @@ namespace Reroll.Mobile.Droid.Views
         {
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.page_main);
-
-            var toolbar = FindViewById<Toolbar>(Resource.Id.main_toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.SetDisplayHomeAsUpEnabled(false);
-            SupportActionBar.Title = "Reroll.Mobile";
-
+            
             var viewPager = FindViewById<ViewPager>(Resource.Id.main_view_pager);
             var fragments = InitializeFragments();
 

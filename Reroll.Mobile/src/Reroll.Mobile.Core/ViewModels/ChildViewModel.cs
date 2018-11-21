@@ -14,30 +14,6 @@ namespace Reroll.Mobile.Core.ViewModels
 {
     public class ChildViewModel : BaseViewModel
     {
-        public ChildViewModel(string name = "default")
-        {
-            this.Name = name;
-            this._refreshToken = this._messenger.Subscribe<RefreshMessage>(RefreshUi);
-        }
-
-        private string _name;
-        private MvxSubscriptionToken _refreshToken;
-
-        public Player Player => this._dataRepository.Player;
-
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                _name = value;
-                RaisePropertyChanged(() => Name);
-            }
-        }
-
-        protected void RefreshUi(RefreshMessage obj)
-        {
-            RaiseAllPropertiesChanged();
-        }
+        
     }
 }

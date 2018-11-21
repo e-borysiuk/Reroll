@@ -4,7 +4,7 @@ using Reroll.Models;
 
 namespace Reroll.Mobile.Core.ViewModels.Tabs
 {
-    public class SpellsViewModel : ChildViewModel
+    public class SpellsViewModel : BaseViewModel
     {
         public SpellsViewModel(string name = "5") : base(name)
         {
@@ -23,7 +23,18 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         public MvxCommand AddLearnedSpellCommand =>
             new MvxCommand(() =>
             {
-                this._navigationService.Navigate<Dialogs.PreparedSpellViewModel>();
+                this._navigationService.Navigate<Dialogs.LearnedSpellViewModel>();
+            });
+
+        public MvxCommand<PreparedSpell> EditPreparedSpellCommand =>
+            new MvxCommand<PreparedSpell>((p) =>
+            {
+                this._navigationService.Navigate<Dialogs.PreparedSpellViewModel, PreparedSpell>(p);
+            });
+        public MvxCommand<Spell> EditLearnedSpellCommand =>
+            new MvxCommand<Spell>((s) =>
+            {
+                this._navigationService.Navigate<Dialogs.LearnedSpellViewModel, Spell>(s);
             });
     }
 }

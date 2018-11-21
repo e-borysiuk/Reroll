@@ -6872,23 +6872,20 @@ namespace Reroll.Mobile.Droid
 			// aapt resource value: 0x7f090070
 			public const int list_item = 2131296368;
 			
-			// aapt resource value: 0x7f0900c6
-			public const int main_tablayout = 2131296454;
-			
 			// aapt resource value: 0x7f0900c5
-			public const int main_toolbar = 2131296453;
+			public const int main_tablayout = 2131296453;
 			
-			// aapt resource value: 0x7f0900c7
-			public const int main_view_pager = 2131296455;
+			// aapt resource value: 0x7f0900c6
+			public const int main_view_pager = 2131296454;
 			
-			// aapt resource value: 0x7f0900ca
-			public const int masked = 2131296458;
+			// aapt resource value: 0x7f0900c9
+			public const int masked = 2131296457;
 			
 			// aapt resource value: 0x7f0900b7
 			public const int media_actions = 2131296439;
 			
-			// aapt resource value: 0x7f0900c8
-			public const int message = 2131296456;
+			// aapt resource value: 0x7f0900c7
+			public const int message = 2131296455;
 			
 			// aapt resource value: 0x7f090033
 			public const int middle = 2131296307;
@@ -7172,8 +7169,8 @@ namespace Reroll.Mobile.Droid
 			// aapt resource value: 0x7f090016
 			public const int view_offset_helper = 2131296278;
 			
-			// aapt resource value: 0x7f0900c9
-			public const int visible = 2131296457;
+			// aapt resource value: 0x7f0900c8
+			public const int visible = 2131296456;
 			
 			// aapt resource value: 0x7f09003e
 			public const int withText = 2131296318;

@@ -58,7 +58,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource PreparedSpells"
+            local:MvxBind="ItemsSource PreparedSpells; ItemClick EditPreparedSpellCommand"
             local:MvxItemTemplate="@layout/prepared_spell_row" />
     </LinearLayout>
     <LinearLayout
@@ -111,7 +111,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource LearnedSpells"
+            local:MvxBind="ItemsSource LearnedSpells; ItemClick EditLearnedSpellCommand"
             local:MvxItemTemplate="@layout/learned_spell_row" />
 
     </LinearLayout>

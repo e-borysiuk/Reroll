@@ -10,7 +10,7 @@ using Reroll.Models.Enums;
 
 namespace Reroll.Mobile.Core.ViewModels.Tabs
 {
-    public class BaseStatsViewModel : ChildViewModel
+    public class BaseStatsViewModel : BaseViewModel
     {
         public BaseStatsViewModel(string name = "1") : base(name)
         {

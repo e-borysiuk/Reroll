@@ -23,7 +23,9 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <Button
+        <ImageButton
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/arrowUp"/>
@@ -32,7 +34,9 @@
             android:layout_height="wrap_content"
             local:MvxBind="Text Quantity"
             android:inputType="number"/>
-        <Button
+        <ImageButton
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/arrowDown"/>

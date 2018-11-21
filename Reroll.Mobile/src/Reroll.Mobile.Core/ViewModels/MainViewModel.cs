@@ -11,7 +11,7 @@ namespace Reroll.Mobile.Core.ViewModels
 
         public MainViewModel()
         {
-            MyViewModels = new List<ChildViewModel>()
+            MyViewModels = new List<BaseViewModel>()
             {
                 new BaseStatsViewModel("Base Stats"),
                 new BelongingsViewModel("Items"),
@@ -20,8 +20,8 @@ namespace Reroll.Mobile.Core.ViewModels
             };
         }
 
-        private List<ChildViewModel> _myViewModels;
-        public List<ChildViewModel> MyViewModels
+        private List<BaseViewModel> _myViewModels;
+        public List<BaseViewModel> MyViewModels
         {
             get => _myViewModels;
             set

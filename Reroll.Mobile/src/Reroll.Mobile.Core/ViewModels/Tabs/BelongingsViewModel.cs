@@ -4,7 +4,7 @@ using Reroll.Models;
 
 namespace Reroll.Mobile.Core.ViewModels.Tabs
 {
-    public class BelongingsViewModel : ChildViewModel
+    public class BelongingsViewModel : BaseViewModel
     {
         public BelongingsViewModel(string name = "2") : base(name)
         {
@@ -31,6 +31,21 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             new MvxCommand(() =>
             {
                 this._navigationService.Navigate<Dialogs.ItemViewModel>();
+            });
+        public MvxCommand<Weapon> EditWeaponCommand =>
+            new MvxCommand<Weapon>((w) =>
+            {
+                this._navigationService.Navigate<Dialogs.WeaponViewModel, Weapon>(w);
+            });
+        public MvxCommand<Ammunition> EditAmmunitionCommand =>
+            new MvxCommand<Ammunition>((a) =>
+            {
+                this._navigationService.Navigate<Dialogs.AmmunitionViewModel, Ammunition>(a);
+            });
+        public MvxCommand<InventoryItem> EditItemCommand =>
+            new MvxCommand<InventoryItem>((i) =>
+            {
+                this._navigationService.Navigate<Dialogs.ItemViewModel, InventoryItem>(i);
             });
     }
 }

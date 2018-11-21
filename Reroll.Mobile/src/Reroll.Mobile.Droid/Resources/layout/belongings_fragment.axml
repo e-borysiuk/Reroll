@@ -70,7 +70,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource Weapons"
+            local:MvxBind="ItemsSource Weapons; ItemClick EditWeaponCommand"
             local:MvxItemTemplate="@layout/weapon_row" />
     </LinearLayout>
     <LinearLayout
@@ -123,7 +123,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource Ammunition"
+            local:MvxBind="ItemsSource Ammunition; ItemClick EditAmmunitionCommand"
             local:MvxItemTemplate="@layout/ammunition_row" />
     </LinearLayout>
     <LinearLayout
@@ -178,7 +178,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource Items"
+            local:MvxBind="ItemsSource Items; ItemClick EditItemCommand"
             local:MvxItemTemplate="@layout/item_row" />
     </LinearLayout>
     <View
@@ -205,6 +205,7 @@
                 android:tint="#c2e2ff"
                 android:src="@drawable/coins"/>
             <EditText
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
@@ -222,6 +223,7 @@
                 android:tint="#ffd700"
                 android:src="@drawable/coins"/>
             <EditText
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
@@ -239,6 +241,7 @@
                 android:tint="#ffc0c0c0"
                 android:src="@drawable/coins"/>
             <EditText
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
@@ -256,6 +259,7 @@
                 android:tint="#b87333"
                 android:src="@drawable/coins"/> 
             <EditText
+                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"

@@ -4,8 +4,9 @@ using Reroll.Models;
 
 namespace Reroll.Mobile.Core.ViewModels.Dialogs
 {
-    public class LearnedSpellViewModel : ChildViewModel
+    public class LearnedSpellViewModel : BaseViewModel<Spell>
     {
+        Spell parameter;
         public string SpellName { get; set; }
         public int Level { get; set; }
 
@@ -13,22 +14,47 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         {
 
         }
+        public override void Prepare(Spell parameter)
+        {
+            this.IsEditMode = true;
+            this.parameter = parameter;
+            this.SpellName = parameter.Name;
+            this.Level = parameter.Level;
+        }
 
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(Name))
+                if(string.IsNullOrEmpty(SpellName))
                     NotificationService.ReportError("Spell Name cannot be empty");
                 if (Level <= 0)
                     NotificationService.ReportError("Level cannot be less than 0");
 
                 Player updated = this.Player;
-                updated.LearnedSpells.Add(new Spell
-                {
-                    Level = Level,
-                    Name = SpellName
-                });
+                if (IsEditMode)
+                    SaveEdit(ref updated);
+                else
+                    SaveNew(ref updated);
                 this._dataRepository.SendUpdate(updated);
             });
+
+        void SaveNew(ref Player updated)
+        {
+            updated.LearnedSpells.Add(new Spell
+            {
+                Level = Level,
+                Name = SpellName
+            });
+        }
+
+        void SaveEdit(ref Player updated)
+        {
+            var index = updated.LearnedSpells.FindIndex(x => x == parameter);
+            updated.LearnedSpells[index] = new Spell
+            {
+                Level = Level,
+                Name = SpellName
+            };
+        }
     }
 }

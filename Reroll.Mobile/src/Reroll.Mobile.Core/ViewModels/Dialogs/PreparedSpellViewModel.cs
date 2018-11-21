@@ -4,7 +4,7 @@ using Reroll.Models;
 
 namespace Reroll.Mobile.Core.ViewModels.Dialogs
 {
-    public class PreparedSpellViewModel : ChildViewModel
+    public class PreparedSpellViewModel : BaseViewModel<PreparedSpell>
     {
         public string SpellName { get; set; }
         public int CastQuantity { get; set; }
@@ -12,6 +12,12 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         public PreparedSpellViewModel()
         {
 
+        }
+
+        public override void Prepare(PreparedSpell parameter)
+        {
+            this.SpellName = parameter.Spell.Name;
+            this.CastQuantity = parameter.CastQuantity;
         }
 
         public MvxCommand SaveCommand =>
@@ -34,5 +40,6 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 });
                 this._dataRepository.SendUpdate(updated);
             });
+
     }
 }
