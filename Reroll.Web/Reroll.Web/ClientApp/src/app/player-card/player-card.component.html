@@ -159,15 +159,43 @@
               <button class="float-right btn btn-secondary" (click)="openItemModal($event)">Add new</button>
             </div>
           </div>
-          <div class="card" style="width: 100%; margin-top: 10px">
+          <div id="moneyRow" class="card" style="width: 100%; margin-top: 10px">
             <div class="card-header compact-card">
               Money
             </div>
             <div class="row">
-              <div class="col"><i class="fas fa-coins coinIcon" style="color: #c2e2ff"></i>4</div>
-              <div class="col"><i class="fas fa-coins coinIcon" style="color: gold"></i>4</div>
-              <div class="col"><i class="fas fa-coins coinIcon" style="color: silver"></i>4</div>
-              <div class="col"><i class="fas fa-coins coinIcon" style="color: #b87333"></i>4</div>
+              <div class="col noPadding">
+                <div class="row">
+                  <i class="fas fa-coins coinIcon" style="color: #c2e2ff"></i>
+                  <input type="number"
+                         [(ngModel)]="player.platinum"
+                         class="form-control coinInput" />
+                </div>
+              </div>
+              <div class="col noPadding">
+                <div class="row">
+                <i class="fas fa-coins coinIcon" style="color: gold"></i>
+                  <input type="number"
+                         [(ngModel)]="player.gold"
+                         class="form-control coinInput" />
+                </div>
+              </div>
+              <div class="col noPadding">
+                <div class="row">
+                  <i class="fas fa-coins coinIcon" style="color: silver"></i>
+                  <input type="number"
+                         [(ngModel)]="player.silver"
+                         class="form-control coinInput" />
+                </div>
+              </div>
+              <div class="col noPadding">
+                <div class="row">
+                  <i class="fas fa-coins coinIcon" style="color: #b87333"></i>
+                  <input type="number"
+                         [(ngModel)]="player.copper"
+                         class="form-control coinInput" />
+                </div>
+              </div>
             </div>
           </div>
         </ng-template>
@@ -180,7 +208,7 @@
             </div>
             <ul class="list-group list-group-flush" style="min-height: 150px">
               <li *ngFor="let spell of player.preparedSpells" class="list-group-item compact-card">
-                {{spell.spell.name}} x {{spell.quantity}}
+                {{spell.spell.name}} x {{spell.castQuantity}}
             </ul>
           </div>
         </ng-template>
