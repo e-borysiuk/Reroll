@@ -59,5 +59,14 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 Note = Note
             };
         }
+
+        public MvxCommand DeleteCommand =>
+            new MvxCommand(() =>
+            {
+                var updated = this.Player;
+                var index = updated.InventoryItems.FindIndex(x => x == parameter);
+                updated.InventoryItems.RemoveAt(index);
+                this._dataRepository.SendUpdate(updated);
+            });
     }
 }

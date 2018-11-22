@@ -56,5 +56,14 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 Name = SpellName
             };
         }
+
+        public MvxCommand DeleteCommand =>
+            new MvxCommand(() =>
+            {
+                var updated = this.Player;
+                var index = updated.LearnedSpells.FindIndex(x => x == parameter);
+                updated.LearnedSpells.RemoveAt(index);
+                this._dataRepository.SendUpdate(updated);
+            });
     }
 }

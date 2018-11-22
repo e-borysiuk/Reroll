@@ -15,15 +15,27 @@ namespace Reroll.Mobile.Droid.Views.Fragments.Dialogs
             this.EnsureBindingContextIsSet();
 
             var view = this.BindingInflate(Resource.Layout.prepared_spell_dialog, null);
+            var numPicker = view.FindViewById<NumberPicker>(Resource.Id.numberPicker);
+            if (ViewModel.CastQuantity != 0)
+                numPicker.Value = ViewModel.CastQuantity;
+            numPicker.ValueChanged += NumPicker_ValueChanged;
 
             var dialog = new AlertDialog.Builder(Activity);
             dialog.SetTitle("Prepared spell Dialog");
             dialog.SetView(view);
+            if (ViewModel.IsEditMode)
+                dialog.SetNeutralButton("Delete",
+                    (s, a) => { ViewModel.DeleteCommand.Execute(); });
             dialog.SetNegativeButton("Cancel", (s, a) => { });
             dialog.SetPositiveButton("OK", (s, a) =>
                 ViewModel.SaveCommand.Execute()
             );
             return dialog.Create();
+        }
+
+        private void NumPicker_ValueChanged(object sender, NumberPicker.ValueChangeEventArgs e)
+        {
+            ViewModel.SetCastQuantityValue(e.NewVal);
         }
     }
 }

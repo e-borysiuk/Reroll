@@ -9,10 +9,13 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using Reroll.Mobile.Core.ViewModels;
 using Reroll.Mobile.Droid.Views.Fragments;
 using System.Collections.Generic;
+using Android.Views;
 
 namespace Reroll.Mobile.Droid.Views
 {
-    [Activity(ScreenOrientation = ScreenOrientation.Portrait)]
+    [Activity(
+        ScreenOrientation = ScreenOrientation.Portrait, 
+        WindowSoftInputMode = SoftInput.AdjustPan)]
     public class MainView : MvxAppCompatActivity<MainViewModel>
     {
         protected override void OnCreate(Bundle bundle)

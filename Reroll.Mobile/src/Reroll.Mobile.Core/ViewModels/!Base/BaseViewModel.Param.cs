@@ -7,7 +7,7 @@ namespace Reroll.Mobile.Core.ViewModels
 {
     public abstract class BaseViewModel<TParameter> : BaseViewModel, IMvxViewModel<TParameter>
     {
-        protected bool IsEditMode;
+        public bool IsEditMode;
         public abstract void Prepare(TParameter parameter);
     }
 }

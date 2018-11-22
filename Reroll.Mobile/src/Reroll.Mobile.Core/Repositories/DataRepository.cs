@@ -93,6 +93,7 @@ namespace Reroll.Mobile.Core.Repositories
                 Fortitude = 10,
                 Gold = 1,
                 HealthPoints = 40,
+                CurrentHealthPoints = 24,
                 Initiative = 2,
                 Intelligence = 11,
                 InventoryItems = new List<InventoryItem>

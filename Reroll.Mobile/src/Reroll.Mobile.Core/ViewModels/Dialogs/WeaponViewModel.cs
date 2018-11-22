@@ -68,5 +68,14 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 AttackBonus = AttackBonus
             });
         }
+
+        public MvxCommand DeleteCommand =>
+            new MvxCommand(() =>
+            {
+                var updated = this.Player;
+                var index = updated.Weapons.FindIndex(x => x == parameter);
+                updated.Weapons.RemoveAt(index);
+                this._dataRepository.SendUpdate(updated);
+            });
     }
 }

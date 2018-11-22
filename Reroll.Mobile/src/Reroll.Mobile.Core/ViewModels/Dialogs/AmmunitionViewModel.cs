@@ -23,6 +23,10 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
             this.Quantity = parameter.Quantity;
         }
 
+        public void SetQuantityValue(int value)
+        {
+            Quantity = value;
+        }
 
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
@@ -59,5 +63,14 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 Name = AmmunitionName
             };
         }
+
+        public MvxCommand DeleteCommand =>
+            new MvxCommand(() =>
+            {
+                var updated = this.Player;
+                var index = updated.AmmunitionList.FindIndex(x => x == parameter);
+                updated.AmmunitionList.RemoveAt(index);
+                this._dataRepository.SendUpdate(updated);
+            });
     }
 }

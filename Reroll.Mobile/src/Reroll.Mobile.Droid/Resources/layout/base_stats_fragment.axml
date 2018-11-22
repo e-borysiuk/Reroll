@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:local="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -8,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:text="HP: 40/113"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="15dp"/>
+            android:layout_margin="15dp"
+            local:MvxBind="Text HealthString"/>
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -20,16 +21,16 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:indeterminate="false"
-            android:max="100"
-            android:minHeight="50dp"
+            android:minHeight="30dp"
+            android:layout_gravity="center_vertical"
             android:minWidth="200dp"
-            android:progress="1" />
+            android:progressTint="@android:color/holo_red_dark"
+            local:MvxBind="Max HealthPoints; Progress CurrentHealthPoints"/>
     </LinearLayout>
-    <!-- Dummy item to prevent AutoCompleteTextView from receiving focus -->
     <LinearLayout
-        android:focusable="true" 
+        android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_width="0px" 
+        android:layout_width="0px"
         android:layout_height="0px"/>
     <LinearLayout
         android:padding="7dp"
@@ -59,9 +60,12 @@
                     android:text="Strength"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Strength"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -81,9 +85,12 @@
                     android:text="Dexterity"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Dexterity"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -103,9 +110,12 @@
                     android:text="Constitution"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Constitution"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -125,9 +135,12 @@
                     android:text="Intelligence"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Intelligence"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -147,9 +160,12 @@
                     android:text="Wisdom"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Wisdom"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -169,9 +185,12 @@
                     android:text="Charisma"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Charisma"
                     android:textSize="17sp"/>
             </RelativeLayout>
         </LinearLayout>
@@ -198,9 +217,12 @@
                     android:text="Fortitude"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Fortitude"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
@@ -220,14 +242,17 @@
                     android:text="Reflex"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Reflex"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_width="25dp"
@@ -242,14 +267,17 @@
                     android:text="Will"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Will"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_width="25dp"
@@ -264,12 +292,15 @@
                     android:text="Inititative"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.Initiative"
                     android:textSize="17sp"/>
             </RelativeLayout>
-                <RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
@@ -286,14 +317,17 @@
                     android:text="Armor class"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
                     android:text="12"
+                    local:MvxBind="Text Player.ArmorClass"
                     android:textSize="17sp"/>
             </RelativeLayout>
             <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <ImageView
                     android:layout_centerVertical="true"
                     android:layout_width="25dp"
@@ -308,11 +342,14 @@
                     android:text="Attack bonus"/>
                 <EditText
                     android:layout_alignParentEnd="true"
-                    android:layout_width="wrap_content"
+                    android:layout_width="33dp"
+                    android:gravity="right"
+                    android:paddingRight="6dp"
                     android:layout_height="wrap_content"
-                    android:text="12"
+                    android:text="1"
+                    local:MvxBind="Text Player.BaseAttackBonus"
                     android:textSize="17sp"/>
-            </RelativeLayout>   
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -361,6 +398,5 @@
             android:layout_height="match_parent"
             local:MvxBind="ItemsSource States"
             local:MvxItemTemplate="@layout/state_row" />
-
     </LinearLayout>
 </LinearLayout>

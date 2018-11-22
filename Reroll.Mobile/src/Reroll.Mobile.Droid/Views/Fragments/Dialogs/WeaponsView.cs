@@ -19,6 +19,9 @@ namespace Reroll.Mobile.Droid.Views.Fragments.Dialogs
             var dialog = new AlertDialog.Builder(Activity);
             dialog.SetTitle("Weapon Dialog");
             dialog.SetView(view);
+            if (ViewModel.IsEditMode)
+                dialog.SetNeutralButton("Delete",
+                    (s, a) => { ViewModel.DeleteCommand.Execute(); });
             dialog.SetNegativeButton("Cancel", (s, a) => { });
             dialog.SetPositiveButton("OK", (s, a) =>
                 ViewModel.SaveCommand.Execute()
