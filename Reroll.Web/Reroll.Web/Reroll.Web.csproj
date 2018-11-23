@@ -51,6 +51,9 @@
     <None Update="ClientApp\src\models\Ability.ts">
       <CustomToolNamespace>..\..\Reroll.Models\Ability.cs</CustomToolNamespace>
     </None>
+    <None Update="ClientApp\src\models\ActivityMessage.ts">
+      <CustomToolNamespace>..\..\Reroll.Models\ActivityMessage.cs</CustomToolNamespace>
+    </None>
     <None Update="ClientApp\src\models\Ammunition.ts">
       <CustomToolNamespace>..\..\Reroll.Models\Ammunition.cs</CustomToolNamespace>
     </None>

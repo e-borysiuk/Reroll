@@ -1,3 +1,11 @@
-<div *ngFor="let currentPlayer of playersData">
-  <player-card [playerData]="currentPlayer"></player-card>
+<div class="clearfix">
+  <div *ngFor="let currentPlayer of playersData">
+    <player-card [playerData]="currentPlayer"></player-card>
+  </div>
+</div>
+<div id="logsRow" class="clearfix">
+  <ul id="logsList" class="list-group">
+    <li *ngFor="let message of activityMessages" class="list-group-item logsEntry">
+      <span [style.color]="message.color">{{message.message}}</span>
+  </ul>
 </div>

@@ -3,15 +3,15 @@ using System;
 
 namespace Reroll.Hubs
 {
-    using System.Linq;
+    using Microsoft.AspNetCore.SignalR;
     using MongoDB.Bson;
     using MongoDB.Driver;
+    using Reroll.Models;
     using Reroll.Models.Enums;
     using Reroll.Web.DAL;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.SignalR;
-    using Reroll.Models;
 
     public class RerollHub : Hub
     {
@@ -30,6 +30,7 @@ namespace Reroll.Hubs
 
         private readonly IGameSessionRepository sessionsRepository;
 
+        private static readonly List<string> Colors = new List<string> { "#0000ff", "#8b008b", "#058205", "#a52a2a", "#2b2ba6", "#22008a" };
         #region Connection methods
 
         public async Task GroupExists(string groupName, string password)
@@ -100,7 +101,144 @@ namespace Reroll.Hubs
                 {
                     CreateSampleModel()
                 },
-                Password = password
+                Password = password,
+                ActivityLogs = new List<ActivityMessage>
+                {
+                    #region garbabe
+
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    },
+                    new ActivityMessage
+                    {
+                        Color = GenerateColor(),
+                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
+                    }
+                    #endregion
+
+                }
             };
             if (isGameMaster)
             {
@@ -115,7 +253,8 @@ namespace Reroll.Hubs
                 gameSession.Players.Add(new Player()
                 {
                     Name = playerName,
-                    ConnectionId = Context.ConnectionId
+                    ConnectionId = Context.ConnectionId,
+                    Color = Colors[gameSession.Players.Count]
                 });
             }
 
@@ -148,7 +287,8 @@ namespace Reroll.Hubs
                 gameSession.Players.Add(new Player()
                 {
                     Name = playerName,
-                    ConnectionId = Context.ConnectionId
+                    ConnectionId = Context.ConnectionId,
+                    Color = GenerateColor()
                 });
             }
             else
@@ -178,12 +318,18 @@ namespace Reroll.Hubs
 
         #region Functional methods
 
+        private string GenerateColor()
+        {
+            Random rnd = new Random();
+            return Colors[rnd.Next(Colors.Count)];
+        }
+
         public Task ChangeName(string value)
         {
             Context.Items.TryGetValue("Group", out var groupItem);
-            string group = (string) groupItem;
+            string group = (string)groupItem;
             Context.Items.TryGetValue("Name", out var nameItem);
-            string name = (string) nameItem;
+            string name = (string)nameItem;
             var player = ActiveGameSessions.First(x => x.GroupName == group).Players.First(x => x.Name == name);
 
             player.Name = value;
@@ -259,7 +405,7 @@ namespace Reroll.Hubs
                 }
                 else
                 {
-                    if(gameSession != null)
+                    if (gameSession != null)
                         gameSession.ConnectedClients--;
                 }
 
@@ -269,6 +415,32 @@ namespace Reroll.Hubs
             await base.OnDisconnectedAsync(exception);
         }
 
+        public async Task GetInitialLogs()
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string groupName = (string)groupItem;
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var data = gameSession?.ActivityLogs;
+            if (gameSession != null && data != null)
+                await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialLogs", data);
+        }
+
+        public async Task SendActivityLog(string message)
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string groupName = (string)groupItem;
+            Context.Items.TryGetValue("Name", out var nameItem);
+            string name = (string)nameItem;
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            var player = gameSession.Players.FirstOrDefault(p => p.Name == name);
+            var activityMessage = new ActivityMessage
+            {
+                Color = player.Color,
+                Message = message
+            };
+            gameSession.ActivityLogs.Add(activityMessage);
+            await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveActivityLog", activityMessage);
+        }
 
         public Player CreateSampleModel()
         {

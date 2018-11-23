@@ -13,5 +13,6 @@ namespace Reroll.Models
         public GameMaster GameMaster { get; set; }
         public string Password { get; set; }
         public int ConnectedClients { get; set; }
+        public List<ActivityMessage> ActivityLogs { get; set; }
     }
 }

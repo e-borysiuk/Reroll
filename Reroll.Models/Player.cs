@@ -10,6 +10,7 @@ namespace Reroll.Models
         public int HealthPoints { get; set; }
         public int CurrentHealthPoints { get; set; }
         public int ExperiencePoints { get; set; }
+        public string Color { get; set; }
 
         #region Money   
 
@@ -61,7 +62,7 @@ namespace Reroll.Models
 
         #endregion
 
-        #region -Feats & Abilities
+        #region Feats & Abilities
         //Name + note
         public List<Feat> Feats { get; set; }
 

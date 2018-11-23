@@ -15,6 +15,7 @@ export class Player   {
 	public healthPoints: number;
 	public currentHealthPoints: number;
 	public experiencePoints: number;
+	public color: string;
 	public copper: number;
 	public silver: number;
 	public gold: number;
