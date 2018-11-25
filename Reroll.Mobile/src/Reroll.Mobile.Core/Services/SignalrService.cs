@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR.Client;
+using MvvmCross;
 using MvvmCross.Plugin.Messenger;
 using Reroll.Mobile.Core.Models.MvxMessages;
 using Reroll.Mobile.Core.Interfaces;
@@ -20,15 +21,22 @@ namespace Reroll.Mobile.Core.Services
         {
             _messenger = messenger;
             _connection = new HubConnectionBuilder()
-                            .WithUrl("http://192.168.1.8:50793/rerollHub")
+                            .WithUrl("http://192.168.1.8:50794/rerollHub")
                             .Build();
-
+            
             _connection.On<ResponseStatusEnum>("groupExistsResponse", GroupExistsResponse);
             _connection.On<string, string>("sendToAll", (user, message) =>
             {
                 _messenger.Publish(new NewMessage(this, user, message));
             });
             _connection.On<Player>("sendUpdateToPlayer", ReceiveUpdateMessage);
+            _connection.On<Player>("receiveInitialPlayerData", ReceiveInitialData);
+        }
+
+        private void ReceiveInitialData(Player player)
+        {
+            if(Mvx.TryResolve(out IDataRepository dataRepository))
+                dataRepository.Player = player;
         }
 
         private void ReceiveUpdateMessage(Player obj)
@@ -56,14 +64,19 @@ namespace Reroll.Mobile.Core.Services
             _connection.InvokeAsync("sendToAll", "mobileApp", message);
         }
 
-        public void JoinGroup(string roomName, string roomPassword)
+        public void JoinGroup(string roomName, string roomPassword, string playerName)
         {
-            _connection.InvokeAsync("joinGroup", roomName, "mobileApp", roomPassword, false);
+            _connection.InvokeAsync("joinGroup", roomName, playerName, roomPassword, false);
         }
 
         public void SendUpdate(Player data)
         {
             _connection.InvokeAsync("UpdateModel", data);
+        }
+
+        public void SendLog(string message)
+        {
+            _connection.InvokeAsync("SendActivityLog", message);
         }
     }
 }

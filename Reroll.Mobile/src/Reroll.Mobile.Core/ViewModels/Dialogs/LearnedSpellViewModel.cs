@@ -25,10 +25,17 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(SpellName))
+                if (string.IsNullOrEmpty(SpellName))
+                {
                     NotificationService.ReportError("Spell Name cannot be empty");
+                    return;
+                }
+
                 if (Level <= 0)
+                {
                     NotificationService.ReportError("Level cannot be less than 0");
+                    return;
+                }
 
                 Player updated = this.Player;
                 if (IsEditMode)

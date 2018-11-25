@@ -2,7 +2,7 @@
   border: 1px solid #000;
   font-family: arial;
   height: 200px;
-  width: 500px;
+  width: 100%;
 }
 
 #logsList {
@@ -12,10 +12,6 @@
   overflow: auto;
   padding: 0;
   text-indent: 10px;
-}
-
-#logsList li:nth-child(even) {
-  background: #c5c5c0;
 }
 
 #logsList li {

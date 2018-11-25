@@ -11,6 +11,9 @@ import { ItemModalComponent } from '../modals/item-modal/item-modal.component';
 import { InventoryItem } from '../../models/InventoryItem';
 import { AmmunitionModalComponent } from '../modals/ammunition-modal/ammunition-modal.component';
 import { Ammunition } from '../../models/Ammunition';
+import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ElementRef, Renderer2 } from '@angular/core';
+import { TabService } from '../../services/TabService';
 
 @Component({
   selector: 'player-card',
@@ -23,12 +26,13 @@ export class PlayerCardComponent implements OnChanges {
   player: Player;
   healthValue: number;
   healthMax: number;
+  currentTab: string = 'belongingsCard';
 
   public isWeaponsCollapsed = false;
   public isAmmunitionCollapsed = false;
   public isItemsCollapsed = false;
 
-  constructor(private modalService: NgbModal) {
+  constructor(private modalService: NgbModal, private tabService: TabService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -36,8 +40,11 @@ export class PlayerCardComponent implements OnChanges {
   }
 
   ngOnInit() {
-    this.player.currentHealthPoints = 50;
-    this.player.healthPoints = 60;
+    this.currentTab = this.tabService.getCurrentCard(this.playerData.name);
+  }
+
+  public tabChange($event: NgbTabChangeEvent) {
+    this.tabService.setCurrentCard(this.playerData.name, $event.nextId);
   }
 
   getIdAttributeValue(event): string {

@@ -30,7 +30,7 @@ namespace Reroll.Hubs
 
         private readonly IGameSessionRepository sessionsRepository;
 
-        private static readonly List<string> Colors = new List<string> { "#0000ff", "#8b008b", "#058205", "#a52a2a", "#2b2ba6", "#22008a" };
+        private static readonly List<string> Colors = new List<string> { "#00009a", "#8b008b", "#058205", "#a52a2a", "#2b2ba6", "#22008a" };
         #region Connection methods
 
         public async Task GroupExists(string groupName, string password)
@@ -97,148 +97,9 @@ namespace Reroll.Hubs
             {
                 Id = ObjectId.GenerateNewId(),
                 GroupName = groupName,
-                Players = new List<Player>
-                {
-                    CreateSampleModel()
-                },
+                Players = new List<Player>(),
                 Password = password,
-                ActivityLogs = new List<ActivityMessage>
-                {
-                    #region garbabe
-
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    },
-                    new ActivityMessage
-                    {
-                        Color = GenerateColor(),
-                        Message = "asdfgadsfgadsfgsdfgsdfgsdfgsdfgsdfgadfgsdfg"
-                    }
-                    #endregion
-
-                }
+                ActivityLogs = new List<ActivityMessage>()
             };
             if (isGameMaster)
             {
@@ -288,8 +149,9 @@ namespace Reroll.Hubs
                 {
                     Name = playerName,
                     ConnectionId = Context.ConnectionId,
-                    Color = GenerateColor()
+                    Color = Colors[gameSession.Players.Count]
                 });
+                await this.SendInitialGmData(gameSession.GroupName);
             }
             else
             {
@@ -318,12 +180,6 @@ namespace Reroll.Hubs
 
         #region Functional methods
 
-        private string GenerateColor()
-        {
-            Random rnd = new Random();
-            return Colors[rnd.Next(Colors.Count)];
-        }
-
         public Task ChangeName(string value)
         {
             Context.Items.TryGetValue("Group", out var groupItem);
@@ -349,7 +205,10 @@ namespace Reroll.Hubs
             value.ConnectionId = Context.ConnectionId;
 
             var Players = ActiveGameSessions.First(x => x.GroupName == group).Players;
-            Players.Remove(Players.First(x => x.Name == name));
+            var player = Players.First(x => x.Name == name);
+            var index = Players.IndexOf(player);
+            value.Color = Colors[index];
+            Players.Remove(player);
             Players.Add(value);
 
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
@@ -436,7 +295,7 @@ namespace Reroll.Hubs
             var activityMessage = new ActivityMessage
             {
                 Color = player.Color,
-                Message = message
+                Message = $"{name}: {message}"
             };
             gameSession.ActivityLogs.Add(activityMessage);
             await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveActivityLog", activityMessage);
@@ -555,10 +414,9 @@ namespace Reroll.Hubs
                     new Weapon
                     {
                         Name = "Axe",
-                        AttackBonus = 1,
+                        Notes = "",
                         Critical = "20",
-                        DiceCount = 2,
-                        DiceType = "d8"
+                        Damage = "2d8"
                     }
                 },
                 Will = 8,

@@ -16,7 +16,7 @@ export class GameRoomComponent {
   public hubConnection: signalR.HubConnection;
 
   subscription: Subscription;
-  playersData: Player[];
+  playersData: any[];
   activityMessages: ActivityMessage[];
 
   constructor(private signalrService: SignalrService, private messageService: MessageService) {
@@ -26,7 +26,12 @@ export class GameRoomComponent {
     this.hubConnection.invoke('getInitialLogs')
       .catch(err => console.error(err));
     this.subscription = this.messageService.getMessage().subscribe(message => {
-      this.playersData = message.text as Player[];
+      this.playersData = [];
+      for (let obj of message.text) {
+        let player = obj as Player;
+        this.playersData.push(player);
+      }
+      let player = this.playersData[0];
     });
   }
 
@@ -41,12 +46,13 @@ export class GameRoomComponent {
       this.activityMessages = logs;
     });
     this.hubConnection.on('receiveActivityLog', (message: ActivityMessage) => {
-      this.activityMessages.push(message);
+      this.activityMessages.unshift(message);
     });
     this.hubConnection.on('sendUpdateToGM', (name: string, value: Player) => {
       let updatePlayer = this.playersData.find(p => p.name === value.name);
       let index = this.playersData.indexOf(updatePlayer);
       this.playersData[index] = value;
+      let player = this.playersData[0];
     });
   }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using MvvmCross.Base;
 using MvvmCross.Commands;
 using MvvmCross.Plugin.Messenger;
@@ -23,51 +24,11 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         public string CurrentHealthPoints => this.Player.CurrentHealthPoints.ToString();
         public string HealthPoints => this.Player.HealthPoints.ToString();
 
-
-        private IMvxCommand _goToChildCommand;
-        private IMvxCommand _incrementValueCommand;
-        private IMvxCommand _decrementValueCommand;
-
-        public IMvxCommand GoToChildCommand
+        public async void UpdateBaseStat(string propertyName, string eText)
         {
-            get
-            {
-                _goToChildCommand = _goToChildCommand ?? new MvxCommand(() =>
-                {
-                    
-                });
-                return _goToChildCommand;
-            }
+            this._signalrService.SendLog($"Changed {propertyName} value to {eText}");
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            this._dataRepository.SendUpdate(this.Player);
         }
-
-        public IMvxCommand IncrementValueCommand
-        {
-            get
-            {
-                _incrementValueCommand = _incrementValueCommand ?? new MvxCommand(() =>
-                {
-                    Player newValue = Player;
-                    newValue.Charisma++;
-                    this._dataRepository.SendUpdate(newValue);
-                });
-                return _incrementValueCommand;
-            }
-        }
-
-        public IMvxCommand DecrementValueCommand
-        {
-            get
-            {
-                _decrementValueCommand = _decrementValueCommand ?? new MvxCommand(() =>
-                {
-                    Player newValue = Player;
-                    newValue.Charisma--;
-                    this._dataRepository.SendUpdate(newValue);
-                });
-                return _decrementValueCommand;
-            }
-        }
-
-        
     }
 }

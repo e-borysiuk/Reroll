@@ -2,7 +2,9 @@ import { Component, Output, EventEmitter, Input, SimpleChanges, OnChanges } from
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { InventoryItem } from '../../../models/InventoryItem';
-import { DiceTypeEnum } from '../../../models/DiceTypeEnum';
+import { ResourcesService } from '../../../services/ResourcesService';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'item-modal',
@@ -12,14 +14,27 @@ import { DiceTypeEnum } from '../../../models/DiceTypeEnum';
 export class ItemModalComponent {
   @Input() item: InventoryItem;
   myForm: FormGroup;
+  itemItems: any[];
+  itemNames;
 
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private resourcesService: ResourcesService) {
     this.myForm = this.formBuilder.group({
       name: '',
       note: '',
       quantity: 0,
     });
+
+    this.itemItems = this.resourcesService.getItemsResources();
+    this.itemNames = this.itemItems.map(w => w.name);
   }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term: any) => term.length < 2 ? []
+        : this.itemNames.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
 
   ngOnInit() {
     if (this.item != null) {

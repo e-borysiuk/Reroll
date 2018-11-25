@@ -17,6 +17,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
 
         public override void Prepare(PreparedSpell parameter)
         {
+            this.IsEditMode = true;
             this.parameter = parameter;
             this.SpellName = parameter.Spell.Name;
             this.CastQuantity = parameter.CastQuantity;
@@ -25,16 +26,27 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(SpellName))
+                if (string.IsNullOrEmpty(SpellName))
+                {
                     NotificationService.ReportError("Spell Name cannot be empty");
+                    return;
+                }
+
                 if (CastQuantity <= 0)
+                {
                     NotificationService.ReportError("Cast Quantity cannot be less than 0");
+                    return;
+                }
 
                 Player updated = this.Player;
                 if (IsEditMode)
                     SaveEdit(ref updated);
                 else
                     SaveNew(ref updated);
+                if(IsEditMode)
+                    this._signalrService.SendLog($"Edited spell: {parameter.Spell.Name}");
+                else
+                    this._signalrService.SendLog($"Created spell: {SpellName}");
                 this._dataRepository.SendUpdate(updated);
             });
 
@@ -76,6 +88,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 var updated = this.Player;
                 var index = updated.PreparedSpells .FindIndex(x => x == parameter);
                 updated.PreparedSpells.RemoveAt(index);
+                this._signalrService.SendLog($"Deleted spell: {parameter.Spell.Name}");
                 this._dataRepository.SendUpdate(updated);
             });
     }

@@ -9,20 +9,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Spell name"/>
+        android:text="Name"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        local:MvxBind="Text SpellName"
-        android:inputType="text"/>    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cast quantity"/>
-    <NumberPicker
-            android:id="@+id/numberPicker"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            local:MvxBind="MinValue 0; MaxValue 15;"/>
+        local:MvxBind="Text PlayerName"
+        android:inputType="text"/>
 </LinearLayout>

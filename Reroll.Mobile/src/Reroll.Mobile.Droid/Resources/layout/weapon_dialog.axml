@@ -14,52 +14,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         local:MvxBind="Text WeaponName"
-        android:inputType="text"/>    
+        android:inputType="text"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Attack Bonus"/>
+        android:text="Damage"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        local:MvxBind="Text AttackBonus"
-        android:inputType="number"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dice Count"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                local:MvxBind="Text DiceCount"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Dice Type"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                local:MvxBind="Text DiceType"
-                android:inputType="text"/>
-        </LinearLayout>
-    </LinearLayout>
+        local:MvxBind="Text Damage"
+        android:inputType="text"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

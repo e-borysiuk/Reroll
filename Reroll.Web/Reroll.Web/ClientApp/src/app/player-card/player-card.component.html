@@ -1,4 +1,4 @@
-<div id="mainCard" class="card w-25">
+<div id="mainCard" class="card">
   <div class="card-body">
     <div class="card-header">
       <strong>{{player.name}}</strong>
@@ -9,8 +9,8 @@
       <ngb-progressbar type="danger" [value]="player.currentHealthPoints" [max]="player.healthPoints">{{player.currentHealthPoints}}/{{player.healthPoints}}</ngb-progressbar>
     </div>
     <hr />
-    <ngb-tabset>
-      <ngb-tab title="Stats" id="statsCard">
+    <ngb-tabset #t="ngbTabset" [activeId]="currentTab" (tabChange)="tabChange($event)">
+      <ngb-tab title="Stats" id="statsCard" (click)="currentTab = 0">
         <ng-template ngbTabContent>
           <div id="statsRow" class="row" style="margin: 0; margin-top: 10px">
             <div class="card col" style="width: 10rem;">
@@ -94,7 +94,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Belongings">
+      <ngb-tab title="Belongings" id="belongingsCard" (click)="currentTab = 1">
         <ng-template ngbTabContent>
           <div class="card" style="width: 100%; margin-top: 10px">
             <div class="card-header compact-card">
@@ -200,7 +200,7 @@
           </div>
         </ng-template>
       </ngb-tab>
-      <ngb-tab title="Spells">
+      <ngb-tab title="Spells" id="spellsCard">
         <ng-template ngbTabContent>
           <div class="card" style="width: 100%; margin-top: 10px">
             <div class="card-header compact-card">

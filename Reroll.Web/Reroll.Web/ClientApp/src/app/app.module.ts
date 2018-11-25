@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SignalrService } from "../services/SignalrService";
 import { MessageService } from "../services/MessageService";
+import { TabService } from '../services/TabService';
+import { ResourcesService } from '../services/ResourcesService';
 
 import { AppComponent } from './app.component';
 import { JoinRoomComponent } from './join-room/join-room.component';
@@ -42,7 +44,7 @@ import { AmmunitionModalComponent } from './modals/ammunition-modal/ammunition-m
       { path: 'game-room/:id', component: GameRoomComponent }
     ])
   ],
-  providers: [SignalrService, MessageService],
+  providers: [SignalrService, MessageService, TabService, ResourcesService],
   bootstrap: [AppComponent],
   entryComponents: [WeaponModalComponent, StateModalComponent, ItemModalComponent, AmmunitionModalComponent]
 })

@@ -3,6 +3,9 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Weapon } from '../../../models/Weapon';
 import { DiceTypeEnum } from '../../../models/DiceTypeEnum';
+import { ResourcesService } from '../../../services/ResourcesService';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'weapon-modal',
@@ -12,17 +15,39 @@ import { DiceTypeEnum } from '../../../models/DiceTypeEnum';
 export class WeaponModalComponent {
   @Input() weapon: Weapon;
   myForm: FormGroup;
+  weapons: any[];
+  weaponNames;
 
-  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder) {
+  constructor(public activeModal: NgbActiveModal, private formBuilder: FormBuilder, private resourcesService: ResourcesService) {
     this.myForm = this.formBuilder.group({
       name: '',
-      attackBonus: '',
-      diceCount: '',
-      diceType: 0,
+      damage: '',
       critical: '',
       notes: '',
     });
+
+    this.weapons = this.resourcesService.getWeaponResources();
+    this.weaponNames = this.weapons.map(w => w.name);
   }
+
+  selectedItem(item) {
+    let selected: any = this.weapons.filter(i => i.name === item.item);
+    if (selected.length > 0) {
+      var selectedWeapon = selected[0];
+      this.myForm.patchValue({
+        damage: selectedWeapon.dmg_m,
+        critical: selectedWeapon.critical
+      });
+    }
+  }
+
+  search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map((term: any)=> term.length < 2 ? []
+        : this.weaponNames.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    );
 
   ngOnInit() {
     if (this.weapon != null) {
@@ -30,28 +55,16 @@ export class WeaponModalComponent {
     }
   }
 
-  getDiceEnumValues(): Array<string> {
-    return Object.keys(DiceTypeEnum).filter(
-      (type) => isNaN(<any>type) && type !== 'values'
-    );
-  }
-  getSingleDiceEnumValue(dice: number) :string {
-    return DiceTypeEnum[dice];
-  }
-
   private createForm() {
     this.myForm = this.formBuilder.group({
       name: this.weapon.name,
-      attackBonus: this.weapon.attackBonus,
-      diceCount: this.weapon.diceCount,
-      diceType: this.weapon.diceType,
+      damage: this.weapon.damage,
       critical: this.weapon.critical,
       notes: this.weapon.notes,
     });
   }
 
   private submitForm() {
-    this.myForm.value.diceType = DiceTypeEnum[this.myForm.value.diceType];
     this.activeModal.close(this.myForm.value);
   }
 }

@@ -31,10 +31,17 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(AmmunitionName))
+                if (string.IsNullOrEmpty(AmmunitionName))
+                {
                     NotificationService.ReportError("Name cannot be empty");
+                    return;
+                }
+
                 if (Quantity <= 0)
+                {
                     NotificationService.ReportError("Quantity cannot be less than 0");
+                    return;
+                }
 
                 Player updated = this.Player;
                 if (IsEditMode)
@@ -42,6 +49,10 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 else
                     SaveNew(ref updated);
 
+                if (IsEditMode)
+                    this._signalrService.SendLog($"Edited ammunition: {updated.Name}");
+                else
+                    this._signalrService.SendLog($"Created ammunition: {AmmunitionName}");
                 this._dataRepository.SendUpdate(updated);
             });
 
@@ -70,6 +81,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 var updated = this.Player;
                 var index = updated.AmmunitionList.FindIndex(x => x == parameter);
                 updated.AmmunitionList.RemoveAt(index);
+                this._signalrService.SendLog($"Deleted ammunition: {parameter.Name}");
                 this._dataRepository.SendUpdate(updated);
             });
     }

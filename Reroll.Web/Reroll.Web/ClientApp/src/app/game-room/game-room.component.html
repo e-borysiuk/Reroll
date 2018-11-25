@@ -1,11 +1,34 @@
-<div class="clearfix">
-  <div *ngFor="let currentPlayer of playersData">
-    <player-card [playerData]="currentPlayer"></player-card>
+<div class="jumbotron jumbotron-fluid" *ngIf="playersData?.length == 0">
+  <div class="container">
+    <h1 class="display-4">No players</h1>
+    <p class="lead">When player join session, they will appear here</p>
   </div>
 </div>
-<div id="logsRow" class="clearfix">
-  <ul id="logsList" class="list-group">
-    <li *ngFor="let message of activityMessages" class="list-group-item logsEntry">
-      <span [style.color]="message.color">{{message.message}}</span>
-  </ul>
+<div *ngIf="playersData?.length != 0" class="container-flex">
+  <div class="row" style="margin-left: 15px; margin-top: 15px">
+    <div *ngFor="let currentPlayer of playersData" class="w-25">
+      <player-card [playerData]="currentPlayer"></player-card>
+    </div>
+  </div>
+  <div class="row" style="margin-left: 15px; margin-top: 15px">
+    <div class="card col" style="padding: 0; margin-right: 10px">
+      <h5 class="card-header">Logs</h5>
+      <div class="card-body" style="padding: 0">
+        <div id="logsRow" class="clearfix">
+          <ul id="logsList" class="list-group">
+            <li *ngFor="let message of activityMessages" class="list-group-item logsEntry">
+              <span [style.color]="message.color">{{message.message}}</span>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card col" style="padding: 0">
+      <h5 class="card-header">Featured</h5>
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+      </div>
+    </div>
+  </div>
 </div>

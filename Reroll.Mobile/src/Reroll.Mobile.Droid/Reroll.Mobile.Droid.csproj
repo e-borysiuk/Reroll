@@ -68,6 +68,7 @@
     <Compile Include="Views\ChildOfChildView.cs" />
     <Compile Include="Views\Fragments\BelongingsFragment.cs" />
     <Compile Include="Views\Fragments\BaseStatsFragment.cs" />
+    <Compile Include="Views\Fragments\Dialogs\NameView.cs" />
     <Compile Include="Views\Fragments\Dialogs\ItemView.cs" />
     <Compile Include="Views\Fragments\Dialogs\AmmunitionView.cs" />
     <Compile Include="Views\Fragments\Dialogs\WeaponsView.cs" />
@@ -312,6 +313,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\coins.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\name_dialog.axml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

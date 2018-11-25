@@ -7,9 +7,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
     public class WeaponViewModel : BaseViewModel<Weapon>
     {
         public string WeaponName { get; set; }
-        public int AttackBonus { get; set; }
-        public int DiceCount { get; set; }
-        public string DiceType { get; set; }
+        public string Damage { get; set; }
         public string Critical { get; set; }
         Weapon parameter;
 
@@ -22,25 +20,29 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         {
             this.IsEditMode = true;
             this.parameter = parameter;
-            this.AttackBonus = parameter.AttackBonus;
             this.Critical = parameter.Critical;
-            this.DiceCount = parameter.DiceCount;
-            this.DiceType = parameter.DiceType;
+            this.Damage = parameter.Damage;
             this.WeaponName = parameter.Name;
         }
 
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(WeaponName))
+                if (string.IsNullOrEmpty(WeaponName))
+                {
                     NotificationService.ReportError("Name cannot be empty");
+                    return;
+                }
 
                 Player updated = this.Player;
                 if (IsEditMode)
                     SaveEdit(ref updated);
                 else
                     SaveNew(ref updated);
-
+                if(IsEditMode)
+                    this._signalrService.SendLog($"Edited weapon: {parameter.Name}");
+                else
+                    this._signalrService.SendLog($"Created weapon: {WeaponName}");
                 this._dataRepository.SendUpdate(updated);
             });
 
@@ -50,10 +52,8 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
             updated.Weapons[index] = new Weapon
             {
                 Name = WeaponName,
-                DiceCount = DiceCount,
-                DiceType = DiceType,
+                Damage = Damage,
                 Critical = Critical,
-                AttackBonus = AttackBonus
             };
         }
 
@@ -62,10 +62,8 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
             updated.Weapons.Add(new Weapon
             {
                 Name = WeaponName,
-                DiceCount = DiceCount,
-                DiceType = DiceType,
+                Damage = Damage,
                 Critical = Critical,
-                AttackBonus = AttackBonus
             });
         }
 
@@ -75,6 +73,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 var updated = this.Player;
                 var index = updated.Weapons.FindIndex(x => x == parameter);
                 updated.Weapons.RemoveAt(index);
+                this._signalrService.SendLog($"Deleted weapon: {parameter.Name}");
                 this._dataRepository.SendUpdate(updated);
             });
     }

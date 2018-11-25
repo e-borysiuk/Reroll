@@ -28,14 +28,22 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
         public MvxCommand SaveCommand =>
             new MvxCommand(() =>
             {
-                if(string.IsNullOrEmpty(ItemName))
+                if (string.IsNullOrEmpty(ItemName))
+                {
                     NotificationService.ReportError("Item Name cannot be empty");
+                    return;
+                }
 
                 Player updated = this.Player;
                 if (IsEditMode)
                     SaveEdit(ref updated);
                 else
                     SaveNew(ref updated);
+                if(IsEditMode)
+                    this._signalrService.SendLog($"Edited item: {parameter.Name}");
+                else
+                    this._signalrService.SendLog($"Created item: {ItemName}");
+
                 this._dataRepository.SendUpdate(updated);
             });
 
@@ -66,6 +74,7 @@ namespace Reroll.Mobile.Core.ViewModels.Dialogs
                 var updated = this.Player;
                 var index = updated.InventoryItems.FindIndex(x => x == parameter);
                 updated.InventoryItems.RemoveAt(index);
+                this._signalrService.SendLog($"Deleted item: {parameter.Name}");
                 this._dataRepository.SendUpdate(updated);
             });
     }

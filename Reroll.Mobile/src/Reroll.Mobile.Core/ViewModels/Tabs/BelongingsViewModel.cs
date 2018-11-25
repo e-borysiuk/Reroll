@@ -1,4 +1,6 @@
+using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using MvvmCross.Commands;
 using Reroll.Models;
 
@@ -47,5 +49,12 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             {
                 this._navigationService.Navigate<Dialogs.ItemViewModel, InventoryItem>(i);
             });
+
+        public async void UpdateBaseStat(string propertyName, string eText)
+        {
+            this._signalrService.SendLog($"Changed {propertyName} value to {eText}");
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            this._dataRepository.SendUpdate(this.Player);
+        }
     }
 }

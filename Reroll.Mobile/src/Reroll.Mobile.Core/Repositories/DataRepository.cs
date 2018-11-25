@@ -165,10 +165,8 @@ namespace Reroll.Mobile.Core.Repositories
                     new Weapon
                     {
                         Name = "Axe",
-                        AttackBonus = 1,
                         Critical = "20",
-                        DiceCount = 2,
-                        DiceType = "d8"
+                        Damage = "d8"
                     }
                 },
                 Will = 8,
