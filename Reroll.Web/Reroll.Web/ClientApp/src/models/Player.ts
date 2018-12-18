@@ -1,10 +1,6 @@
 ﻿
-     import { Skill } from './Skill';
-import { Ammunition } from './Ammunition';
+     import { Ammunition } from './Ammunition';
 import { Weapon } from './Weapon';
-import { Feat } from './Feat';
-import { Ability } from './Ability';
-import { AvailableSpellsRow } from './AvailableSpellsRow';
 import { PreparedSpell } from './PreparedSpell';
 import { InventoryItem } from './InventoryItem';
 import { State } from './State';
@@ -32,13 +28,8 @@ export class Player   {
 	public reflex: number;
 	public will: number;
 	public baseAttackBonus: number;
-	public skills: Skill[];
-	public languages: string[];
 	public ammunitionList: Ammunition[];
 	public weapons: Weapon[];
-	public feats: Feat[];
-	public specialAbilities: Ability[];
-	public availableSpells: AvailableSpellsRow[];
 	public preparedSpells: PreparedSpell[];
 	public inventoryItems: InventoryItem[];
 	public state: State[];

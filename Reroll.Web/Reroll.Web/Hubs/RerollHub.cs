@@ -31,6 +31,7 @@ namespace Reroll.Hubs
         private readonly IGameSessionRepository sessionsRepository;
 
         private static readonly List<string> Colors = new List<string> { "#00009a", "#8b008b", "#058205", "#a52a2a", "#2b2ba6", "#22008a" };
+        
         #region Connection methods
 
         public async Task GroupExists(string groupName, string password)
@@ -115,7 +116,13 @@ namespace Reroll.Hubs
                 {
                     Name = playerName,
                     ConnectionId = Context.ConnectionId,
-                    Color = Colors[gameSession.Players.Count]
+                    Color = Colors[gameSession.Players.Count],
+                    AmmunitionList = new List<Ammunition>(),
+                    Weapons = new List<Weapon>(),
+                    LearnedSpells = new List<Spell>(),
+                    PreparedSpells = new List<PreparedSpell>(),
+                    State = new List<State>(),
+                    InventoryItems = new List<InventoryItem>()
                 });
             }
 
@@ -129,13 +136,13 @@ namespace Reroll.Hubs
                 gameSession.GameMaster = new GameMaster()
                 {
                     Name = playerName,
-                    ConnectionId = Context.ConnectionId,
-                    NotesList = new List<string>()
+                    ConnectionId = Context.ConnectionId
                 };
             }
             else
             {
                 gameSession.GameMaster.ConnectionId = Context.ConnectionId;
+                gameSession.GameMaster.Name = playerName;
             }
             return gameSession;
         }
@@ -149,7 +156,13 @@ namespace Reroll.Hubs
                 {
                     Name = playerName,
                     ConnectionId = Context.ConnectionId,
-                    Color = Colors[gameSession.Players.Count]
+                    Color = Colors[gameSession.Players.Count],
+                    AmmunitionList = new List<Ammunition>(),
+                    Weapons = new List<Weapon>(),
+                    LearnedSpells = new List<Spell>(),
+                    PreparedSpells = new List<PreparedSpell>(),
+                    State = new List<State>(),
+                    InventoryItems = new List<InventoryItem>()
                 });
                 await this.SendInitialGmData(gameSession.GroupName);
             }
@@ -227,17 +240,19 @@ namespace Reroll.Hubs
 
             return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value);
         }
+
         public async Task GetInitialGmData()
         {
             Context.Items.TryGetValue("Group", out var groupItem);
             await this.SendInitialGmData(groupItem?.ToString());
         }
 
-        private async Task SendInitialGmData(string groupName)
+        private async Task SendInitialGmData(string groupName = "")
         {
+            if(string.IsNullOrEmpty(groupName))
+                Context.Items.TryGetValue("Group", out var groupItem);
             var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
             var data = gameSession?.Players;
-            //data?.Add(CreateSampleModel());
             if (gameSession != null && data != null)
                 await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialGmData", data);
         }
@@ -281,7 +296,7 @@ namespace Reroll.Hubs
             var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
             var data = gameSession?.ActivityLogs;
             if (gameSession != null && data != null)
-                await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveInitialLogs", data);
+                await Clients.Group(gameSession.GroupName).SendAsync("receiveInitialLogs", data);
         }
 
         public async Task SendActivityLog(string message)
@@ -297,8 +312,27 @@ namespace Reroll.Hubs
                 Color = player.Color,
                 Message = $"{name}: {message}"
             };
+            if(gameSession.ActivityLogs.Count != 0)
+                if (gameSession.ActivityLogs[gameSession.ActivityLogs.Count - 1] == activityMessage) return;
             gameSession.ActivityLogs.Add(activityMessage);
             await Clients.Client(gameSession.GameMaster.ConnectionId).SendAsync("receiveActivityLog", activityMessage);
+        }
+
+        public async Task SendDiceRoll(int rollValue, string diceType)
+        {
+            Context.Items.TryGetValue("Group", out var groupItem);
+            string groupName = (string)groupItem;
+            Context.Items.TryGetValue("Name", out var nameItem);
+            string name = (string)nameItem;
+            var gameSession = ActiveGameSessions.FirstOrDefault(x => x.GroupName == groupName);
+            string roll;
+            DateTime dt = DateTime.Now;
+
+            if (name == gameSession.GameMaster.Name)
+                roll = $"{dt:T}: Game Master rolled {rollValue} on {diceType} dice.";
+            else
+                roll = $"{dt:T}: Player {name} rolled {rollValue} on {diceType} dice.";
+            await Clients.Group(gameSession.GroupName).SendAsync("receiveDiceRoll", roll);
         }
 
         public Player CreateSampleModel()
@@ -314,17 +348,6 @@ namespace Reroll.Hubs
                     }
                 },
                 ArmorClass = 11,
-                AvailableSpells = new List<AvailableSpellsRow>
-                {
-                    new AvailableSpellsRow()
-                    {
-                        Level = 0,
-                        BonusSpells = 2,
-                        SpellSaveDC = 2,
-                        SpellsKnows = 4,
-                        SpellsPerDay = 4
-                    }
-                },
                 BaseAttackBonus = 2,
                 Charisma = 12,
                 Constitution = 13,
@@ -332,14 +355,6 @@ namespace Reroll.Hubs
                 Copper = 3,
                 Dexterity = 15,
                 ExperiencePoints = 120,
-                Feats = new List<Feat>
-                {
-                    new Feat
-                    {
-                        Name = "Very Strong",
-                        Description = "Many muscle"
-                    }
-                },
                 Fortitude = 10,
                 Gold = 1,
                 HealthPoints = 40,
@@ -368,10 +383,6 @@ namespace Reroll.Hubs
                         Level = 3
                     }
                 },
-                Languages = new List<string>
-                {
-                    "Common", "Orcish"
-                },
                 Platinum = 0,
                 PreparedSpells = new List<PreparedSpell>
                 {
@@ -383,23 +394,6 @@ namespace Reroll.Hubs
                 },
                 Reflex = 11,
                 Silver = 2,
-                Skills = new List<Skill>
-                {
-                    new Skill
-                    {
-                        Name = "Riding",
-                        KeyAbility = Models.Enums.KeyAbilityEnum.Dex,
-                        SkillModifier = 5
-                    }
-                },
-                SpecialAbilities = new List<Ability>
-                {
-                    new Ability
-                    {
-                        Name = "Strong attack",
-                        Description = "Hits strong"
-                    }
-                },
                 State = new List<State>
                 {
                     new State

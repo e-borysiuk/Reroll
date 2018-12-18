@@ -14,6 +14,9 @@ import { Ammunition } from '../../models/Ammunition';
 import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap';
 import { ElementRef, Renderer2 } from '@angular/core';
 import { TabService } from '../../services/TabService';
+import { SignalrService } from '../../services/SignalrService';
+import { HealthModalComponent } from '../modals/health-modal/health-modal.component';
+import { ExperienceModalComponent } from '../modals/experience-modal/experience-modal.component';
 
 @Component({
   selector: 'player-card',
@@ -32,7 +35,7 @@ export class PlayerCardComponent implements OnChanges {
   public isAmmunitionCollapsed = false;
   public isItemsCollapsed = false;
 
-  constructor(private modalService: NgbModal, private tabService: TabService) {
+  constructor(private signalrService: SignalrService, private modalService: NgbModal, private tabService: TabService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -62,6 +65,7 @@ export class PlayerCardComponent implements OnChanges {
     let state = this.player.state.find(s => s.name === value);
     let index = this.player.state.indexOf(state);
     this.player.state.splice(index, 1);
+    this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
   }
 
   deleteWeapon(event) {
@@ -71,6 +75,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.weapons.find(s => s.name === value);
       let index = this.player.weapons.indexOf(item);
       this.player.weapons.splice(index, 1);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
     }
   }
 
@@ -81,6 +86,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.inventoryItems.find(s => s.name === value);
       let index = this.player.inventoryItems.indexOf(item);
       this.player.inventoryItems.splice(index, 1);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
     }
   }
 
@@ -91,6 +97,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.ammunitionList.find(s => s.name === value);
       let index = this.player.ammunitionList.indexOf(item);
       this.player.ammunitionList.splice(index, 1);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
     }
   }
 
@@ -99,6 +106,7 @@ export class PlayerCardComponent implements OnChanges {
     modalRef.result.then((result) => {
       let state = result as State;
       this.player.state.push(state);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
     }).catch((error) => {
       console.log(error);
     });
@@ -114,15 +122,21 @@ export class PlayerCardComponent implements OnChanges {
       modalRef.componentInstance.weapon = this.player.weapons[index];
     }
     modalRef.result.then((result) => {
-      let weapon = result as Weapon;
-      if (index !== -1) {
-        this.player.weapons[index] = weapon;
-      } else {
-        this.player.weapons.push(weapon);
-      }
+      this.saveWeaponResult(result, index);
     }).catch((error) => {
       console.log(error);
     });
+  }
+
+  saveWeaponResult(result, index) {
+    let weapon = result as Weapon;
+    if (index !== -1) {
+      this.player.weapons[index] = weapon;
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    } else {
+      this.player.weapons.push(weapon);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    }
   }
 
   openItemModal(event) {
@@ -138,8 +152,10 @@ export class PlayerCardComponent implements OnChanges {
       let value = result as InventoryItem;
       if (index !== -1) {
         this.player.inventoryItems[index] = value;
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
       } else {
         this.player.inventoryItems.push(value);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
       }
     }).catch((error) => {
       console.log(error);
@@ -159,11 +175,42 @@ export class PlayerCardComponent implements OnChanges {
       let value = result as Ammunition;
       if (index !== -1) {
         this.player.ammunitionList[index] = value;
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
       } else {
         this.player.ammunitionList.push(value);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
       }
     }).catch((error) => {
       console.log(error);
     });
   }
+
+  openHealthModal(event) {
+    const modalRef = this.modalService.open(HealthModalComponent);
+    modalRef.componentInstance.currentHealth = this.player.currentHealthPoints;
+    modalRef.componentInstance.maxHealth = this.player.healthPoints;
+    modalRef.result.then((result) => {
+      this.player.currentHealthPoints = result.currentHealth;
+      this.player.healthPoints= result.maxHealth;
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+
+  openExperienceModal(event) {
+    const modalRef = this.modalService.open(ExperienceModalComponent);
+    modalRef.componentInstance.experience = this.player.experiencePoints;
+    modalRef.result.then((result) => {
+      this.player.experiencePoints = result.experience;
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    }).catch((error) => {
+      console.log(error);
+    });
+  }
+  
+  updateMoney() {
+    this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+  }
+
 }

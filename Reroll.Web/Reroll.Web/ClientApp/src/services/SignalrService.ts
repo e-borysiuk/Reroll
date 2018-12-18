@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as signalR from '@aspnet/signalr';
 import { MessageService } from './MessageService';
+import { Player } from '../models/Player';
 
 @Injectable()
 
@@ -9,6 +10,10 @@ export class SignalrService {
 
   constructor(private messageService: MessageService) {
 
+  }
+
+  sendUpdateToPlayer(playerName: string, playerData: Player) {
+    this.hubConnection.invoke("updatePlayerModel", playerName, playerData);
   }
 
   getConnection() : signalR.HubConnection {

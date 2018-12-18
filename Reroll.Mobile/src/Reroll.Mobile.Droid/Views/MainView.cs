@@ -26,14 +26,8 @@ namespace Reroll.Mobile.Droid.Views
             var viewPager = FindViewById<ViewPager>(Resource.Id.main_view_pager);
             var fragments = InitializeFragments();
 
-            //foreach (var myViewModel in ViewModel.MyViewModels)
-            //    fragments.Add(new MvxViewPagerFragmentInfo(myViewModel.Name, typeof(ChildFragment), myViewModel));
-
             viewPager.Adapter = new MvxCachingFragmentStatePagerAdapter(this, SupportFragmentManager, fragments);
-
-            //If you want to start at specific tab
-            //viewPager.SetCurrentItem(ViewModel.CurrentPage, false);
-
+            
             var tabLayout = FindViewById<TabLayout>(Resource.Id.main_tablayout);
             tabLayout.SetupWithViewPager(viewPager);
         }

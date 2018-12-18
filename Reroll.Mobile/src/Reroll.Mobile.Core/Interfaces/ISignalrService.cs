@@ -11,5 +11,6 @@ namespace Reroll.Mobile.Core.Interfaces
         void SendUpdate(Player data);
         void JoinGroup(string roomName, string roomPassword, string playerName);
         void SendLog(string message);
+        void SendDiceRoll(int value, string diceType);
     }
 }

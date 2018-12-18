@@ -43,15 +43,8 @@ namespace Reroll.Models
 
         #endregion
 
-        #region Skills
-
-        public List<Skill> Skills { get; set; }
-        public List<string> Languages { get; set; }
-
-        #endregion
-
         #region Ammunition
-        //Type + quantity
+
         public List<Ammunition> AmmunitionList { get; set; }
 
         #endregion
@@ -62,21 +55,10 @@ namespace Reroll.Models
 
         #endregion
 
-        #region Feats & Abilities
-        //Name + note
-        public List<Feat> Feats { get; set; }
-
-        public List<Ability> SpecialAbilities { get; set; }
-
-        #endregion
-
         #region Spells
 
-        public List<AvailableSpellsRow> AvailableSpells { get; set; }
-
         public List<Spell> LearnedSpells;
-
-        //Spell+quantity
+        
         public List<PreparedSpell> PreparedSpells { get; set; }
 
         #endregion
@@ -88,8 +70,7 @@ namespace Reroll.Models
         #endregion
 
         #region ActiveStates
-
-        //Name + effect
+        
         public List<State> State { get; set; }
 
         #endregion

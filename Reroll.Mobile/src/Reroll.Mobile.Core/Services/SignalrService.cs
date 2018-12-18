@@ -21,7 +21,7 @@ namespace Reroll.Mobile.Core.Services
         {
             _messenger = messenger;
             _connection = new HubConnectionBuilder()
-                            .WithUrl("http://192.168.1.8:50794/rerollHub")
+                            .WithUrl("http://192.168.1.9:50794/rerollHub")
                             .Build();
             
             _connection.On<ResponseStatusEnum>("groupExistsResponse", GroupExistsResponse);
@@ -31,6 +31,7 @@ namespace Reroll.Mobile.Core.Services
             });
             _connection.On<Player>("sendUpdateToPlayer", ReceiveUpdateMessage);
             _connection.On<Player>("receiveInitialPlayerData", ReceiveInitialData);
+            _connection.On<string>("receiveDiceRoll", ReceiveDiceMessage);
         }
 
         private void ReceiveInitialData(Player player)
@@ -42,6 +43,11 @@ namespace Reroll.Mobile.Core.Services
         private void ReceiveUpdateMessage(Player obj)
         {
             _messenger.Publish(new UpdateMessage(this, obj));
+        }
+
+        private void ReceiveDiceMessage(string obj)
+        {
+            _messenger.Publish(new DiceMessage(this, obj));
         }
 
         private void GroupExistsResponse(ResponseStatusEnum response)
@@ -77,6 +83,11 @@ namespace Reroll.Mobile.Core.Services
         public void SendLog(string message)
         {
             _connection.InvokeAsync("SendActivityLog", message);
+        }
+
+        public void SendDiceRoll(int value, string diceType)
+        {
+            _connection.InvokeAsync("SendDiceRoll", value, diceType);
         }
     }
 }

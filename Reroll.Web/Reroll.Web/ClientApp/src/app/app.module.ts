@@ -19,6 +19,8 @@ import { WeaponModalComponent } from './modals/weapon-modal/weapon-modal.compone
 import { StateModalComponent } from './modals/state-modal/state-modal.component';
 import { ItemModalComponent } from './modals/item-modal/item-modal.component';
 import { AmmunitionModalComponent } from './modals/ammunition-modal/ammunition-modal.component';
+import { HealthModalComponent } from './modals/health-modal/health-modal.component';
+import { ExperienceModalComponent } from './modals/experience-modal/experience-modal.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { AmmunitionModalComponent } from './modals/ammunition-modal/ammunition-m
     WeaponModalComponent,
     StateModalComponent,
     ItemModalComponent,
-    AmmunitionModalComponent
+    AmmunitionModalComponent,
+    HealthModalComponent,
+    ExperienceModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -46,6 +50,13 @@ import { AmmunitionModalComponent } from './modals/ammunition-modal/ammunition-m
   ],
   providers: [SignalrService, MessageService, TabService, ResourcesService],
   bootstrap: [AppComponent],
-  entryComponents: [WeaponModalComponent, StateModalComponent, ItemModalComponent, AmmunitionModalComponent]
+  entryComponents: [
+    WeaponModalComponent,
+    StateModalComponent,
+    ItemModalComponent,
+    AmmunitionModalComponent,
+    HealthModalComponent,
+    ExperienceModalComponent
+  ]
 })
 export class AppModule { }

@@ -6,6 +6,5 @@ namespace Reroll.Models
     {
         public string ConnectionId { get; set; }
         public string Name { get; set; }
-        public List<string> NotesList { get; set; }
     }
 }

@@ -17,3 +17,23 @@
 #logsList li {
   padding: 0rem 0.1rem;
 }
+
+#diceRow {
+  border: 1px solid #000;
+  font-family: arial;
+  height: 200px;
+  width: 100%;
+}
+
+#diceList {
+  list-style: none;
+  max-height: 200px;
+  margin: 0;
+  overflow: auto;
+  padding: 0;
+  text-indent: 10px;
+}
+
+#diceList li {
+  padding: 0rem 0.1rem;
+}

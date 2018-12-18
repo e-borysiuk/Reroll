@@ -18,6 +18,7 @@ export class GameRoomComponent {
   subscription: Subscription;
   playersData: any[];
   activityMessages: ActivityMessage[];
+  diceRolls: string[];
 
   constructor(private signalrService: SignalrService, private messageService: MessageService) {
     this.hubConnection = signalrService.getConnection();
@@ -33,6 +34,7 @@ export class GameRoomComponent {
       }
       let player = this.playersData[0];
     });
+    this.diceRolls = [];
   }
 
   ngOnInit() {
@@ -48,12 +50,22 @@ export class GameRoomComponent {
     this.hubConnection.on('receiveActivityLog', (message: ActivityMessage) => {
       this.activityMessages.unshift(message);
     });
+    this.hubConnection.on('receiveDiceRoll', (message: string) => {
+      this.diceRolls.unshift(message);
+    });
     this.hubConnection.on('sendUpdateToGM', (name: string, value: Player) => {
       let updatePlayer = this.playersData.find(p => p.name === value.name);
       let index = this.playersData.indexOf(updatePlayer);
       this.playersData[index] = value;
       let player = this.playersData[0];
     });
+  }
+
+  public rollDice(diceType: number) {
+    let rollValue = Math.floor(Math.random() * diceType) + 1;
+    this.hubConnection
+      .invoke('sendDiceRoll', rollValue, `D${diceType}`)
+      .catch(err => console.error(err));
   }
 
   public sendMessage(playerData): void {

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Reroll.Mobile</string>
+    <string name="app_name">Reroll</string>
     <string name="app_welcome_message">Welcome!!</string>
     <string name="app_message">App scaffolded with MvxScaffolding</string>
+    <string-array name="dice">
+        <item>D4</item>
+        <item>D6</item>
+        <item>D8</item>
+        <item>D10</item>
+        <item>D12</item>
+        <item>D20</item>
+    </string-array>
 </resources>

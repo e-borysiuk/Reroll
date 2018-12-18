@@ -1,10 +1,10 @@
 <div id="mainCard" class="card">
   <div class="card-body">
     <div class="card-header">
-      <strong>{{player.name}}</strong>
-      <div class="float-right">XP:{{player.experiencePoints}}</div><br>
+      <strong [style.color]="player.color">{{player.name}}</strong>
+      <div (click)="openExperienceModal($event)" class="float-right">XP:{{player.experiencePoints}}</div><br>
     </div>
-    <div class="container" style="margin-top: 0.5em;">
+    <div class="container" style="margin-top: 0.5em;" (click)="openHealthModal($event)">
       <i class="fas fa-plus-square progress-label"></i>
       <ngb-progressbar type="danger" [value]="player.currentHealthPoints" [max]="player.healthPoints">{{player.currentHealthPoints}}/{{player.healthPoints}}</ngb-progressbar>
     </div>
@@ -168,6 +168,7 @@
                 <div class="row">
                   <i class="fas fa-coins coinIcon" style="color: #c2e2ff"></i>
                   <input type="number"
+                         (change)="updateMoney()"
                          [(ngModel)]="player.platinum"
                          class="form-control coinInput" />
                 </div>
@@ -176,6 +177,7 @@
                 <div class="row">
                 <i class="fas fa-coins coinIcon" style="color: gold"></i>
                   <input type="number"
+                         (change)="updateMoney()"
                          [(ngModel)]="player.gold"
                          class="form-control coinInput" />
                 </div>
@@ -184,6 +186,7 @@
                 <div class="row">
                   <i class="fas fa-coins coinIcon" style="color: silver"></i>
                   <input type="number"
+                         (change)="updateMoney()"
                          [(ngModel)]="player.silver"
                          class="form-control coinInput" />
                 </div>
@@ -192,6 +195,7 @@
                 <div class="row">
                   <i class="fas fa-coins coinIcon" style="color: #b87333"></i>
                   <input type="number"
+                         (change)="updateMoney()"
                          [(ngModel)]="player.copper"
                          class="form-control coinInput" />
                 </div>

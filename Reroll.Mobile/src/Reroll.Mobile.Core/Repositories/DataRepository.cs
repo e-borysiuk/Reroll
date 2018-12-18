@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using MvvmCross;
 using MvvmCross.Plugin.Messenger;
+using MvvmCross.ViewModels;
 using Reroll.Mobile.Core.Interfaces;
+using Reroll.Mobile.Core.Models;
 using Reroll.Mobile.Core.Models.MvxMessages;
 using Reroll.Models;
 using Reroll.Models.Enums;
@@ -16,14 +19,25 @@ namespace Reroll.Mobile.Core.Repositories
             this._messenger = Mvx.Resolve<IMvxMessenger>();
             this._signalrService = Mvx.Resolve<ISignalrService>();
             this._messageToken = this._messenger.Subscribe<UpdateMessage>(ReceivedUpdate);
-            this.Player = CreateSampleModel();
+            this._diceToken = this._messenger.Subscribe<DiceMessage>(ReceiveDiceMessage);
+            this.DiceRolls = new MvxObservableCollection<Roll>();
+            if (this.Player == null)
+                this.Player = this.CreateSampleModel();
+        }
+
+        public void ReceiveDiceMessage(DiceMessage obj)
+        {
+            this.DiceRolls.Insert(0, new Roll { Value = obj.Message});
         }
 
         private readonly IMvxMessenger _messenger;
         private readonly ISignalrService _signalrService;
         private readonly MvxSubscriptionToken _messageToken;
+        private readonly MvxSubscriptionToken _diceToken;
 
         private Player _Player;
+
+        public MvxObservableCollection<Roll> DiceRolls { get; set; }
 
         public Player Player
         {
@@ -64,17 +78,6 @@ namespace Reroll.Mobile.Core.Repositories
                     }
                 },
                 ArmorClass = 11,
-                AvailableSpells = new List<AvailableSpellsRow>
-                {
-                    new AvailableSpellsRow()
-                    {
-                        Level = 0,
-                        BonusSpells = 2,
-                        SpellSaveDC = 2,
-                        SpellsKnows = 4,
-                        SpellsPerDay = 4
-                    }
-                },
                 BaseAttackBonus = 2,
                 Charisma = 12,
                 Constitution = 13,
@@ -82,14 +85,6 @@ namespace Reroll.Mobile.Core.Repositories
                 Copper = 3,
                 Dexterity = 15,
                 ExperiencePoints = 120,
-                Feats = new List<Feat>
-                {
-                    new Feat
-                    {
-                        Name = "Very Strong",
-                        Description = "Many muscle"
-                    }
-                },
                 Fortitude = 10,
                 Gold = 1,
                 HealthPoints = 40,
@@ -119,10 +114,6 @@ namespace Reroll.Mobile.Core.Repositories
                         Level = 3
                     }
                 },
-                Languages = new List<string>
-                {
-                    "Common", "Orcish"
-                },
                 Platinum = 0,
                 PreparedSpells = new List<PreparedSpell>
                 {
@@ -134,23 +125,6 @@ namespace Reroll.Mobile.Core.Repositories
                 },
                 Reflex = 11,
                 Silver = 2,
-                Skills = new List<Skill>
-                {
-                    new Skill
-                    {
-                        Name = "Riding",
-                        KeyAbility = KeyAbilityEnum.Dex,
-                        SkillModifier = 5
-                    }
-                },
-                SpecialAbilities = new List<Ability>
-                {
-                    new Ability
-                    {
-                        Name = "Strong attack",
-                        Description = "Hits strong"
-                    }
-                },
                 State = new List<State>
                 {
                     new State
