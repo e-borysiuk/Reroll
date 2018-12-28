@@ -16,7 +16,8 @@ namespace Reroll.Mobile.Core.ViewModels
                 new BaseStatsViewModel("Base Stats"),
                 new BelongingsViewModel("Items"),
                 new SpellsViewModel("Spells"),
-                new UtilityViewModel("Utility")
+                new UtilityViewModel("Utility"),
+                new NotesViewModel("Notes")
             };
         }
 

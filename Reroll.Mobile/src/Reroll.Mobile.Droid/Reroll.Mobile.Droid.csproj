@@ -73,6 +73,7 @@
     <Compile Include="Views\Fragments\Dialogs\WeaponsView.cs" />
     <Compile Include="Views\Fragments\Dialogs\LearnedSpellView.cs" />
     <Compile Include="Views\Fragments\Dialogs\PreparedSpellView.cs" />
+    <Compile Include="Views\Fragments\NotesFragment.cs" />
     <Compile Include="Views\Fragments\UtilityFragment.cs" />
     <Compile Include="Views\Fragments\SpellsFragment.cs" />
     <Compile Include="Views\JoinRoomView.cs" />
@@ -400,6 +401,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\mipmap-anydpi-v26\icon.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\notes_fragment.axml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

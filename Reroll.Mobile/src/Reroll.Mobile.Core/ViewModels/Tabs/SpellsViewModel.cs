@@ -14,6 +14,27 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             new ObservableCollection<PreparedSpell>(this.Player.PreparedSpells);
         public ObservableCollection<Spell> LearnedSpells =>
             new ObservableCollection<Spell>(this.Player.LearnedSpells);
+        
+        public MvxCommand<PreparedSpell> DecreasePreparedSpellCommand =>
+            new MvxCommand<PreparedSpell>((p) =>
+            {
+                if (p.CastQuantity > 0)
+                {
+                    Player updated = this.Player;
+                    var index = updated.PreparedSpells.FindIndex(x => x == p);
+                    updated.PreparedSpells[index] = new PreparedSpell()
+                    {
+                        CastQuantity = --p.CastQuantity,
+                        Spell = new Spell
+                        {
+                            Level = 1,
+                            Name = p.Spell.Name
+                        }
+                    };
+                    this._signalrService.SendLog($"Edited decreased cast quantity on: {p.Spell.Name}");
+                    this._dataRepository.SendUpdate(updated);
+                }
+            });
 
         public MvxCommand AddPreparedSpellCommand =>
             new MvxCommand(() =>

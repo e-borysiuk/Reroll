@@ -43,7 +43,9 @@ namespace Reroll.Mobile.Droid.Views
                 new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[2].Name, typeof(SpellsFragment),
                     ViewModel.MyViewModels[2]),
                 new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[3].Name, typeof(UtilityFragment),
-                    ViewModel.MyViewModels[3])
+                    ViewModel.MyViewModels[3]),
+                new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[4].Name, typeof(NotesFragment),
+                    ViewModel.MyViewModels[4])
             };
         }
     }

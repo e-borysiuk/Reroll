@@ -65,7 +65,7 @@ export class PlayerCardComponent implements OnChanges {
     let state = this.player.state.find(s => s.name === value);
     let index = this.player.state.indexOf(state);
     this.player.state.splice(index, 1);
-    this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'states');
   }
 
   deleteWeapon(event) {
@@ -75,7 +75,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.weapons.find(s => s.name === value);
       let index = this.player.weapons.indexOf(item);
       this.player.weapons.splice(index, 1);
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'weapons');
     }
   }
 
@@ -86,7 +86,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.inventoryItems.find(s => s.name === value);
       let index = this.player.inventoryItems.indexOf(item);
       this.player.inventoryItems.splice(index, 1);
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'items');
     }
   }
 
@@ -97,7 +97,7 @@ export class PlayerCardComponent implements OnChanges {
       let item = this.player.ammunitionList.find(s => s.name === value);
       let index = this.player.ammunitionList.indexOf(item);
       this.player.ammunitionList.splice(index, 1);
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'ammunition');
     }
   }
 
@@ -106,7 +106,7 @@ export class PlayerCardComponent implements OnChanges {
     modalRef.result.then((result) => {
       let state = result as State;
       this.player.state.push(state);
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'states');
     }).catch((error) => {
       console.log(error);
     });
@@ -132,10 +132,10 @@ export class PlayerCardComponent implements OnChanges {
     let weapon = result as Weapon;
     if (index !== -1) {
       this.player.weapons[index] = weapon;
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'weapons');
     } else {
       this.player.weapons.push(weapon);
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'weapons');
     }
   }
 
@@ -152,10 +152,10 @@ export class PlayerCardComponent implements OnChanges {
       let value = result as InventoryItem;
       if (index !== -1) {
         this.player.inventoryItems[index] = value;
-        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'items');
       } else {
         this.player.inventoryItems.push(value);
-        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'items');
       }
     }).catch((error) => {
       console.log(error);
@@ -175,10 +175,10 @@ export class PlayerCardComponent implements OnChanges {
       let value = result as Ammunition;
       if (index !== -1) {
         this.player.ammunitionList[index] = value;
-        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'ammunition');
       } else {
         this.player.ammunitionList.push(value);
-        this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+        this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'ammunition');
       }
     }).catch((error) => {
       console.log(error);
@@ -192,7 +192,7 @@ export class PlayerCardComponent implements OnChanges {
     modalRef.result.then((result) => {
       this.player.currentHealthPoints = result.currentHealth;
       this.player.healthPoints= result.maxHealth;
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'health');
     }).catch((error) => {
       console.log(error);
     });
@@ -203,14 +203,14 @@ export class PlayerCardComponent implements OnChanges {
     modalRef.componentInstance.experience = this.player.experiencePoints;
     modalRef.result.then((result) => {
       this.player.experiencePoints = result.experience;
-      this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+      this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'experience');
     }).catch((error) => {
       console.log(error);
     });
   }
   
   updateMoney() {
-    this.signalrService.sendUpdateToPlayer(this.player.name, this.player);
+    this.signalrService.sendUpdateToPlayer(this.player.name, this.player, 'money');
   }
 
 }

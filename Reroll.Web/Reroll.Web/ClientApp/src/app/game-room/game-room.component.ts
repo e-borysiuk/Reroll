@@ -5,6 +5,7 @@ import { Player } from "../../models/Player";
 import { MessageService } from '../../services/MessageService';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivityMessage } from '../../models/ActivityMessage';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'game-room',
@@ -20,7 +21,7 @@ export class GameRoomComponent {
   activityMessages: ActivityMessage[];
   diceRolls: string[];
 
-  constructor(private signalrService: SignalrService, private messageService: MessageService) {
+  constructor(private signalrService: SignalrService, private messageService: MessageService, private toastr: ToastrService) {
     this.hubConnection = signalrService.getConnection();
     this.hubConnection.invoke('getInitialGmData')
       .catch(err => console.error(err));
@@ -49,6 +50,7 @@ export class GameRoomComponent {
     });
     this.hubConnection.on('receiveActivityLog', (message: ActivityMessage) => {
       this.activityMessages.unshift(message);
+      this.toastr.info(message.message, 'Player update:', { timeOut: 2000});
     });
     this.hubConnection.on('receiveDiceRoll', (message: string) => {
       this.diceRolls.unshift(message);

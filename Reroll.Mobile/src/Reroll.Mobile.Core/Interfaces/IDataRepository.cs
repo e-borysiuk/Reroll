@@ -9,6 +9,7 @@ namespace Reroll.Mobile.Core.Interfaces
     {
         MvxObservableCollection<Roll> DiceRolls { get; set; }
         Player Player { get; set; }
+        void RefreshUi();
         void SendUpdate(Player data);
     }
 }

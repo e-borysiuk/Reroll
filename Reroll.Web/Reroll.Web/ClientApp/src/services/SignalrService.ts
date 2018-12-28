@@ -12,8 +12,8 @@ export class SignalrService {
 
   }
 
-  sendUpdateToPlayer(playerName: string, playerData: Player) {
-    this.hubConnection.invoke("updatePlayerModel", playerName, playerData);
+  sendUpdateToPlayer(playerName: string, playerData: Player, message: string) {
+    this.hubConnection.invoke("updatePlayerModel", playerName, playerData, message);
   }
 
   getConnection() : signalR.HubConnection {

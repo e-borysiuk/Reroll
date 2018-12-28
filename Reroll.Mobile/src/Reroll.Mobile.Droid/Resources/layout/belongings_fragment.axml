@@ -116,7 +116,7 @@
         <MvxListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            local:MvxBind="ItemsSource Ammunition; ItemClick EditAmmunitionCommand"
+            local:MvxBind="ItemsSource Ammunition; ItemClick EditAmmunitionCommand; ItemLongClick DecreaseAmmunitionCommand"
             local:MvxItemTemplate="@layout/ammunition_row" />
     </LinearLayout>
     <LinearLayout
@@ -183,7 +183,7 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="2dp"
         android:weightSum="4"
         android:gravity="center_vertical">
         <LinearLayout
@@ -194,15 +194,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:tint="#c2e2ff"
                 android:src="@drawable/coins"/>
             <EditText
+                android:inputType="number"
                 android:id="@+id/et1"
                 android:tag="Platinum"
                 android:selectAllOnFocus="true"
                 android:gravity="center"
-                android:layout_width="33dp"
+                android:layout_width="55dp"
+                android:maxLength="4"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 local:MvxBind="Text Player.Platinum"
@@ -216,15 +218,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:tint="#ffd700"
                 android:src="@drawable/coins"/>
             <EditText
+                android:inputType="number"
                 android:id="@+id/et2"
                 android:tag="Gold"
                 android:selectAllOnFocus="true"
                 android:gravity="center"
-                android:layout_width="33dp"
+                android:layout_width="55dp"
+                android:maxLength="4"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 local:MvxBind="Text Player.Gold"
@@ -238,15 +242,17 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:tint="#ffc0c0c0"
                 android:src="@drawable/coins"/>
             <EditText
+                android:inputType="number"
                 android:id="@+id/et3"
                 android:tag="Silver"
                 android:selectAllOnFocus="true"
                 android:gravity="center"
-                android:layout_width="33dp"
+                android:layout_width="55dp"
+                android:maxLength="4"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 local:MvxBind="Text Player.Silver"
@@ -260,19 +266,21 @@
                 android:layout_gravity="center_vertical"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_margin="5dp"
+                android:layout_margin="3dp"
                 android:tint="#b87333"
                 android:src="@drawable/coins"/> 
             <EditText
+                android:inputType="number"
                 android:id="@+id/et4"
                 android:tag="Copper"
                 android:selectAllOnFocus="true"
                 android:gravity="center"
-                android:layout_width="33dp"
+                android:layout_width="55dp"
+                android:maxLength="4"
                 android:layout_height="wrap_content"
                 android:textSize="19sp"
                 local:MvxBind="Text Player.Copper"
-                android:text="0"/>
+                android:text="12"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

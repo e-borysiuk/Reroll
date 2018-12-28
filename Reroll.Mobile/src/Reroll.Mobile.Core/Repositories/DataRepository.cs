@@ -7,6 +7,7 @@ using MvvmCross.ViewModels;
 using Reroll.Mobile.Core.Interfaces;
 using Reroll.Mobile.Core.Models;
 using Reroll.Mobile.Core.Models.MvxMessages;
+using Reroll.Mobile.Core.Services;
 using Reroll.Models;
 using Reroll.Models.Enums;
 
@@ -58,9 +59,10 @@ namespace Reroll.Mobile.Core.Repositories
         private void ReceivedUpdate(UpdateMessage obj)
         {
             this.Player = obj.Player;
+            NotificationService.ReportSuccess($"GM updated your {obj.Message}");
         }
         
-        private void RefreshUi()
+        public void RefreshUi()
         {
             this._messenger.Publish(new RefreshMessage(this));
         }

@@ -20,6 +20,7 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         public ObservableCollection<State> States =>
             new ObservableCollection<State>(this.Player.State);
 
+        public string ExpString => "XP: ";
         public string HealthString => $"HP: {this.Player.CurrentHealthPoints} / {this.Player.HealthPoints}";
         public string CurrentHealthPoints => this.Player.CurrentHealthPoints.ToString();
         public string HealthPoints => this.Player.HealthPoints.ToString();

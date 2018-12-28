@@ -227,7 +227,7 @@ namespace Reroll.Hubs
             return Clients.Groups(group).SendAsync("sendUpdateToGM", name, value);
         }
 
-        public Task UpdatePlayerModel(string playerName, Player value)
+        public Task UpdatePlayerModel(string playerName, Player value, string message)
         {
             if (playerName != value.Name)
                 return null;
@@ -238,7 +238,7 @@ namespace Reroll.Hubs
             players.Remove(players.First(x => x.Name == playerName));
             players.Add(value);
 
-            return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value);
+            return Clients.Client(value.ConnectionId).SendAsync("sendUpdateToPlayer", value, message);
         }
 
         public async Task GetInitialGmData()

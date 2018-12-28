@@ -11,6 +11,7 @@ namespace Reroll.Models
         public int CurrentHealthPoints { get; set; }
         public int ExperiencePoints { get; set; }
         public string Color { get; set; }
+        public string Notes { get; set; }
 
         #region Money   
 
@@ -57,7 +58,7 @@ namespace Reroll.Models
 
         #region Spells
 
-        public List<Spell> LearnedSpells;
+        public List<Spell> LearnedSpells { get; set; }
         
         public List<PreparedSpell> PreparedSpells { get; set; }
 

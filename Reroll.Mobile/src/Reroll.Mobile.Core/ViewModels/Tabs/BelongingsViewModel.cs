@@ -18,6 +18,23 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
             new ObservableCollection<InventoryItem>(this.Player.InventoryItems);
         public ObservableCollection<Ammunition> Ammunition =>
             new ObservableCollection<Ammunition>(this.Player.AmmunitionList);
+        
+        public MvxCommand<Ammunition> DecreaseAmmunitionCommand =>
+            new MvxCommand<Ammunition>((a) =>
+            {
+                if (a.Quantity > 0)
+                {
+                    Player updated = this.Player;
+                    var index = updated.AmmunitionList.FindIndex(x => x == a);
+                    updated.AmmunitionList[index] = new Ammunition()
+                    {
+                        Quantity = --a.Quantity,
+                        Name = a.Name
+                    };
+                    this._signalrService.SendLog($"Edited decreased ammunition count: {a.Name}");
+                    this._dataRepository.SendUpdate(updated);
+                }
+            });
 
         public MvxCommand AddWeaponCommand =>
             new MvxCommand(() =>

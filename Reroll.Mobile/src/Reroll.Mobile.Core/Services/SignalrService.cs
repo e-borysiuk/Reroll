@@ -29,7 +29,7 @@ namespace Reroll.Mobile.Core.Services
             {
                 _messenger.Publish(new NewMessage(this, user, message));
             });
-            _connection.On<Player>("sendUpdateToPlayer", ReceiveUpdateMessage);
+            _connection.On<Player, string>("sendUpdateToPlayer", ReceiveUpdateMessage);
             _connection.On<Player>("receiveInitialPlayerData", ReceiveInitialData);
             _connection.On<string>("receiveDiceRoll", ReceiveDiceMessage);
         }
@@ -40,9 +40,9 @@ namespace Reroll.Mobile.Core.Services
                 dataRepository.Player = player;
         }
 
-        private void ReceiveUpdateMessage(Player obj)
+        private void ReceiveUpdateMessage(Player obj, string message)
         {
-            _messenger.Publish(new UpdateMessage(this, obj));
+            _messenger.Publish(new UpdateMessage(this, obj, message));
         }
 
         private void ReceiveDiceMessage(string obj)

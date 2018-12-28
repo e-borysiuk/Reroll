@@ -9,9 +9,10 @@ namespace Reroll.Mobile.Core.Models.MvxMessages
         {
         }
 
-        public UpdateMessage(object sender, Player player) : base(sender)
+        public UpdateMessage(object sender, Player player, string message) : base(sender)
         {
             Player = player;
+            Message = message;
         }
 
         public Player Player
@@ -19,5 +20,7 @@ namespace Reroll.Mobile.Core.Models.MvxMessages
             get;
             private set;
         }
+
+        public string Message { get; private set; }
     }
 }
