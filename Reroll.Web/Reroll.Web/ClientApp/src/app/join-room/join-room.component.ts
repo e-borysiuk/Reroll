@@ -12,11 +12,6 @@ import { Router } from "@angular/router";
 export class JoinRoomComponent {
   public hubConnection: signalR.HubConnection;
   model: any = {};
-  adressed = 'HughJass';
-  playerName = 'HughJass';
-  nick = 'John';
-  message = '';
-  messages: string[] = [];
   groupExists = false;
 
   constructor(private signalrService: SignalrService, private router: Router) {
@@ -26,18 +21,7 @@ export class JoinRoomComponent {
   }
 
   ngOnInit() {
-
-    this.hubConnection.on('sendToAll', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
-    });
-
-    this.hubConnection.on('sendToPlayer', (nick: string, receivedMessage: string) => {
-      const text = `${nick}: ${receivedMessage}`;
-      this.messages.push(text);
-    });
-
-    this.hubConnection.on('groupExistsResponse', (receivedMessage: ResponseStatusEnum) => {
+    this.hubConnection.on('groupExistsResponse', (receivedMessage: ResponseStatusEnum, playerNames: string[]) => {
       switch (receivedMessage) {
         case ResponseStatusEnum.groupExists:
             this.joinGroup(this.model.roomName);
@@ -66,13 +50,8 @@ export class JoinRoomComponent {
   }
 
   private joinGroup(groupName: string) {
-    var playerName = prompt("Input your player name");
-    if (playerName == null || playerName == "") {
-      window.alert("You didn't put your player name!");
-    } else {
-      this.hubConnection
-        .invoke('joinGroup', this.model.roomName, playerName, this.model.password, true)
+    this.hubConnection
+        .invoke('joinGroup', this.model.roomName, 'GameMaster', this.model.password, true)
         .catch(err => console.error(err));
-    }
   }
 }

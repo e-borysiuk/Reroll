@@ -70,7 +70,6 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
         public async void UpdateBaseStat(string propertyName, string eText)
         {
             this._signalrService.SendLog($"Changed {propertyName} value to {eText}");
-            await Task.Delay(TimeSpan.FromSeconds(1));
             this._dataRepository.SendUpdate(this.Player);
         }
     }

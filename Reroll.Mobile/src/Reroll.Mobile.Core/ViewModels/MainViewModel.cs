@@ -8,6 +8,10 @@ namespace Reroll.Mobile.Core.ViewModels
 { 
     public class MainViewModel : BaseViewModel
     {
+        public void CloseApp()
+        {
+            this._signalrService.CloseConnection();
+        }
 
         public MainViewModel()
         {

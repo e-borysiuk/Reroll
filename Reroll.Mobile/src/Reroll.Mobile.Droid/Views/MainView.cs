@@ -1,3 +1,4 @@
+using System;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -9,7 +10,9 @@ using MvvmCross.Droid.Support.V7.AppCompat;
 using Reroll.Mobile.Core.ViewModels;
 using Reroll.Mobile.Droid.Views.Fragments;
 using System.Collections.Generic;
+using Android.Provider;
 using Android.Views;
+using Android.Widget;
 
 namespace Reroll.Mobile.Droid.Views
 {
@@ -47,6 +50,36 @@ namespace Reroll.Mobile.Droid.Views
                 new MvxViewPagerFragmentInfo(ViewModel.MyViewModels[4].Name, typeof(NotesFragment),
                     ViewModel.MyViewModels[4])
             };
+        }
+
+        private bool doubleClick;
+
+        protected override void OnResume()
+        {
+            this.doubleClick = false;
+            base.OnResume();
+        }
+
+        public override void OnBackPressed()
+        {
+            if (this.doubleClick)
+            {
+                this.ViewModel.CloseApp();
+                this.FinishAffinity();
+                Process.KillProcess(Process.MyPid());
+                System.Environment.Exit(1);
+            }
+            else
+            {
+                Toast.MakeText(Application.Context, "Back one more time to close app", ToastLength.Long).Show();
+                this.doubleClick = true;
+                Handler h = new Handler();
+                Action myAction = () =>
+                {
+                    this.doubleClick = false;
+                };
+                h.PostDelayed(myAction, 2000);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Android.Views;
@@ -18,6 +19,7 @@ namespace Reroll.Mobile.Core.ViewModels
     {
         public string RoomName { get; set; }
         public string Password { get; set; }
+        List<string> PlayerNames;
 
         public JoinRoomViewModel()
         {
@@ -29,6 +31,7 @@ namespace Reroll.Mobile.Core.ViewModels
 
         private async void JoinRoomResponse(JoinResponseMessage obj)
         {
+            PlayerNames = obj.PlayerNames;
             switch (obj.Response)
             {
                 case ResponseStatusEnum.GroupDoesNotExist:
@@ -47,9 +50,15 @@ namespace Reroll.Mobile.Core.ViewModels
         {
             var playerName = await _navigationService.Navigate<NameViewModel, string>();
             if (string.IsNullOrEmpty(playerName))
-            {
-                NotificationService.ReportError("Empty player name!");
                 return;
+            var playerExists = PlayerNames?.Contains(playerName);
+            if (playerExists == false || playerExists == null)
+            {
+                NotificationService.ReportError("Player doesn't exist, create new", "Create", (view =>
+                {
+                    this._signalrService.JoinGroup(this.RoomName, this.Password, playerName);
+                    this._navigationService.Navigate<MainViewModel>();
+                }));
             }
             else
             {

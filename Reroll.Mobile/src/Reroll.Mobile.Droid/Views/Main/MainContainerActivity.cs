@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -19,5 +19,6 @@ namespace Reroll.Mobile.Droid.Views.Main
     public class MainContainerActivity : BaseActivity<MainContainerViewModel>
     {
         protected override int ActivityLayoutId => Resource.Layout.activity_main_container;
+        
     }
 }

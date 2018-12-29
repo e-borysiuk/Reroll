@@ -22,8 +22,6 @@ namespace Reroll.Mobile.Core.Repositories
             this._messageToken = this._messenger.Subscribe<UpdateMessage>(ReceivedUpdate);
             this._diceToken = this._messenger.Subscribe<DiceMessage>(ReceiveDiceMessage);
             this.DiceRolls = new MvxObservableCollection<Roll>();
-            if (this.Player == null)
-                this.Player = this.CreateSampleModel();
         }
 
         public void ReceiveDiceMessage(DiceMessage obj)
@@ -71,6 +69,7 @@ namespace Reroll.Mobile.Core.Repositories
         {
             return new Player
             {
+                Notes = "Notes",
                 AmmunitionList = new List<Ammunition>
                 {
                     new Ammunition

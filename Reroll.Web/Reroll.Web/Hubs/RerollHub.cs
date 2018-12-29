@@ -40,11 +40,15 @@ namespace Reroll.Hubs
             if (gameSession == null)
                 gameSession = await sessionsRepository.GetGameSession(groupName);
 
+            List<string> playerNames = new List<string>();
             ResponseStatusEnum response;
             if (gameSession != null)
             {
                 if (gameSession.Password == password)
+                {
                     response = ResponseStatusEnum.GroupExists;
+                    playerNames = new List<string>(gameSession.Players.Select(x => x.Name));
+                }
                 else
                     response = ResponseStatusEnum.InvalidPassword;
             }
@@ -52,7 +56,7 @@ namespace Reroll.Hubs
             {
                 response = ResponseStatusEnum.GroupDoesNotExist;
             }
-            await Clients.Caller.SendAsync("groupExistsResponse", response);
+            await Clients.Caller.SendAsync("groupExistsResponse", response, playerNames);
         }
 
         public async Task JoinGroup(string groupName, string playerName, string password, bool isGameMaster)
@@ -152,7 +156,7 @@ namespace Reroll.Hubs
             var index = gameSession.Players.FindIndex(p => p.Name == playerName);
             if (index == -1)
             {
-                gameSession.Players.Add(new Player()
+                var newPlayer = new Player()
                 {
                     Name = playerName,
                     ConnectionId = Context.ConnectionId,
@@ -163,7 +167,9 @@ namespace Reroll.Hubs
                     PreparedSpells = new List<PreparedSpell>(),
                     State = new List<State>(),
                     InventoryItems = new List<InventoryItem>()
-                });
+                };
+                gameSession.Players.Add(newPlayer);
+                await this.SendInitialPlayerData(groupName, playerName);
                 await this.SendInitialGmData(gameSession.GroupName);
             }
             else
@@ -179,14 +185,9 @@ namespace Reroll.Hubs
         {
             if (isGameMaster)
             {
-                AddOrUpdateGameMaster(gameSession, playerName);
+                return AddOrUpdateGameMaster(gameSession, playerName);
             }
-            else
-            {
-                await AddOrUpdatePlayer(gameSession, groupName, playerName);
-            }
-
-            return gameSession;
+            return await AddOrUpdatePlayer(gameSession, groupName, playerName);
         }
 
         #endregion

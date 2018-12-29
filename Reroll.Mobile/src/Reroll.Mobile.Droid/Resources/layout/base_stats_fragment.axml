@@ -19,8 +19,8 @@
             local:MvxBind="Text HealthString"/>
         <ProgressBar
             android:layout_centerVertical="true"
-            android:layout_marginStart="90dp"
-            android:layout_marginEnd="80dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="70dp"
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
