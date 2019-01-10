@@ -19,6 +19,5 @@ namespace Reroll.Mobile.Droid.Views.Main
     public class MainContainerActivity : BaseActivity<MainContainerViewModel>
     {
         protected override int ActivityLayoutId => Resource.Layout.activity_main_container;
-        
     }
 }

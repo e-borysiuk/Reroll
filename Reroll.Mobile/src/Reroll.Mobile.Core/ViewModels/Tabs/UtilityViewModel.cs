@@ -12,6 +12,7 @@ namespace Reroll.Mobile.Core.ViewModels.Tabs
     {
         public MvxObservableCollection<Roll> DiceRolls => this._dataRepository.DiceRolls;
         public string SelectedItem = "D8";
+        public bool FirstRun = true;
 
         public UtilityViewModel(string name = "3") : base(name)
         {

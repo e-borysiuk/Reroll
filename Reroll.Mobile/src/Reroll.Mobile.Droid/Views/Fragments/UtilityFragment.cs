@@ -38,11 +38,17 @@ namespace Reroll.Mobile.Droid.Views.Fragments
             spinner.SetSelection(2);
             base.OnViewCreated(view, savedInstanceState);
         }
-
+        
         private void Spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
         {
             Spinner spinner = (Spinner)sender;
             ViewModel.SelectedItem = spinner.GetItemAtPosition(e.Position).ToString();
+            if (ViewModel.FirstRun)
+            {
+                ViewModel.FirstRun= false;
+                return;
+            }
+            ViewModel.RollDiceCommand.Execute();
         }
     }
 }
